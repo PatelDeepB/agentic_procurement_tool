@@ -150,3 +150,5 @@ class ProcurementResult(BaseModel):
     global_vendors: List[EvaluatedVendor] = Field(default_factory=list)
     exclusion_log: List[Dict[str, str]] = Field(default_factory=list)
     audit_trail: List[str] = Field(default_factory=list)
+    llm_synthesis: Optional[str] = Field(default=None, description="Executive procurement synthesis from LLM")
+    model_provider: Optional[str] = Field(default="mock", description="Active LLM provider name")

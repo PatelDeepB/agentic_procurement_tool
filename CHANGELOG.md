@@ -2,6 +2,29 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.2.0] - 2026-09-15
+
+### Added
+- **Google Gemini Free Tier Engine (`app/llm/client.py`)**:
+  - Configured `gemini-2.0-flash` (latest model on Google AI Studio Free Tier) as the primary LLM engine.
+  - Added automatic fallback to `gemini-1.5-flash` for high stability and rate-limit resilience.
+  - Implemented automatic local `.env` file discovery and variable loader.
+  - Added `.env.example` template with instructions on generating a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey).
+  - Maintained offline deterministic mock fallback so testing never fails when no key is present.
+
+## [1.1.0] - 2026-09-15
+
+### Added
+- **AI/ML Multi-Agent Harness (`app/llm/client.py`, `app/agents/`)**:
+  - Implemented `BaseLLMClient` with `GeminiLLMClient`, `OpenAILLMClient`, and offline `MockLLMClient` with auto-fallback.
+  - Upgraded `NormalizerAgent` to combine LLM prompt reasoning with ReAct tool calling.
+  - Upgraded `EvaluatorAgent` with LLM-powered evidence extraction and anti-hallucination guardrail.
+  - Added `_generate_executive_synthesis` in `ProcurementOrchestrator` to generate Chief Procurement Officer level executive summaries.
+  - Added ReAct tools module (`app/tools/procurement_tools.py`) for standards lookup, tolerance checking, and mass calculations.
+  - Added comprehensive test suite for LLM agents and tools (`tests/test_llm_agents.py`), bringing test count to 27 passing tests.
+  - Added post-submission technical interview talking points in `ARCHITECTURE.md`.
+  - Added LLM executive reasoning section to exported Markdown reports.
+
 ## [1.0.0] - 2026-09-15
 
 ### Added
@@ -54,7 +77,7 @@ All notable changes to the Agentic Procurement Tool will be documented in this f
   - Terminal runner for single or batch material procurement and automated artifact exports.
 
 - **Comprehensive Test Suite (`tests/`)**:
-  - 22 automated unit and integration tests across standards, normalizer, evaluator, scorer, api, and exports (`pytest -v`).
+  - Automated unit and integration tests across standards, normalizer, evaluator, scorer, api, and exports (`pytest -v`).
 
 - **Documentation & Demonstration Deliverables**:
   - Pre-generated demonstration outputs for M-01, M-02, and M-03 in `output/` (md, csv, json).

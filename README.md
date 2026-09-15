@@ -1,8 +1,46 @@
 # Agentic Procurement Tool
 
-An evidence-grounded agentic procurement tool engineered to find, evaluate, and shortlist vendors capable of supplying industrial materials in large quantities across three geographic tiers: **Ahmedabad Local**, **India-Wide**, and **Global**.
+An evidence-grounded **AI/ML Multi-Agent System** engineered to find, evaluate, and shortlist vendors capable of supplying industrial materials in large quantities across three geographic tiers: **Ahmedabad Local**, **India-Wide**, and **Global**.
 
-Built as a submission for the **Agentic Procurement Tool - Candidate Assessment**.
+Built for the **Agentic Procurement Tool - Candidate Assessment** (AI/ML Engineering Track).
+
+---
+
+## AI/ML Multi-Agent Architecture
+
+Rather than a single monolithic prompt, the system deploys an orchestrated multi-agent harness with tool-augmented reasoning (ReAct pattern) and strict Pydantic output schemas:
+
+```
+[Raw Requisition] 
+      |
+      v
+[Agent 1: Spec Normalizer (LLM + ReAct Tools)] 
+      |-> Queries IS 1239 Standards Tools & Tonnage Math
+      |-> Diagnoses Ambiguities (Units, 40mm NB vs OD, Wall thickness)
+      v
+[Agent 2: Search Strategist (LLM)] 
+      |-> Synthesizes Tier-Specific Search Vectors
+      v
+[Agent 3: Candidate Retrieval Tool] 
+      |-> Queries Verified Registry for Ahmedabad, India, and Global
+      v
+[Agent 4: Evidence Auditor (LLM + Guardrails)] 
+      |-> Tags [SOURCED], [ASSUMPTION], [NEEDS_CONFIRMATION_RFQ]
+      |-> Anti-Hallucination Policy: Rejects Fake Prices & Invented Stock
+      v
+[Deterministic Scorer & Deduplicator] 
+      |-> Computes 100-Point Composite Confidence Score
+      v
+[Agent 5: Executive Synthesizer (LLM)] 
+      |-> Produces Executive Summary & Negotiation Strategy
+      v
+[Delivery: REST API (/api/v1/), CLI, Markdown/CSV/JSON Reports]
+```
+
+### Configurable LLM Provider Layer (`app/llm/`)
+- **Google Gemini**: Supports `gemini-2.0-flash` and `gemini-1.5-flash` via `GEMINI_API_KEY`.
+- **OpenAI**: Supports `gpt-4o` and `gpt-4o-mini` via `OPENAI_API_KEY`.
+- **Offline Deterministic Mock Provider (Zero Setup)**: When no external API key is set, the harness automatically falls back to an offline simulated LLM engine. This allows reviewers to run the full agentic loop immediately without requiring paid credentials or experiencing rate limits.
 
 ---
 
@@ -45,6 +83,18 @@ Built as a submission for the **Agentic Procurement Tool - Candidate Assessment*
    ```bash
    pip install -r requirements.txt
    ```
+
+3. (Optional) Configure Live Cloud LLM:
+   ```bash
+   # For Google Gemini:
+   export GEMINI_API_KEY="your_api_key_here"
+   export LLM_PROVIDER="gemini"
+
+   # For OpenAI:
+   export OPENAI_API_KEY="your_api_key_here"
+   export LLM_PROVIDER="openai"
+   ```
+   *Note: If no key is set, the system automatically uses the offline Mock LLM client.*
 
 ---
 
@@ -101,7 +151,7 @@ Pre-generated outputs are saved in the `output/` directory for immediate review:
 
 ## Technical Documentation
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Deep-dive into the agentic harness, pipeline stages, state flow, and anti-hallucination guardrails.
+- **[ARCHITECTURE.md](ARCHITECTURE.md)**: Deep-dive into the AI/ML multi-agent harness, pipeline stages, state flow, anti-hallucination guardrails, and interview talking points.
 - **[METHODOLOGY.md](METHODOLOGY.md)**: Input parameters, ambiguity detection rules, IS 1239 engineering formulas, and the 100-point confidence scoring model.
 - **[LIMITATIONS.md](LIMITATIONS.md)**: Trade-offs (coverage vs speed vs accuracy), known system limitations, and planned future improvements.
 - **[CHANGELOG.md](CHANGELOG.md)**: Audit log tracking code and design changes.
@@ -115,7 +165,8 @@ Run the complete test suite with `pytest`:
 pytest -v
 ```
 
-All 22 unit and integration tests execute in approximately 2 seconds:
+All 27 unit and integration tests execute in approximately 1 second:
+- `tests/test_llm_agents.py`: LLM agent prompts, structured output generation, and ReAct tools.
 - `tests/test_standards.py`: IS 1239 dimension tables, weight formulas, and tolerances.
 - `tests/test_normalizer.py`: Ambiguity detection on M-01, M-02, and M-03.
 - `tests/test_evaluator_and_scorer.py`: Evidence extraction, tagging, scoring, and deduplication.

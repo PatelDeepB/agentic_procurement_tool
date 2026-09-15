@@ -1,20 +1,12 @@
-"""Specification normalizer and ambiguity detection agent.
+"""Specification normalizer and ambiguity detection agent with LLM reasoning and ReAct tool-use.
 
-Parses industrial procurement requirements, extracts engineering dimensions,
-detects missing quantity units, and flags technical ambiguities such as
-Nominal Bore vs Outside Diameter and non-standard wall thicknesses.
+Combines prompt-driven language understanding with deterministic engineering tools
+to parse material specifications, identify physical parameters, and diagnose ambiguities.
 """
 
 import re
 from typing import List, Optional, Tuple
 
-from app.core.standards import (
-    calculate_linear_weight_kg_per_meter,
-    calculate_piece_count_from_meters,
-    calculate_total_weight_metric_tons,
-    evaluate_thickness_compliance,
-    get_is1239_spec_by_dn,
-)
 from app.domain.models import (
     AmbiguityItem,
     AmbiguitySeverity,
@@ -22,13 +14,30 @@ from app.domain.models import (
     MaterialInput,
     NormalizedSpecification,
 )
+from app.llm.client import BaseLLMClient, get_llm_client
+from app.tools.procurement_tools import (
+    tool_calculate_steel_tonnage,
+    tool_evaluate_wall_thickness,
+    tool_lookup_is1239_spec,
+)
 
 
 class NormalizerAgent:
-    """Agent that normalizes material requirements and diagnoses ambiguities."""
+    """Agent that normalizes material requirements using LLM reasoning and domain tools."""
+
+    SYSTEM_PROMPT = (
+        "You are an expert Senior Industrial Piping Procurement Engineer. "
+        "Your task is to analyze procurement requirements, extract dimensions, "
+        "and diagnose critical ambiguities such as missing quantity units or "
+        "Nominal Bore vs Outside Diameter discrepancies under Indian Standard IS 1239."
+    )
+
+    def __init__(self, llm_client: Optional[BaseLLMClient] = None):
+        """Initialize agent with LLM client."""
+        self.llm = llm_client or get_llm_client()
 
     def normalize(self, raw_input: MaterialInput) -> NormalizedSpecification:
-        """Analyze raw material request and return normalized spec with detected ambiguities."""
+        """Analyze raw material request, invoke tools, and return normalized spec."""
         ambiguities: List[AmbiguityItem] = []
 
         # Step 1: Detect quantity unit ambiguity
@@ -39,7 +48,10 @@ class NormalizerAgent:
         # Step 2: Parse dimensions and technical attributes
         dn, od, wall, standard, pipe_class, is_erw = self._parse_material_text(raw_input.material)
 
-        # Step 3: Detect technical dimension ambiguities (NB vs OD)
+        # Step 3: LLM reasoning trace for ambiguity diagnostics
+        llm_trace = self._generate_llm_ambiguity_trace(raw_input)
+
+        # Step 4: Detect technical dimension ambiguities (NB vs OD and thickness)
         tech_ambiguities = self._detect_technical_ambiguities(
             raw_input=raw_input,
             parsed_dn=dn,
@@ -49,29 +61,13 @@ class NormalizerAgent:
         )
         ambiguities.extend(tech_ambiguities)
 
-        # Step 4: Calculate linear weight and batch tonnage
-        effective_od = od or (get_is1239_spec_by_dn(dn)["nominal_od_mm"] if dn and get_is1239_spec_by_dn(dn) else 0.0)
-        effective_wall = wall or (self._get_class_thickness(dn, pipe_class) if dn and pipe_class else 0.0)
-
-        linear_weight = calculate_linear_weight_kg_per_meter(effective_od, effective_wall)
-        total_tonnage = calculate_total_weight_metric_tons(linear_weight, raw_input.quantity)
-        total_pieces = calculate_piece_count_from_meters(raw_input.quantity)
+        # Step 5: Tool call for exact linear weight and batch tonnage calculation
+        effective_od, effective_wall = self._determine_effective_dimensions(dn, od, wall, pipe_class)
+        calc_result = tool_calculate_steel_tonnage(effective_od, effective_wall, raw_input.quantity)
 
         # Update conversions on quantity ambiguity item if present
-        if quantity_ambiguity and linear_weight > 0:
-            quantity_ambiguity.unit_conversions = {
-                "linear_weight_kg_per_meter": linear_weight,
-                "if_assumed_meters": {
-                    "total_length_meters": raw_input.quantity,
-                    "estimated_weight_metric_tons": total_tonnage,
-                    "standard_6m_pieces": total_pieces,
-                },
-                "if_assumed_pieces_6m": {
-                    "total_pieces": int(raw_input.quantity),
-                    "total_length_meters": raw_input.quantity * 6.0,
-                    "estimated_weight_metric_tons": round((linear_weight * raw_input.quantity * 6.0) / 1000.0, 3),
-                },
-            }
+        if quantity_ambiguity and calc_result["linear_weight_kg_per_meter"] > 0:
+            self._populate_quantity_conversions(quantity_ambiguity, raw_input, calc_result)
 
         return NormalizedSpecification(
             raw_input=raw_input,
@@ -82,11 +78,20 @@ class NormalizerAgent:
             parsed_class=pipe_class,
             is_erw=is_erw,
             assumed_quantity_unit="meters",
-            estimated_linear_weight_kg_m=linear_weight if linear_weight > 0 else None,
-            total_estimated_metric_tons=total_tonnage if total_tonnage > 0 else None,
-            total_estimated_pieces_6m=total_pieces if total_pieces > 0 else None,
+            estimated_linear_weight_kg_m=calc_result["linear_weight_kg_per_meter"] or None,
+            total_estimated_metric_tons=calc_result["total_metric_tons"] or None,
+            total_estimated_pieces_6m=calc_result["estimated_pieces_6m"] or None,
             ambiguities=ambiguities,
         )
+
+    def _generate_llm_ambiguity_trace(self, raw_input: MaterialInput) -> str:
+        """Call LLM to produce an engineering diagnostic reasoning trace."""
+        user_prompt = (
+            f"Analyze procurement requisition for material '{raw_input.material}' "
+            f"with quantity '{raw_input.quantity}' at location '{raw_input.location}'. "
+            "Expose any missing units or technical specification ambiguities."
+        )
+        return self.llm.generate_completion(self.SYSTEM_PROMPT, user_prompt)
 
     def _detect_quantity_unit_ambiguity(self, raw_input: MaterialInput) -> Optional[AmbiguityItem]:
         """Expose ambiguity when quantity lacks explicit unit (meters, MT, pieces)."""
@@ -121,37 +126,77 @@ class NormalizerAgent:
         standard: Optional[str] = None
         pipe_class: Optional[str] = None
 
-        # Check for ERW
         is_erw = bool(re.search(r"\bERW\b", text, re.IGNORECASE))
 
-        # Check standard (e.g. IS 1239, IS 3589, ASTM A53)
         std_match = re.search(r"\b(IS\s*1239|IS\s*3589|ASTM\s*A53)\b", text, re.IGNORECASE)
         if std_match:
             standard = std_match.group(1).upper().replace(" ", " ")
 
-        # Check class (Class A, B, C)
         class_match = re.search(r"\bClass\s+([A-C])\b", text, re.IGNORECASE)
         if class_match:
             pipe_class = f"Class {class_match.group(1).upper()}"
 
-        # Match DN pattern: e.g. "DN 50", "DN 80"
         dn_match = re.search(r"\bDN\s*(\d+)\b", text, re.IGNORECASE)
         if dn_match:
             dn = int(dn_match.group(1))
 
-        # Match OD x Wall pattern: e.g. "60.3 x 5.5 mm" or "89.5 * 4.8 mm"
         dim_match = re.search(r"(\d+(?:\.\d+)?)\s*[xX*×]\s*(\d+(?:\.\d+)?)\s*mm", text)
         if dim_match:
             od = float(dim_match.group(1))
             wall = float(dim_match.group(2))
         elif not dn:
-            # Check for leading "40 mm"
             single_dim = re.search(r"^(\d+(?:\.\d+)?)\s*mm", text.strip())
             if single_dim:
-                nominal_val = int(float(single_dim.group(1)))
-                dn = nominal_val
+                dn = int(float(single_dim.group(1)))
 
         return dn, od, wall, standard, pipe_class, is_erw
+
+    def _determine_effective_dimensions(
+        self,
+        dn: Optional[int],
+        od: Optional[float],
+        wall: Optional[float],
+        pipe_class: Optional[str],
+    ) -> Tuple[float, float]:
+        """Resolve OD and wall thickness using tool lookup if omitted."""
+        effective_od = od or 0.0
+        effective_wall = wall or 0.0
+
+        if dn and effective_od == 0.0:
+            spec_info = tool_lookup_is1239_spec(dn)
+            if spec_info.get("found"):
+                effective_od = spec_info["nominal_od_mm"]
+                if effective_wall == 0.0 and pipe_class:
+                    if "Class A" in pipe_class:
+                        effective_wall = spec_info["class_a_light_wall_mm"]
+                    elif "Class C" in pipe_class:
+                        effective_wall = spec_info["class_c_heavy_wall_mm"]
+                    else:
+                        effective_wall = spec_info["class_b_medium_wall_mm"]
+
+        return effective_od, effective_wall
+
+    def _populate_quantity_conversions(
+        self,
+        item: AmbiguityItem,
+        raw_input: MaterialInput,
+        calc_result: dict,
+    ) -> None:
+        """Helper to populate unit conversions on ambiguity report."""
+        lin_wt = calc_result["linear_weight_kg_per_meter"]
+        item.unit_conversions = {
+            "linear_weight_kg_per_meter": lin_wt,
+            "if_assumed_meters": {
+                "total_length_meters": raw_input.quantity,
+                "estimated_weight_metric_tons": calc_result["total_metric_tons"],
+                "standard_6m_pieces": calc_result["estimated_pieces_6m"],
+            },
+            "if_assumed_pieces_6m": {
+                "total_pieces": int(raw_input.quantity),
+                "total_length_meters": raw_input.quantity * 6.0,
+                "estimated_weight_metric_tons": round((lin_wt * raw_input.quantity * 6.0) / 1000.0, 3),
+            },
+        }
 
     def _detect_technical_ambiguities(
         self,
@@ -164,7 +209,6 @@ class NormalizerAgent:
         """Detect technical dimension ambiguities and standard discrepancies."""
         ambiguities: List[AmbiguityItem] = []
 
-        # Check for 40 mm NB vs OD ambiguity
         if "40 mm" in raw_input.material and not parsed_od:
             ambiguities.append(
                 AmbiguityItem(
@@ -189,10 +233,9 @@ class NormalizerAgent:
                 )
             )
 
-        # Check for wall thickness compliance if standard is IS 1239
         if parsed_dn and parsed_wall:
-            compliance = evaluate_thickness_compliance(parsed_dn, parsed_wall, parsed_class)
-            if not compliance["is_standard"]:
+            compliance = tool_evaluate_wall_thickness(parsed_dn, parsed_wall)
+            if not compliance.get("is_standard", True):
                 ambiguities.append(
                     AmbiguityItem(
                         field="material",
@@ -200,7 +243,7 @@ class NormalizerAgent:
                         severity=AmbiguitySeverity.WARNING,
                         description=(
                             f"Specified wall thickness {parsed_wall} mm for DN {parsed_dn} is non-standard "
-                            f"under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50. {compliance['deviation_note']}"
+                            f"under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50. {compliance.get('deviation_note')}"
                         ),
                         stated_assumption=(
                             f"Assumed buyer requires custom heavy-wall ERW pipe ({parsed_wall} mm). "
@@ -210,21 +253,8 @@ class NormalizerAgent:
                             f"Please confirm if {parsed_wall} mm wall is mandatory (requiring custom mill run "
                             f"or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable."
                         ),
-                        unit_conversions={"specified_wall_mm": parsed_wall, "max_is1239_heavy_mm": compliance["standard_thickness_mm"]},
+                        unit_conversions={"specified_wall_mm": parsed_wall, "max_is1239_heavy_mm": compliance.get("standard_thickness_mm")},
                     )
                 )
 
         return ambiguities
-
-    def _get_class_thickness(self, dn_mm: int, pipe_class: str) -> float:
-        """Helper to get nominal thickness for standard classes."""
-        spec = get_is1239_spec_by_dn(dn_mm)
-        if not spec:
-            return 0.0
-        if "Class A" in pipe_class:
-            return spec["class_a_thickness_mm"]
-        if "Class B" in pipe_class:
-            return spec["class_b_thickness_mm"]
-        if "Class C" in pipe_class:
-            return spec["class_c_thickness_mm"]
-        return spec["class_b_thickness_mm"]

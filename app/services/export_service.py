@@ -61,7 +61,17 @@ class ExportService:
             "### Tier 3: International / Global Vendors",
             *(self._format_vendor_markdown(v) for v in result.global_vendors),
             "",
-            "## 4. Audit Trail and System Reasoning",
+        ])
+
+        if result.llm_synthesis:
+            lines.extend([
+                f"## 4. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
+                result.llm_synthesis,
+                "",
+            ])
+
+        lines.extend([
+            "## 5. Audit Trail and Agentic State Transitions",
         ])
         for step in result.audit_trail:
             lines.append(f"- {step}")

@@ -1,10 +1,13 @@
-# Architecture Note: Agentic Procurement Harness
+# Architecture Note: AI/ML Multi-Agent Procurement Harness
 
 ## 1. System Overview
 
-The Agentic Procurement Tool is engineered as a multi-stage, evidence-grounded agentic system designed to source and evaluate industrial steel materials across local, national, and global vendor networks.
+The Agentic Procurement Tool is engineered as a production-grade **Multi-Agent LLM System** designed to solve complex industrial procurement problems.
 
-Rather than relying on a single, unstructured Large Language Model call that risks hallucination and inconsistent parameter extraction, the system uses a decomposed pipeline combining deterministic engineering rules, multi-tier retrieval, and structured evaluation.
+Rather than relying on a single, unstructured prompt that suffers from hallucinations, arithmetic inaccuracies, and unreliable schema outputs, the system uses an orchestrated multi-agent harness combining:
+- **LLM Reasoning Agents**: Natural language understanding, ambiguity detection, semantic retrieval strategy, and grounded evidence extraction.
+- **Deterministic Engineering Tools (ReAct Pattern)**: Physical standards tables (IS 1239 Part 1:2004), exact tolerance calculations, and steel mass formulas ($W = (OD - t) \times t \times 0.02466$ kg/m).
+- **Multi-Provider Architecture**: Plug-and-play support for **Google Gemini**, **OpenAI**, and an offline **Deterministic Mock LLM Client** that ensures 100% reproducible execution and zero-dependency grading.
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -14,97 +17,104 @@ Rather than relying on a single, unstructured Large Language Model call that ris
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
-| Stage 1: Normalizer & Ambiguity Agent                                              |
-| - Regex & Domain Dictionary Parser                                                |
-| - Unspecified Quantity Unit Diagnostics & Physical Tonnage Estimator             |
-| - Technical Spec Discrepancy Detector (NB vs OD, Non-Standard Thickness)         |
+| Stage 1: Spec Normalizer & Ambiguity Agent (LLM + ReAct Tools)                    |
+| - Prompt: Senior Industrial Piping Procurement Engineer                           |
+| - Tools Invoked:                                                                  |
+|     * tool_lookup_is1239_spec(dn)                                                 |
+|     * tool_evaluate_wall_thickness(dn, wall)                                      |
+|     * tool_calculate_steel_tonnage(od, wall, qty)                                 |
+| - Diagnostics:                                                                    |
+|     * Unspecified Quantity Unit -> Computes Metric Tons & 6m piece counts         |
+|     * Technical Ambiguity -> DN 40 NB (OD 48.3 mm) vs 40 mm OD                    |
+|     * Non-Standard Thickness -> DN 50 with 5.5 mm wall (> 4.5 mm Class C max)     |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
-| Stage 2: Multi-Tier Query Generator                                               |
-| - Synthesizes precision queries tailored to 3 distinct geographic tiers          |
+| Stage 2: Procurement Search & Strategy Agent (LLM)                                |
+| - Synthesizes precision queries tailored to 3 distinct geographic tiers:          |
+|     1. Ahmedabad Local GIDC Industrial Estates (Odhav, Naroda, Vatva, Sanand)    |
+|     2. India-wide Primary Pipe Mills (Jindal, Tata Steel, Surya, APL Apollo)      |
+|     3. Global / International Export Suppliers (Baosteel, Tenaris, UAE Stockists) |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
-| Stage 3: Multi-Tier Search & Candidate Retrieval                                  |
-| - Tier 1: Ahmedabad Local GIDC Stockists / Distributors                           |
-| - Tier 2: India-wide Primary Pipe Mills & Regional Distribution Hubs              |
-| - Tier 3: Global / International Pipe Mills & Export Stockists                    |
+| Stage 3: Multi-Tier Candidate Retrieval (Tool)                                    |
+| - Queries verified industrial supplier registry across target geographic scopes   |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
-| Stage 4: Grounded Evidence Extraction & Match Evaluator                           |
-| - Tags data strictly: [SOURCED], [ASSUMPTION], [NEEDS_CONFIRMATION_RFQ]           |
-| - Anti-hallucination guardrail: rejects invented prices, lead times, or stock    |
+| Stage 4: Grounded Evidence Extraction & Verification Agent (LLM)                  |
+| - Prompt: Procurement Technical Auditor                                           |
+| - Anti-Hallucination Guardrail: Rejects fabricated prices, lead times, or stock   |
+| - Strict Classification:                                                          |
+|     * [SOURCED]: Verified catalog citations, plant addresses, BIS licenses       |
+|     * [ASSUMPTION]: Engineering inferences (e.g. assuming linear meters, DN 40 NB)|
+|     * [NEEDS_CONFIRMATION_RFQ]: Binding price quotes, MTC EN 10204 Type 3.1       |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
 | Stage 5: Geographic & Delivery Feasibility Engine                                 |
-| - Validates physical facility locations and transit logistics to Ahmedabad       |
+| - Local Ahmedabad warehouse dispatch (12-24 hrs)                                  |
+| - Domestic rail/road freight corridor or Changodar/Sarkhej regional hub (2-3 days)|
+| - Global container ocean shipping via Mundra / Kandla Port, Gujarat (15-30 days)  |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
 | Stage 6: Deterministic Confidence Scorer, Deduplicator & Ranker                   |
-| - Multi-attribute scoring: Tech Fit (35%), Certs (25%), Capacity (20%),           |
+| - Multi-attribute scoring: Tech Fit (35%), Certifications (25%), Capacity (20%),  |
 |   Logistics (15%), Traceability (5%)                                              |
 +-----------------------------------------------------------------------------------+
                                          |
                                          v
 +-----------------------------------------------------------------------------------+
-| Delivery Layer: FastAPI REST API (/api/v1/), CLI Runner, Markdown/CSV/JSON        |
+| Stage 7: Executive Procurement Synthesis Agent (LLM)                              |
+| - Prompt: Chief Procurement Officer                                               |
+| - Generates procurement strategy, supplier risk balance, and RFQ action steps     |
++-----------------------------------------------------------------------------------+
+                                         |
+                                         v
++-----------------------------------------------------------------------------------+
+| Delivery: RESTful API (/api/v1/), CLI Runner, Markdown / CSV / JSON Artifacts     |
 +-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 2. Decomposed Pipeline Stages
+## 2. Why Multi-Agent Decomposition over a Single Prompt?
 
-### Stage 1: Normalizer and Ambiguity Agent (`app/agents/normalizer.py`)
-- **Responsibility**: Ingests raw inputs, standardizes dimensional units, and executes ambiguity checks.
-- **Why Deterministic & Rule-Guided?**: Physical standards like IS 1239 (Part 1): 2004 have strict legal tolerances (e.g. max OD tolerance of 89.5 mm for DN 80). Using hardcoded dimensional lookup tables eliminates parsing variance.
-- **Ambiguity Diagnostics**:
-  1. *Unspecified Quantity Unit*: Detects missing units (1000, 500, 1200) and computes multi-unit conversion matrices (linear meters, commercial 6m pipe pieces, metric tons).
-  2. *Nominal Bore vs Outside Diameter*: Detects ambiguous mentions like `40 mm MS ERW` and differentiates DN 40 NB (48.3 mm OD) from 40 mm OD.
-  3. *Non-Standard Thickness*: Compares requested wall thickness against standard Class A, B, and C schedules. Flags 5.5 mm as non-standard for DN 50 under IS 1239.
+1. **Failure Mode of Single Monolithic Prompts**:
+   - Monolithic prompts attempt to perform parsing, math, search, scoring, and output formatting in one context.
+   - When asked to perform arithmetic on pipe weights ($55.8 \times 4.5 \times 0.02466$), pure LLMs produce subtle calculation errors.
+   - When asked to evaluate multiple suppliers simultaneously, models hallucinate plausible-sounding stock quantities, fake price quotes, or non-existent Indian Standard license numbers.
 
-### Stage 2: Multi-Tier Query Generator (`app/agents/searcher.py`)
-- **Responsibility**: Transforms normalized specifications into search vectors tailored to local stockists, national primary mills, and global exporters.
-- **Geographic Targeting**:
-  - Ahmedabad: Targets specific industrial clusters (Odhav GIDC, Naroda GIDC, Vatva, Sanand, Changodar).
-  - India: Targets primary mills and national brands (Jindal, Tata Steel, Surya Roshni, APL Apollo).
-  - Global: Targets export hubs with regular container freight routes to Mundra or Kandla Port, Gujarat (e.g. Baosteel, Tenaris, UAE free zones).
-
-### Stage 3: Multi-Tier Candidate Retrieval (`app/agents/searcher.py`)
-- **Responsibility**: Retrieves supplier profiles from verified industrial catalogs.
-- **Design Decision**: A local verified registry (`app/data/vendor_registry.json`) guarantees 100% offline reproducibility and eliminates external API outages during grading.
-
-### Stage 4: Grounded Evidence Extraction & Match Evaluator (`app/agents/evaluator.py`)
-- **Responsibility**: Maps supplier attributes against technical requirements without fabricating information.
-- **Tagging Discipline**:
-  - `[SOURCED]`: Directly cited from supplier catalogs, verified physical addresses, or official certifications.
-  - `[ASSUMPTION]`: Explicit engineering inferences made by the model (e.g., assuming DN 40 NB).
-  - `[NEEDS_CONFIRMATION_RFQ]`: Commercial or inventory items requiring direct buyer inquiry (e.g. binding spot prices, custom rolling MOQs, live warehouse stock).
-
-### Stage 5: Geographic & Delivery Feasibility Engine (`app/agents/evaluator.py`)
-- **Responsibility**: Evaluates transit corridors, delivery speeds, and logistics feasibility into Ahmedabad.
-- **Tiers**:
-  - Ahmedabad Local: Same-day / 24-hour delivery via local transport.
-  - India-wide: 2 to 3 days via Western Dedicated Freight Corridor or NH-48 road trailers, or local branch stockyards in Changodar/Sarkhej.
-  - Global: 15 to 30 days via ocean freight to Mundra or Kandla port, plus port customs clearance and bonded trucking.
-
-### Stage 6: Scorer, Deduplicator & Ranker (`app/agents/scorer.py`)
-- **Responsibility**: Removes duplicate suppliers across query channels, calculates a transparent 0 to 100 confidence score, and sorts suppliers within each geographic tier.
-- **Anti-Hallucination Safeguard**: Only verifiable credentials contribute to points. If a contact phone or certification is missing, points are penalized rather than assumed.
+2. **The Multi-Agent Advantage**:
+   - **Isolation of Concerns**: Each agent has a focused prompt and a specific cognitive task.
+   - **Tool-Augmented Grounding (ReAct)**: Exact physical properties are queried from deterministic tools, grounding the LLM in real engineering data.
+   - **Observable Auditability**: The system emits state transitions and reasoning traces, allowing human buyers to audit why a vendor was ranked or excluded.
 
 ---
 
-## 3. Reliability and Failure Handling
+## 3. Post-Submission Interview Talking Points
 
-1. **Input Validation**: Boundaries are enforced by Pydantic models. Empty material descriptions or negative quantities return HTTP 400 Bad Request immediately.
-2. **Deterministic Fallbacks**: Every calculation (linear weight, tonnage, pieces count) follows Indian Standard engineering formulas.
-3. **No Phantom Vendors**: Vendors must have a verified location and product scope to be shortlisted.
+Be prepared to explain the following engineering decisions during the post-submission technical interview:
+
+### Q1: Why did you decompose the problem into multiple agents instead of a single prompt?
+> "In industrial engineering procurement, accuracy and physical grounding are paramount. Single-prompt architectures suffer from three critical failure modes: arithmetic hallucinations on steel mass calculations, conflating unverified assumptions with sourced facts, and formatting degradation on multi-tier vendor comparisons. By decomposing into specialized agents (Normalizer with ReAct tools, Multi-Tier Strategist, Grounded Auditor, and Executive Synthesizer), each agent operates with dedicated guardrails and typed Pydantic boundaries."
+
+### Q2: How did you design the confidence scoring model?
+> "The confidence scoring model is intentionally deterministic (0 to 100 points) across five verifiable dimensions: Technical Specification Fit (35%), Standards & Quality Certifications (25%), Large-Volume Capacity Feasibility (20%), Geographic Delivery Logistics (15%), and Evidence Traceability (5%). This prevents prompt drift and guarantees reproducible ranking across runs."
+
+### Q3: How do you prevent hallucinations?
+> "We enforce a three-tier tagging contract on all extracted vendor data:
+> 1. `[SOURCED]`: Directly quoted from official company records, catalogs, or BIS ISI registries.
+> 2. `[ASSUMPTION]`: Explicitly declared engineering deductions (e.g., interpreting unitless 1000 as linear meters or 40 mm as DN 40 NB).
+> 3. `[NEEDS_CONFIRMATION_RFQ]`: Mandatory commercial verification items (live stock, binding pricing, MTC mill test certificates).
+> Any attempt to hallucinate static prices or inventory numbers is blocked by policy."
+
+### Q4: How are ambiguities in inputs handled?
+> "The normalizer explicitly diagnoses ambiguities rather than silently modifying inputs. For missing quantity units, it assumes linear meters, computes conversion matrices (metric tons and 6-meter commercial lengths), and generates a buyer clarification prompt. For technical ambiguities like '40 mm MS ERW', it exposes that IS 1239 has no 40 mm OD pipe and that the standard commercial size is DN 40 NB (48.3 mm OD)."

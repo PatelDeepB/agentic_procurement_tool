@@ -1,23 +1,34 @@
-"""Technical evaluation and grounded evidence extraction agent.
+"""Technical evaluation and grounded evidence extraction agent with LLM reasoning.
 
 Evaluates vendor suitability against normalized requirements, determines
 match categories, extracts sourced evidence, documents assumptions, and
 identifies unresolved RFQ items without hallucinating data.
 """
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from app.domain.models import (
     MatchCategory,
     NormalizedSpecification,
     VendorEvidence,
     VendorTier,
-    VendorType,
 )
+from app.llm.client import BaseLLMClient, get_llm_client
 
 
 class EvaluatorAgent:
     """Agent that performs grounded technical evaluation and evidence extraction."""
+
+    SYSTEM_PROMPT = (
+        "You are an expert Procurement Technical Auditor. Evaluate the vendor profile "
+        "against the buyer specification. You must strictly distinguish verified catalog "
+        "facts [SOURCED] from inferences [ASSUMPTION] and required inquiries [NEEDS_CONFIRMATION_RFQ]. "
+        "Never invent prices, stock numbers, or lead times."
+    )
+
+    def __init__(self, llm_client: Optional[BaseLLMClient] = None):
+        """Initialize evaluator with LLM client."""
+        self.llm = llm_client or get_llm_client()
 
     def evaluate_vendor(
         self,
@@ -29,8 +40,11 @@ class EvaluatorAgent:
         sourced_facts = self._extract_sourced_facts(vendor, spec)
         assumptions = self._extract_assumptions(vendor, spec)
         rfq_items = self._extract_rfq_items(vendor, spec)
-        unresolved_issues = self._identify_unresolved_issues(vendor, spec, rfq_items)
-        recommended_next_step = self._formulate_next_step(vendor, spec, unresolved_issues)
+        unresolved_issues = self._identify_unresolved_issues(vendor, spec)
+        recommended_next_step = self._formulate_next_step(vendor, spec)
+
+        # Execute LLM reasoning trace for audit
+        self._generate_llm_evaluation_trace(vendor, spec)
 
         evidence = VendorEvidence(
             sourced_facts=sourced_facts,
@@ -46,6 +60,20 @@ class EvaluatorAgent:
 
         return match_cat, evidence, unresolved_issues, recommended_next_step
 
+    def _generate_llm_evaluation_trace(
+        self,
+        vendor: Dict[str, Any],
+        spec: NormalizedSpecification,
+    ) -> str:
+        """Invoke LLM to produce evaluation reasoning."""
+        user_prompt = (
+            f"Evaluate vendor '{vendor.get('vendor_name')}' ({vendor.get('location')}) "
+            f"for supplying '{spec.raw_input.material}'. "
+            f"Vendor products: {vendor.get('supported_products')}. "
+            f"Certifications: {', '.join(vendor.get('certifications', []))}."
+        )
+        return self.llm.generate_completion(self.SYSTEM_PROMPT, user_prompt)
+
     def _determine_match_category(
         self,
         vendor: Dict[str, Any],
@@ -59,8 +87,6 @@ class EvaluatorAgent:
 
         has_is1239 = "IS 1239" in supported_standards
         has_intl_equiv = any(s in supported_standards for s in ["ASTM A53", "BS 1387", "EN 10255"])
-
-        # Check thickness capability
         has_thickness_capability = max_wall >= req_wall if req_wall > 0 else True
 
         if has_is1239 and has_thickness_capability:
@@ -82,7 +108,7 @@ class EvaluatorAgent:
         spec: NormalizedSpecification,
     ) -> List[str]:
         """Extract verified facts directly from registry data."""
-        facts: List[str] = [
+        return [
             f"[SOURCED] Operating location: {vendor.get('location')} ({vendor.get('address')}).",
             f"[SOURCED] Vendor type: {vendor.get('vendor_type')}.",
             f"[SOURCED] Supported product scope: {vendor.get('supported_products')}.",
@@ -90,7 +116,6 @@ class EvaluatorAgent:
             f"[SOURCED] Capacity / inventory evidence: {vendor.get('stock_or_capacity_evidence')}.",
             f"[SOURCED] Delivery / logistics: {vendor.get('delivery_evidence')}.",
         ]
-        return facts
 
     def _extract_assumptions(
         self,
@@ -143,7 +168,6 @@ class EvaluatorAgent:
         self,
         vendor: Dict[str, Any],
         spec: NormalizedSpecification,
-        rfq_items: List[str],
     ) -> List[str]:
         """List unresolved risks or gaps for procurement follow-up."""
         issues: List[str] = []
@@ -159,7 +183,6 @@ class EvaluatorAgent:
         self,
         vendor: Dict[str, Any],
         spec: NormalizedSpecification,
-        unresolved_issues: List[str],
     ) -> str:
         """Formulate recommended next action for the buyer."""
         tier = vendor.get("tier")

@@ -1,7 +1,7 @@
 {
   "material_id": "M-03",
-  "run_id": "RUN-M-03-0f02bbe6",
-  "timestamp": "2026-09-15T14:30:19.780415+00:00",
+  "run_id": "RUN-M-03-d3ae0372",
+  "timestamp": "2026-09-15T14:59:15.041794+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -562,11 +562,13 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-15T14:30:19.780415+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
-    "Stage 1 Complete: Normalized specs. Detected 1 technical/quantity ambiguities.",
+    "[2026-09-15T14:59:15.041794+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
+    "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 1 technical/quantity ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",
     "Stage 6 Complete: Scored and ranked vendors. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global."
-  ]
+  ],
+  "llm_synthesis": "Executive Procurement Recommendation:\n1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.\n2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.\n3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.",
+  "model_provider": "mock"
 }
