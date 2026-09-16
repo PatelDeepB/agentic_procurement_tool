@@ -39,7 +39,7 @@ class GeminiLLMClient(BaseLLMClient):
             "contents": [{"parts": [{"text": f"{system_prompt}\n\nTask:\n{user_prompt}"}]}],
             "generationConfig": {"temperature": temperature},
         }
-        with httpx.Client(timeout=10.0) as client:
+        with httpx.Client(timeout=90.0) as client:
             response = client.post(url, json=payload)
             if response.status_code in [400, 401, 403, 404]:
                 self.is_service_available = False
