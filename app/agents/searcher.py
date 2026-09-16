@@ -53,6 +53,10 @@ class SearchAgent:
         spec: NormalizedSpecification,
     ) -> Optional[Dict[str, List[str]]]:
         """Use active LLM client to synthesize specialized industrial procurement search queries."""
+        target_dn = spec.parsed_dn_mm
+        if target_dn is None and spec.parsed_od_mm is not None:
+            target_dn = find_is1239_dn_by_od(spec.parsed_od_mm)
+
         system_prompt = (
             "You are a Senior Industrial Procurement Specialist. Generate realistic B2B search queries "
             "for industrial steel pipe procurement across 3 geographic tiers: ahmedabad, india_wide, and global. "
@@ -61,7 +65,7 @@ class SearchAgent:
         )
         user_prompt = (
             f"Material: {spec.raw_input.material}\n"
-            f"Nominal Bore: DN {spec.parsed_dn_mm or 'Unspecified'}\n"
+            f"Nominal Bore: DN {target_dn or 'Unspecified'}\n"
             f"Outside Diameter: {spec.parsed_od_mm or 'Unspecified'} mm\n"
             f"Wall Thickness: {spec.parsed_wall_thickness_mm or 'Unspecified'} mm\n"
             f"Standard: {spec.parsed_standard or 'IS 1239'}\n"
@@ -87,7 +91,11 @@ class SearchAgent:
 
     def _build_query_tokens(self, spec: NormalizedSpecification) -> Dict[str, str]:
         """Extract standardized tokens for deterministic search query generation."""
-        dn_str = f"DN {spec.parsed_dn_mm}" if spec.parsed_dn_mm else "ERW steel pipe"
+        target_dn = spec.parsed_dn_mm
+        if target_dn is None and spec.parsed_od_mm is not None:
+            target_dn = find_is1239_dn_by_od(spec.parsed_od_mm)
+
+        dn_str = f"DN {target_dn}" if target_dn else "ERW steel pipe"
         od_str = f"{spec.parsed_od_mm} mm OD" if spec.parsed_od_mm else ""
         wall_str = f"{spec.parsed_wall_thickness_mm} mm wall" if spec.parsed_wall_thickness_mm else ""
         class_str = spec.parsed_class or "Class B"
