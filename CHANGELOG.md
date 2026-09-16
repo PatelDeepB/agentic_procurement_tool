@@ -2,6 +2,13 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.2.1] - 2026-09-16
+
+### Enhanced
+- **Comprehensive Vendor Export Formatting (`app/services/export_service.py`)**:
+  - Explicitly surfaced verified physical addresses, certifications, and unresolved issues in Markdown report vendor cards.
+  - Added `address`, `certifications`, and `unresolved_issues` columns to standard CSV export, ensuring 100% compliance with CPO procurement reporting specifications.
+
 ## [2.2.0] - 2026-09-16
 
 ### Hardened & Refactored
