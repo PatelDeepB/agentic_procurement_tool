@@ -23,8 +23,7 @@ class ExportService:
         lines = self._format_requirement_summary(result, spec)
         lines.extend(self._format_ambiguities_markdown(spec.ambiguities))
         lines.extend(self._format_vendor_shortlist_markdown(result))
-        if result.exclusion_log:
-            lines.extend(self._format_exclusion_log_markdown(result.exclusion_log))
+        lines.extend(self._format_exclusion_log_markdown(result.exclusion_log))
 
         if result.llm_synthesis:
             lines.extend([
@@ -87,6 +86,11 @@ class ExportService:
             "## 4. Candidate Supplier Disqualification & Exclusion Log",
             "",
         ]
+        if not exclusion_log:
+            lines.append("No candidate suppliers disqualified for this requirement; all evaluated profiles met minimum capability thresholds.")
+            lines.append("")
+            return lines
+
         for exclusion in exclusion_log:
             vendor_name = exclusion.get("vendor_name", "Unknown Supplier")
             tier = exclusion.get("tier", "UNKNOWN")
