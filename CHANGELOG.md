@@ -20,6 +20,8 @@ All notable changes to the Agentic Procurement Tool will be documented in this f
   - Included direct one-click downloads for Markdown reports, CSV files, and JSON payloads.
 - **Windows File Lock Safety (`app/cli.py`)**:
   - Implemented `_safe_write_text` in CLI export handler to gracefully handle `PermissionError` when export files are locked by external applications like Microsoft Excel.
+- **Dedicated Quickstart & Testing Guide (`README_2.md`)**:
+  - Created a comprehensive, self-contained guide covering zero-config quickstart, prerequisites, multi-provider LLM setup, 3 execution modes (Web UI, Swagger API, CLI), test suite commands, benchmark scenario explanations, realistic vendor breakdown, and troubleshooting FAQ.
 
 ## [2.2.2] - 2026-09-16
 
