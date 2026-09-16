@@ -45,7 +45,7 @@ class EvaluatorAgent:
         recommended_next_step = self._formulate_next_step(vendor, spec)
 
         # Execute LLM reasoning trace for audit
-        self._generate_llm_evaluation_trace(vendor, spec)
+        eval_notes = self._generate_llm_evaluation_trace(vendor, spec)
 
         evidence = VendorEvidence(
             sourced_facts=sourced_facts,
@@ -57,6 +57,7 @@ class EvaluatorAgent:
             contact_phone=vendor.get("contact_phone"),
             address=vendor.get("address", ""),
             certifications=vendor.get("certifications", []),
+            evaluation_notes=eval_notes,
         )
 
         return match_cat, evidence, unresolved_issues, recommended_next_step

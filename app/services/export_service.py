@@ -5,7 +5,12 @@ import io
 import json
 from typing import List
 
-from app.domain.models import EvaluatedVendor, ProcurementResult
+from app.domain.models import (
+    AmbiguityItem,
+    AmbiguityType,
+    EvaluatedVendor,
+    ProcurementResult,
+)
 
 
 class ExportService:
@@ -16,13 +21,19 @@ class ExportService:
         spec = result.specification
         raw = spec.raw_input
 
+        has_unit_ambiguity = any(
+            a.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT
+            for a in spec.ambiguities
+        )
+        unit_suffix = " *(unit unspecified in input)*" if has_unit_ambiguity else f" {spec.assumed_quantity_unit}"
+
         lines: List[str] = [
             f"# Procurement Evaluation Report: {raw.id}",
             "",
             "## 1. Requirement Summary",
             f"- **Material ID**: {raw.id}",
             f"- **Material Description**: {raw.material}",
-            f"- **Specified Quantity**: {raw.quantity} *(unit unspecified in input)*",
+            f"- **Specified Quantity**: {raw.quantity}{unit_suffix}",
             f"- **Procurement Location**: {raw.location}",
             f"- **Run ID**: `{result.run_id}`",
             f"- **Evaluation Timestamp**: {result.timestamp}",
@@ -30,26 +41,48 @@ class ExportService:
             "## 2. Technical Ambiguities and Stated Assumptions",
         ]
 
-        if not spec.ambiguities:
-            lines.append("No technical ambiguities identified.")
-        else:
-            for item in spec.ambiguities:
-                lines.extend([
-                    f"### [{item.severity.value}] {item.ambiguity_type.value}",
-                    f"- **Issue**: {item.description}",
-                    f"- **Agent Assumption**: {item.stated_assumption}",
-                    f"- **Buyer Clarification Prompt**: `{item.clarification_prompt}`",
-                ])
-                if item.unit_conversions:
-                    conv = item.unit_conversions
-                    if "if_assumed_meters" in conv:
-                        lines.append(
-                            f"- **Weight & Piece Conversion**: {conv['if_assumed_meters']['estimated_weight_metric_tons']} MT "
-                            f"(~{conv['if_assumed_meters']['standard_6m_pieces']} standard 6-meter pieces)."
-                        )
-                lines.append("")
+        lines.extend(self._format_ambiguities_markdown(spec.ambiguities))
+        lines.extend(self._format_vendor_shortlist_markdown(result))
+
+        if result.llm_synthesis:
+            lines.extend([
+                f"## 4. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
+                result.llm_synthesis,
+                "",
+            ])
 
         lines.extend([
+            "## 5. Audit Trail and Agentic State Transitions",
+            *(f"- `{entry}`" for entry in result.audit_trail),
+        ])
+        return "\n".join(lines)
+
+    @staticmethod
+    def _format_ambiguities_markdown(ambiguities: List[AmbiguityItem]) -> List[str]:
+        """Format detected ambiguities into markdown bullet points."""
+        if not ambiguities:
+            return ["No technical ambiguities identified.", ""]
+
+        lines: List[str] = []
+        for item in ambiguities:
+            lines.extend([
+                f"### [{item.severity.value}] {item.ambiguity_type.value}",
+                f"- **Issue**: {item.description}",
+                f"- **Agent Assumption**: {item.stated_assumption}",
+                f"- **Buyer Clarification Prompt**: `{item.clarification_prompt}`",
+            ])
+            if item.unit_conversions and "if_assumed_meters" in item.unit_conversions:
+                conv = item.unit_conversions["if_assumed_meters"]
+                lines.append(
+                    f"- **Weight & Piece Conversion**: {conv['estimated_weight_metric_tons']} MT "
+                    f"(~{conv['standard_6m_pieces']} standard 6-meter pieces)."
+                )
+            lines.append("")
+        return lines
+
+    def _format_vendor_shortlist_markdown(self, result: ProcurementResult) -> List[str]:
+        """Format 3-tier vendor shortlists."""
+        return [
             "## 3. Evidence-Based Vendor Shortlist",
             "",
             "### Tier 1: Ahmedabad Local Vendors",
@@ -61,30 +94,16 @@ class ExportService:
             "### Tier 3: International / Global Vendors",
             *(self._format_vendor_markdown(v) for v in result.global_vendors),
             "",
-        ])
+        ]
 
-        if result.llm_synthesis:
-            lines.extend([
-                f"## 4. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
-                result.llm_synthesis,
-                "",
-            ])
-
-        lines.extend([
-            "## 5. Audit Trail and Agentic State Transitions",
-        ])
-        for step in result.audit_trail:
-            lines.append(f"- {step}")
-
-        lines.append("")
-        return "\n".join(lines)
-
-    def _format_vendor_markdown(self, vendor: EvaluatedVendor) -> str:
+    @staticmethod
+    def _format_vendor_markdown(vendor: EvaluatedVendor) -> str:
         """Helper to format a single vendor's evidence block in markdown."""
         ev = vendor.evidence
         facts = "\n".join(f"  - {f}" for f in ev.sourced_facts)
         assumptions = "\n".join(f"  - {a}" for a in ev.assumptions)
         rfq = "\n".join(f"  - {r}" for r in ev.needs_confirmation_rfq)
+        notes_line = f"- **Technical Audit Notes**: {ev.evaluation_notes}\n" if ev.evaluation_notes else ""
 
         return (
             f"#### Rank {vendor.rank}: {vendor.vendor_name} ({vendor.confidence_score}% Confidence)\n"
@@ -93,6 +112,7 @@ class ExportService:
             f"- **Match Precision**: `{vendor.match_category.value}`\n"
             f"- **Website**: [{vendor.vendor_name}]({ev.source_url})\n"
             f"- **Contact**: Email: {ev.contact_email or 'N/A'}, Phone: {ev.contact_phone or 'N/A'}\n"
+            f"{notes_line}"
             f"- **Sourced Evidence**:\n{facts}\n"
             f"- **Engineering Assumptions**:\n{assumptions}\n"
             f"- **RFQ Confirmation Items**:\n{rfq}\n"

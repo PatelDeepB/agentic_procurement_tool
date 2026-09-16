@@ -1,7 +1,7 @@
 {
   "material_id": "M-01",
-  "run_id": "RUN-M-01-b2bc4de8",
-  "timestamp": "2026-09-16T04:00:25.395026+00:00",
+  "run_id": "RUN-M-01-87cc4a9c",
+  "timestamp": "2026-09-16T04:18:23.600177+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -47,9 +47,9 @@
         "field": "material",
         "ambiguity_type": "NON_STANDARD_WALL_THICKNESS",
         "severity": "WARNING",
-        "description": "Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50.",
+        "description": "Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Thickness 5.5 mm deviates from standard IS 1239 Part 1 schedules (Class A: 3.25 mm, Class B: 3.65 mm, Class C Heavy: 4.5 mm). May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard.",
         "stated_assumption": "Assumed buyer requires custom heavy-wall ERW pipe (5.5 mm). Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80.",
-        "clarification_prompt": "Please confirm if 5.5 mm wall is mandatory (requiring custom mill run or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable.",
+        "clarification_prompt": "Please confirm if 5.5 mm wall is mandatory (requiring custom mill run or ASTM A53 Schedule 80) or if standard IS 1239 Class C is acceptable.",
         "unit_conversions": {}
       }
     ]
@@ -96,7 +96,8 @@
         "certifications": [
           "ISO 9001:2015",
           "Authorized Stockist for Jindal & Surya"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -146,7 +147,8 @@
           "ISO 9001:2015",
           "BIS Dealer Certificate",
           "IS 1239 Endorsement"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -194,7 +196,8 @@
         "address": "Phase IV, Vatva Industrial Estate, Ahmedabad, Gujarat 382445",
         "certifications": [
           "ISO 9001:2015"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -247,7 +250,8 @@
           "ISO 9001:2015",
           "API 5L",
           "ISO 14001"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -298,7 +302,8 @@
           "BIS Mark IS 3589",
           "API 5L",
           "ISO 9001:2015"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -349,7 +354,8 @@
           "ISO 9001",
           "ISO 14001",
           "GreenPro Certified"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -400,7 +406,8 @@
           "ISO 9001:2015",
           "CE Mark",
           "UL Listed"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "Custom rolling lead time required for non-standard 5.5 mm wall."
@@ -455,7 +462,8 @@
           "ASTM A53 Spec",
           "PED 2014/68/EU",
           "CE Mark"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations.",
@@ -509,7 +517,8 @@
           "API 5L",
           "ASTM A53",
           "EN 10255"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations.",
@@ -560,7 +569,8 @@
         "certifications": [
           "ISO 9001:2015",
           "Bureau Veritas Export Inspection Certificate"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations.",
@@ -572,8 +582,8 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:00:25.395026+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.",
-    "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.",
+    "[2026-09-16T04:18:23.600177+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.",
+    "Stage 1 Complete: Normalized specs. Detected 2 ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",

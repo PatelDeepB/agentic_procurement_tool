@@ -1,7 +1,7 @@
 {
   "material_id": "M-02",
-  "run_id": "RUN-M-02-28046155",
-  "timestamp": "2026-09-16T04:00:35.674005+00:00",
+  "run_id": "RUN-M-02-4868b81f",
+  "timestamp": "2026-09-16T04:18:33.412740+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -47,8 +47,8 @@
         "field": "material",
         "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
         "severity": "WARNING",
-        "description": "Requirement specifies '40 mm MS ERW, Class B pipe'. In piping terminology, '40 mm' can refer to Nominal Bore (DN 40 / 1.5 inch NB, actual OD 48.3 mm) or strict Outside Diameter (40 mm OD). Standard IS 1239 Part 1 does not specify an OD of 40 mm; DN 40 pipes have an OD of 48.3 mm.",
-        "stated_assumption": "Assumed DN 40 Nominal Bore (OD 48.3 mm, Class B wall thickness 3.25 mm) in accordance with standard Indian manufacturing conventions.",
+        "description": "Requirement specifies '40 mm'. In piping terminology, '40 mm' can refer to Nominal Bore (DN 40, actual OD 48.3 mm) or strict Outside Diameter (40 mm OD). Standard IS 1239 Part 1 does not specify an OD of 40 mm; DN 40 pipes have an OD of 48.3 mm.",
+        "stated_assumption": "Assumed DN 40 Nominal Bore (OD 48.3 mm, Class B wall thickness) in accordance with standard Indian manufacturing conventions.",
         "clarification_prompt": "Please confirm whether '40 mm' denotes Nominal Bore (DN 40, actual OD 48.3 mm) or a non-standard 40 mm outside diameter.",
         "unit_conversions": {}
       }
@@ -95,7 +95,8 @@
           "ISO 9001:2015",
           "BIS Dealer Certificate",
           "IS 1239 Endorsement"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.",
@@ -140,7 +141,8 @@
         "certifications": [
           "ISO 9001:2015",
           "Authorized Stockist for Jindal & Surya"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.",
@@ -184,7 +186,8 @@
         "address": "Phase IV, Vatva Industrial Estate, Ahmedabad, Gujarat 382445",
         "certifications": [
           "ISO 9001:2015"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.",
@@ -233,7 +236,8 @@
           "ISO 9001:2015",
           "API 5L",
           "ISO 14001"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.",
@@ -280,7 +284,8 @@
           "ISO 9001",
           "ISO 14001",
           "GreenPro Certified"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
@@ -327,7 +332,8 @@
           "BIS Mark IS 3589",
           "API 5L",
           "ISO 9001:2015"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.",
@@ -374,7 +380,8 @@
           "ISO 9001:2015",
           "CE Mark",
           "UL Listed"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.",
@@ -425,7 +432,8 @@
           "ASTM A53 Spec",
           "PED 2014/68/EU",
           "CE Mark"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations."
@@ -476,7 +484,8 @@
           "API 5L",
           "ASTM A53",
           "EN 10255"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations."
@@ -524,7 +533,8 @@
         "certifications": [
           "ISO 9001:2015",
           "Bureau Veritas Export Inspection Certificate"
-        ]
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations."
@@ -535,8 +545,8 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:00:35.674005+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
-    "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.",
+    "[2026-09-16T04:18:33.412740+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
+    "Stage 1 Complete: Normalized specs. Detected 2 ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",

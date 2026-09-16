@@ -4,7 +4,7 @@ Computes multi-criteria confidence scores, ranks candidates within geographic
 tiers, deduplicates multi-channel leads, and explains inclusion rationale.
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 
 from app.domain.models import (
     EvaluatedVendor,
@@ -30,10 +30,6 @@ class ScorerAgent:
         for item in deduplicated:
             vendor = item["raw_vendor"]
             match_cat: MatchCategory = item["match_category"]
-            evidence = item["evidence"]
-            unresolved = item["unresolved_issues"]
-            next_step = item["recommended_next_step"]
-
             score, breakdown = self._calculate_confidence_score(vendor, match_cat, spec)
 
             evaluated_vendor = EvaluatedVendor(
@@ -45,17 +41,14 @@ class ScorerAgent:
                 match_category=match_cat,
                 confidence_score=round(score, 1),
                 score_breakdown=breakdown,
-                evidence=evidence,
-                unresolved_issues=unresolved,
-                recommended_next_step=next_step,
+                evidence=item["evidence"],
+                unresolved_issues=item["unresolved_issues"],
+                recommended_next_step=item["recommended_next_step"],
                 rank=1,
             )
             scored_list.append(evaluated_vendor)
 
-        # Sort descending by confidence score
         scored_list.sort(key=lambda v: v.confidence_score, reverse=True)
-
-        # Assign ranks
         for index, vendor in enumerate(scored_list, start=1):
             vendor.rank = index
 
@@ -77,64 +70,70 @@ class ScorerAgent:
         vendor: Dict[str, Any],
         match_cat: MatchCategory,
         spec: NormalizedSpecification,
-    ) -> (float, Dict[str, float]):
+    ) -> Tuple[float, Dict[str, float]]:
         """Calculate composite confidence score out of 100 points."""
-        breakdown: Dict[str, float] = {}
+        breakdown: Dict[str, float] = {
+            "technical_fit": self._score_technical_fit(match_cat),
+            "certifications": self._score_certifications(vendor.get("certifications", [])),
+            "capacity_feasibility": self._score_capacity(vendor.get("vendor_type")),
+            "geographic_logistics": self._score_geography(
+                vendor.get("tier"),
+                vendor.get("delivery_evidence", "").lower(),
+            ),
+            "traceability": self._score_traceability(vendor),
+        }
+        return sum(breakdown.values()), breakdown
 
-        # 1. Technical Fit (35 points max)
+    @staticmethod
+    def _score_technical_fit(match_cat: MatchCategory) -> float:
+        """Score technical alignment (35 points max)."""
         if match_cat == MatchCategory.EXACT_MATCH:
-            breakdown["technical_fit"] = 35.0
-        elif match_cat == MatchCategory.NEAR_MATCH:
-            breakdown["technical_fit"] = 27.0
-        elif match_cat == MatchCategory.CATEGORY_LEVEL_LEAD:
-            breakdown["technical_fit"] = 18.0
-        else:
-            breakdown["technical_fit"] = 8.0
+            return 35.0
+        if match_cat == MatchCategory.NEAR_MATCH:
+            return 27.0
+        if match_cat == MatchCategory.CATEGORY_LEVEL_LEAD:
+            return 18.0
+        return 8.0
 
-        # 2. Standards & Certifications (25 points max)
-        certs = vendor.get("certifications", [])
+    @staticmethod
+    def _score_certifications(certs: List[str]) -> float:
+        """Score recognized quality and standard certifications (25 points max)."""
         cert_text = " ".join(certs).upper()
         if "IS 1239" in cert_text and "ISO" in cert_text:
-            breakdown["certifications"] = 25.0
-        elif "ISO" in cert_text or "ASTM" in cert_text or "API" in cert_text:
-            breakdown["certifications"] = 20.0
-        elif len(certs) > 0:
-            breakdown["certifications"] = 15.0
-        else:
-            breakdown["certifications"] = 5.0
+            return 25.0
+        if any(std in cert_text for std in ["ISO", "ASTM", "API"]):
+            return 20.0
+        if certs:
+            return 15.0
+        return 5.0
 
-        # 3. Capacity & Bulk-Order Feasibility (20 points max)
-        v_type = vendor.get("vendor_type")
-        if v_type == VendorType.PRIMARY_MANUFACTURER.value:
-            breakdown["capacity_feasibility"] = 20.0
-        elif v_type == VendorType.AUTHORIZED_DISTRIBUTOR.value:
-            breakdown["capacity_feasibility"] = 17.0
-        elif v_type == VendorType.STOCKIST_TRADER.value:
-            breakdown["capacity_feasibility"] = 14.0
-        else:
-            breakdown["capacity_feasibility"] = 10.0
+    @staticmethod
+    def _score_capacity(vendor_type: Optional[str]) -> float:
+        """Score production volume and order fulfillment capacity (20 points max)."""
+        if vendor_type == VendorType.PRIMARY_MANUFACTURER.value:
+            return 20.0
+        if vendor_type == VendorType.AUTHORIZED_DISTRIBUTOR.value:
+            return 17.0
+        if vendor_type == VendorType.STOCKIST_TRADER.value:
+            return 14.0
+        return 10.0
 
-        # 4. Geographic Delivery Feasibility (15 points max)
-        tier = vendor.get("tier")
+    @staticmethod
+    def _score_geography(tier: Optional[str], delivery_text: str) -> float:
+        """Score transit distance and warehouse proximity (15 points max)."""
         if tier == VendorTier.AHMEDABAD.value:
-            breakdown["geographic_logistics"] = 15.0
-        elif tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD.value:
-            # Check if vendor has local depot or fast corridor
-            delivery_text = vendor.get("delivery_evidence", "").lower()
-            if "changodar" in delivery_text or "sarkhej" in delivery_text or "ahmedabad" in delivery_text:
-                breakdown["geographic_logistics"] = 14.0
-            else:
-                breakdown["geographic_logistics"] = 11.0
-        else:
-            # Global tier
-            breakdown["geographic_logistics"] = 8.0
+            return 15.0
+        if tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD.value:
+            if any(hub in delivery_text for hub in ["changodar", "sarkhej", "ahmedabad"]):
+                return 14.0
+            return 11.0
+        return 8.0
 
-        # 5. Evidence & Contact Traceability (5 points max)
+    @staticmethod
+    def _score_traceability(vendor: Dict[str, Any]) -> float:
+        """Score verifiable digital and physical contact footprint (5 points max)."""
         has_email = bool(vendor.get("contact_email"))
         has_phone = bool(vendor.get("contact_phone"))
         has_url = bool(vendor.get("source_url"))
         contact_score = 2.0 + (1.5 if has_email and has_phone else 0.5) + (1.5 if has_url else 0.0)
-        breakdown["traceability"] = min(5.0, contact_score)
-
-        total_score = sum(breakdown.values())
-        return total_score, breakdown
+        return min(5.0, contact_score)

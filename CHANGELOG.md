@@ -2,6 +2,25 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.6.0] - 2026-09-16
+
+### Refactored & Hardened
+- **System-Wide Clean Architecture and Rule Compliance (Rules 3 & 5)**:
+  - Extracted deterministic fallback parsing into `app/agents/normalizer_fallback.py` and engineering prompts into `app/agents/normalizer_prompts.py`, bringing `normalizer.py` from 506 lines down to 266 lines.
+  - Extracted `MockLLMClient` into `app/llm/mock_client.py` and base interfaces into `app/llm/base.py`, bringing `client.py` from 365 lines down to 119 lines.
+  - Refactored all functions across `app/` so 100% of functions are under 40 lines and 100% of files are under 300 lines.
+- **Audited LLM Trace Integration (`app/domain/models.py`, `app/agents/evaluator.py`, `app/services/export_service.py`)**:
+  - Added `evaluation_notes` field to `VendorEvidence`, capturing the LLM technical audit trace instead of discarding the return value.
+  - Rendered technical audit notes in generated Markdown and API export packages.
+- **Dynamic Unit Formatting in Markdown Export (`app/services/export_service.py`)**:
+  - Fixed hardcoded unit omission label in Markdown export: explicitly specified units (e.g. 1000 meters) now render cleanly without falsely stating unit was unspecified.
+- **Magic Number Elimination in Searcher (`app/agents/searcher.py`)**:
+  - Removed `target_dn = spec.parsed_dn_mm or 40` magic fallback. Candidate retrieval now dynamically matches all registered suppliers when DN is unspecified.
+- **Strict Typing in Scorer (`app/agents/scorer.py`)**:
+  - Converted confidence score return type annotation to `Tuple[float, Dict[str, float]]` and modularized scoring criteria into clean sub-methods.
+- **Expanded Regression Test Suite (`tests/`)**:
+  - Added regression tests for candidate retrieval without DN, evaluation notes attachment, and explicit unit export. Total test count expanded to 40 passing tests in 0.78s.
+
 ## [1.5.0] - 2026-09-16
 
 ### Fixed

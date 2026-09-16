@@ -6,6 +6,7 @@ from app.agents.scorer import ScorerAgent
 from app.domain.models import (
     MatchCategory,
     MaterialInput,
+    NormalizedSpecification,
     VendorTier,
 )
 
@@ -183,4 +184,59 @@ def test_should_not_flag_custom_heavy_wall_assumption_for_standard_pipe_even_if_
     # Assert: Should NOT assume custom rolling because 5.4 mm is standard for DN 100
     heavy_assumptions = [a for a in evidence.assumptions if "heavy gauge" in a.lower() or "schedule 80" in a.lower()]
     assert len(heavy_assumptions) == 0, "Standard DN 100 Class C pipe (5.4 mm) must not be flagged as custom heavy gauge"
+
+
+def test_should_retrieve_all_tier_vendors_when_target_dn_is_none():
+    """Verify searcher does not exclude vendors with magic number 40 when DN is None."""
+    # Arrange
+    from app.agents.searcher import SearchAgent
+    searcher = SearchAgent()
+    spec = NormalizedSpecification(
+        raw_input=MaterialInput(id="T-ANY", material="Generic steel pipe", quantity=100.0, location="Ahmedabad"),
+        parsed_dn_mm=None,
+    )
+
+    # Act
+    candidates = searcher.retrieve_candidates(spec)
+
+    # Assert: Should retrieve all 10 registered vendors across tiers
+    assert len(candidates) == 10
+
+
+def test_should_populate_evaluation_notes_on_vendor_evidence():
+    """Verify evaluator attaches LLM evaluation trace notes to evidence model."""
+    # Arrange
+    normalizer = NormalizerAgent()
+    evaluator = EvaluatorAgent()
+    spec = normalizer.normalize(
+        MaterialInput(
+            id="T-NOTES",
+            material="DN 50 MS ERW pipe",
+            quantity=500.0,
+            location="Ahmedabad, Gujarat, India",
+        )
+    )
+    raw_vendor = {
+        "vendor_name": "Western Steel Agency Ahmedabad",
+        "tier": "AHMEDABAD",
+        "vendor_type": "AUTHORIZED_DISTRIBUTOR",
+        "supported_standards": ["IS 1239"],
+        "supported_classes": ["Class A", "Class B", "Class C"],
+        "max_wall_thickness_mm": 5.0,
+        "certifications": ["ISO 9001:2015"],
+        "location": "Ahmedabad",
+        "address": "GIDC Odhav",
+        "stock_or_capacity_evidence": "Ready stock",
+        "delivery_evidence": "Same day",
+        "catalog_spec": "IS 1239 ERW Pipes",
+        "source_url": "https://westernsteel.in",
+    }
+
+    # Act
+    _, evidence, _, _ = evaluator.evaluate_vendor(raw_vendor, spec)
+
+    # Assert
+    assert evidence.evaluation_notes is not None
+    assert len(evidence.evaluation_notes) > 0
+
 

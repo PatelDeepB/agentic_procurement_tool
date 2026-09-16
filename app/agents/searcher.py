@@ -56,14 +56,17 @@ class SearchAgent:
     ) -> List[Dict[str, Any]]:
         """Retrieve matching candidate vendors filtered by tier and preliminary capability."""
         results: List[Dict[str, Any]] = []
-        target_dn = spec.parsed_dn_mm or 40
+        target_dn = spec.parsed_dn_mm
 
         for vendor in self._vendors:
             if tier and vendor["tier"] != tier.value:
                 continue
 
-            dn_range = vendor.get("supported_dn_range", [15, 150])
-            if dn_range[0] <= target_dn <= dn_range[1]:
-                results.append(vendor)
+            if target_dn is not None:
+                dn_range = vendor.get("supported_dn_range", [15, 150])
+                if not (dn_range[0] <= target_dn <= dn_range[1]):
+                    continue
+
+            results.append(vendor)
 
         return results
