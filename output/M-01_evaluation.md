@@ -5,8 +5,8 @@
 - **Material Description**: ERW pipe, DN 50, 60.3 x 5.5 mm, IS 1239
 - **Specified Quantity**: 1000.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-01-88c6a303`
-- **Evaluation Timestamp**: 2026-09-15T14:59:15.033100+00:00
+- **Run ID**: `RUN-M-01-06965f2f`
+- **Evaluation Timestamp**: 2026-09-15T17:13:53.035649+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -258,7 +258,7 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-15T14:59:15.033100+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-15T17:13:53.035649+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.
