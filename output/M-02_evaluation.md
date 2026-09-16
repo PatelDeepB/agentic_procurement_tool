@@ -5,8 +5,8 @@
 - **Material Description**: 40 mm MS ERW, Class B pipe
 - **Specified Quantity**: 500.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-02-329cd71f`
-- **Evaluation Timestamp**: 2026-09-16T04:31:52.778063+00:00
+- **Run ID**: `RUN-M-02-ddac0aae`
+- **Evaluation Timestamp**: 2026-09-16T04:56:00.828125+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -20,7 +20,22 @@
 - **Agent Assumption**: Assumed DN 40 Nominal Bore (OD 48.3 mm, Class B wall thickness) in accordance with standard Indian manufacturing conventions.
 - **Buyer Clarification Prompt**: `Please confirm whether '40 mm' denotes Nominal Bore (DN 40, actual OD 48.3 mm) or a non-standard 40 mm outside diameter.`
 
-## 3. Evidence-Based Vendor Shortlist
+## 3. Synthesized Multi-Tier Search Strategy
+
+### Ahmedabad Local Queries
+- `Ahmedabad DN 40 48.3 mm OD 3.25 mm wall ERW pipe stockist distributor GIDC Odhav Vatva`
+- `MS ERW steel pipe supplier Ahmedabad ready stock Class B IS 1239`
+- `40 mm NB vs 40 mm OD MS ERW pipe distributor Ahmedabad ready stock`
+
+### India-Wide Queries
+- `India ERW steel pipe manufacturer DN 40 3.25 mm wall Class B IS 1239 BIS certified mill`
+- `Primary steel pipe mills India bulk dispatch Ahmedabad depot MS ERW`
+
+### Global / Import Queries
+- `Carbon steel ERW line pipe exporter DN 40 48.3 mm OD ASTM A53 BS 1387 EN 10255`
+- `Global tubular supplier CIF Mundra Port Gujarat India DN 40 3.25 mm wall`
+
+## 4. Evidence-Based Vendor Shortlist
 
 ### Tier 1: Ahmedabad Local Vendors
 #### Rank 5: Gujarat Infra Pipes Pvt Ltd (97.0% Confidence)
@@ -321,16 +336,16 @@
 - **Recommended Next Step**: Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.
 
 
-## 4. LLM Executive Procurement Reasoning (Provider: gemini)
+## 6. LLM Executive Procurement Reasoning (Provider: gemini)
 Executive Procurement Recommendation:
 1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.
 2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
-## 5. Audit Trail and Agentic State Transitions
-- `[2026-09-16T04:31:52.778063+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.`
+## 7. Audit Trail and Agentic State Transitions
+- `[2026-09-16T04:56:00.828125+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.`
 - `Stage 1 Complete: Normalized specs. Detected 2 ambiguities.`
-- `Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.`
-- `Stage 3 Complete: Retrieved 10 candidate supplier profiles.`
+- `Stage 2 Complete: Synthesized 7 search queries across Ahmedabad, India, and Global scopes.`
+- `Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).`
 - `Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.`
 - `Stage 6 Complete: Scored and ranked vendors. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global.`

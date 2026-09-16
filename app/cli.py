@@ -51,6 +51,27 @@ def display_result_summary(result: ProcurementResult) -> None:
             print(f"    -> Stated Assumption: {amb.stated_assumption}")
             print(f"    -> Buyer Prompt: {amb.clarification_prompt}")
 
+    if result.search_queries:
+        _print_search_queries_summary(result.search_queries)
+
+    _print_shortlisted_vendors_summary(result)
+
+    if result.exclusion_log:
+        _print_exclusion_log_summary(result.exclusion_log)
+
+
+def _print_search_queries_summary(search_queries: dict) -> None:
+    """Print synthesized multi-tier search queries in terminal."""
+    print("\n[+] SYNTHESIZED SEARCH STRATEGY:")
+    for tier_key, query_list in search_queries.items():
+        title = tier_key.replace("_", " ").title()
+        print(f"  * {title}:")
+        for query_item in query_list:
+            print(f"    - {query_item}")
+
+
+def _print_shortlisted_vendors_summary(result: ProcurementResult) -> None:
+    """Print shortlisted vendors per tier in terminal."""
     print("\n[+] SHORTLISTED VENDORS BY TIER:")
     print(f"  1. Ahmedabad Local: {len(result.ahmedabad_vendors)} vendors")
     for vendor in result.ahmedabad_vendors:
@@ -63,6 +84,16 @@ def display_result_summary(result: ProcurementResult) -> None:
     print(f"  3. Global: {len(result.global_vendors)} vendors")
     for vendor in result.global_vendors:
         print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
+
+
+def _print_exclusion_log_summary(exclusion_log: list) -> None:
+    """Print candidate supplier disqualification audit in terminal."""
+    print(f"\n[-] DISQUALIFIED SUPPLIERS AUDIT ({len(exclusion_log)} excluded):")
+    for exclusion in exclusion_log:
+        vendor_name = exclusion.get("vendor_name", "Unknown")
+        tier = exclusion.get("tier", "UNKNOWN")
+        reason = exclusion.get("disqualification_reason", "")
+        print(f"  * {vendor_name} ({tier}): {reason}")
 
 
 def export_result_files(

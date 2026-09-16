@@ -38,7 +38,7 @@ class ProcurementOrchestrator:
         """Initialize pipeline agents with unified or dedicated LLM client."""
         self.llm = llm_client or get_llm_client()
         self.normalizer = NormalizerAgent(llm_client=self.llm)
-        self.searcher = SearchAgent()
+        self.searcher = SearchAgent(llm_client=self.llm)
         self.evaluator = EvaluatorAgent(llm_client=self.llm)
         self.scorer = ScorerAgent()
 
@@ -52,12 +52,18 @@ class ProcurementOrchestrator:
         spec = self.normalizer.normalize(raw_input)
         audit_trail.append(f"Stage 1 Complete: Normalized specs. Detected {len(spec.ambiguities)} ambiguities.")
 
-        ahmedabad_v, india_v, global_v = self._retrieve_and_score_vendors(spec, audit_trail)
+        (
+            ahmedabad_vendors,
+            india_vendors,
+            global_vendors,
+            search_queries,
+            exclusion_log,
+        ) = self._retrieve_and_score_vendors(spec, audit_trail)
 
-        synthesis = self._generate_executive_synthesis(spec, ahmedabad_v, india_v, global_v)
+        synthesis = self._generate_executive_synthesis(spec, ahmedabad_vendors, india_vendors, global_vendors)
         audit_trail.append(
             f"Stage 6 Complete: Scored and ranked vendors. Shortlisted: "
-            f"{len(ahmedabad_v)} Ahmedabad, {len(india_v)} India-wide, {len(global_v)} Global."
+            f"{len(ahmedabad_vendors)} Ahmedabad, {len(india_vendors)} India-wide, {len(global_vendors)} Global."
         )
 
         provider_name = type(self.llm).__name__.replace("LLMClient", "").lower()
@@ -67,10 +73,11 @@ class ProcurementOrchestrator:
             timestamp=timestamp,
             location=raw_input.location,
             specification=spec,
-            ahmedabad_vendors=ahmedabad_v,
-            india_vendors=india_v,
-            global_vendors=global_v,
-            exclusion_log=[],
+            ahmedabad_vendors=ahmedabad_vendors,
+            india_vendors=india_vendors,
+            global_vendors=global_vendors,
+            search_queries=search_queries,
+            exclusion_log=exclusion_log,
             audit_trail=audit_trail,
             llm_synthesis=synthesis,
             model_provider=provider_name,
@@ -80,19 +87,36 @@ class ProcurementOrchestrator:
         self,
         spec: NormalizedSpecification,
         audit_trail: List[str],
-    ) -> Tuple[List[EvaluatedVendor], List[EvaluatedVendor], List[EvaluatedVendor]]:
+    ) -> Tuple[
+        List[EvaluatedVendor],
+        List[EvaluatedVendor],
+        List[EvaluatedVendor],
+        Dict[str, List[str]],
+        List[Dict[str, str]],
+    ]:
         """Retrieve, evaluate, and segregate vendors across tiers with audit logging."""
-        self.searcher.generate_search_queries(spec)
-        audit_trail.append("Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.")
+        search_queries = self.searcher.generate_search_queries(spec)
+        total_queries = sum(len(query_group) for query_group in search_queries.values())
+        audit_trail.append(f"Stage 2 Complete: Synthesized {total_queries} search queries across Ahmedabad, India, and Global scopes.")
 
-        raw_candidates = self.searcher.retrieve_candidates(spec)
-        audit_trail.append(f"Stage 3 Complete: Retrieved {len(raw_candidates)} candidate supplier profiles.")
+        raw_candidates, exclusion_log = self.searcher.retrieve_candidates_with_audit(spec)
+        audit_trail.append(
+            f"Stage 3 Complete: Retrieved {len(raw_candidates)} candidate supplier profiles "
+            f"({len(exclusion_log)} disqualified)."
+        )
 
         evaluated = self._evaluate_raw_candidates(raw_candidates, spec)
         audit_trail.append("Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.")
 
         scored = self.scorer.score_and_rank(evaluated, spec)
-        return self._segregate_by_tier(scored)
+        ahmedabad_vendors, india_vendors, global_vendors = self._segregate_by_tier(scored)
+        return (
+            ahmedabad_vendors,
+            india_vendors,
+            global_vendors,
+            search_queries,
+            exclusion_log,
+        )
 
     def _evaluate_raw_candidates(
         self,

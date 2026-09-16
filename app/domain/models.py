@@ -168,6 +168,7 @@ class ProcurementResult(BaseModel):
     ahmedabad_vendors: List[EvaluatedVendor] = Field(default_factory=list)
     india_vendors: List[EvaluatedVendor] = Field(default_factory=list)
     global_vendors: List[EvaluatedVendor] = Field(default_factory=list)
+    search_queries: Dict[str, List[str]] = Field(default_factory=dict, description="Synthesized multi-tier search queries")
     exclusion_log: List[Dict[str, str]] = Field(default_factory=list)
     audit_trail: List[str] = Field(default_factory=list)
     llm_synthesis: Optional[str] = Field(default=None, description="Executive procurement synthesis from LLM")

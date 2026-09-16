@@ -1,7 +1,7 @@
 {
   "material_id": "M-03",
-  "run_id": "RUN-M-03-ef6992b9",
-  "timestamp": "2026-09-16T04:31:52.782754+00:00",
+  "run_id": "RUN-M-03-6789b0af",
+  "timestamp": "2026-09-16T04:56:00.832122+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -534,12 +534,26 @@
       "rank": 9
     }
   ],
+  "search_queries": {
+    "ahmedabad": [
+      "Ahmedabad DN 80 89.5 mm OD 4.8 mm wall ERW pipe stockist distributor GIDC Odhav Vatva",
+      "MS ERW steel pipe supplier Ahmedabad ready stock Class B IS 1239"
+    ],
+    "india_wide": [
+      "India ERW steel pipe manufacturer DN 80 4.8 mm wall Class B IS 1239 BIS certified mill",
+      "Primary steel pipe mills India bulk dispatch Ahmedabad depot MS ERW"
+    ],
+    "global": [
+      "Carbon steel ERW line pipe exporter DN 80 89.5 mm OD ASTM A53 BS 1387 EN 10255",
+      "Global tubular supplier CIF Mundra Port Gujarat India DN 80 4.8 mm wall"
+    ]
+  },
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:31:52.782754+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T04:56:00.832122+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs. Detected 1 ambiguities.",
-    "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
-    "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",
+    "Stage 2 Complete: Synthesized 6 search queries across Ahmedabad, India, and Global scopes.",
+    "Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",
     "Stage 6 Complete: Scored and ranked vendors. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global."
   ],

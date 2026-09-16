@@ -2,6 +2,24 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.8.0] - 2026-09-16
+
+### Added & Hardened
+- **Searching Agent Architectural Overhaul (`app/agents/searcher.py`)**:
+  - Connected `SearchAgent` with active LLM client for cognitive query synthesis with offline deterministic fallback.
+  - Enriched search queries with complete dimensional depth: nominal diameter, outside diameter (OD), wall thickness, steel grade (e.g. Fe 410), and custom rolling schedules.
+  - Added ambiguity-aware query generation: dynamically crafts dual queries for M-02 (40 mm NB vs 40 mm OD) and custom heavy-gauge mill inquiries for M-01 (5.5 mm wall).
+  - Implemented `retrieve_candidates_with_audit` with structured disqualification logging (`exclusion_log`) replacing silent drops.
+- **Pipeline and Reporting Integration (`app/domain/models.py`, `app/agents/orchestrator.py`, `app/services/export_service.py`, `app/cli.py`)**:
+  - Added `search_queries` field to `ProcurementResult` and populated `exclusion_log`.
+  - Rendered synthesized search strategy in Markdown reports (`## 3. Synthesized Multi-Tier Search Strategy`), JSON exports, and terminal output.
+  - Rendered candidate supplier disqualification audit in Markdown and CLI outputs.
+- **Agentic ReAct Search Tool (`app/tools/procurement_tools.py`)**:
+  - Implemented `tool_search_vendor_registry` allowing autonomous agents to query verified vendor databases dynamically.
+- **Dedicated Searcher Test Suite (`tests/test_searcher.py`)**:
+  - Added 7 dedicated unit and integration tests covering query synthesis, ambiguity handling, candidate retrieval, exclusion logging, and tool execution.
+  - Test suite expanded to 49 passing tests in 0.78s with 0 rule violations and 0 em-dashes.
+
 ## [1.7.0] - 2026-09-16
 
 ### Refactored & Hardened

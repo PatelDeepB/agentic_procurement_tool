@@ -3,12 +3,13 @@
 import csv
 import io
 import json
-from typing import List
+from typing import Dict, List
 
 from app.domain.models import (
     AmbiguityItem,
     AmbiguityType,
     EvaluatedVendor,
+    NormalizedSpecification,
     ProcurementResult,
 )
 
@@ -19,15 +20,37 @@ class ExportService:
     def to_markdown(self, result: ProcurementResult) -> str:
         """Render result as an evidence-based, human-readable Markdown report."""
         spec = result.specification
-        raw = spec.raw_input
+        lines = self._format_requirement_summary(result, spec)
+        lines.extend(self._format_ambiguities_markdown(spec.ambiguities))
+        if result.search_queries:
+            lines.extend(self._format_search_queries_markdown(result.search_queries))
+        lines.extend(self._format_vendor_shortlist_markdown(result))
+        if result.exclusion_log:
+            lines.extend(self._format_exclusion_log_markdown(result.exclusion_log))
 
+        if result.llm_synthesis:
+            lines.extend([
+                f"## 6. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
+                result.llm_synthesis,
+                "",
+            ])
+
+        lines.extend([
+            "## 7. Audit Trail and Agentic State Transitions",
+            *(f"- `{entry}`" for entry in result.audit_trail),
+        ])
+        return "\n".join(lines)
+
+    @staticmethod
+    def _format_requirement_summary(result: ProcurementResult, spec: NormalizedSpecification) -> List[str]:
+        """Format initial requirement summary block in markdown."""
+        raw = spec.raw_input
         has_unit_ambiguity = any(
             ambiguity.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT
             for ambiguity in spec.ambiguities
         )
         unit_suffix = " *(unit unspecified in input)*" if has_unit_ambiguity else f" {spec.assumed_quantity_unit}"
-
-        lines: List[str] = [
+        return [
             f"# Procurement Evaluation Report: {raw.id}",
             "",
             "## 1. Requirement Summary",
@@ -40,22 +63,6 @@ class ExportService:
             "",
             "## 2. Technical Ambiguities and Stated Assumptions",
         ]
-
-        lines.extend(self._format_ambiguities_markdown(spec.ambiguities))
-        lines.extend(self._format_vendor_shortlist_markdown(result))
-
-        if result.llm_synthesis:
-            lines.extend([
-                f"## 4. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
-                result.llm_synthesis,
-                "",
-            ])
-
-        lines.extend([
-            "## 5. Audit Trail and Agentic State Transitions",
-            *(f"- `{entry}`" for entry in result.audit_trail),
-        ])
-        return "\n".join(lines)
 
     @staticmethod
     def _format_ambiguities_markdown(ambiguities: List[AmbiguityItem]) -> List[str]:
@@ -80,10 +87,46 @@ class ExportService:
             lines.append("")
         return lines
 
+    @staticmethod
+    def _format_search_queries_markdown(queries: Dict[str, List[str]]) -> List[str]:
+        """Format synthesized multi-tier search queries into markdown."""
+        lines: List[str] = [
+            "## 3. Synthesized Multi-Tier Search Strategy",
+            "",
+        ]
+        tier_titles = {
+            "ahmedabad": "Ahmedabad Local Queries",
+            "india_wide": "India-Wide Queries",
+            "global": "Global / Import Queries",
+        }
+        for tier_key, title in tier_titles.items():
+            tier_queries = queries.get(tier_key, [])
+            if tier_queries:
+                lines.append(f"### {title}")
+                for query_item in tier_queries:
+                    lines.append(f"- `{query_item}`")
+                lines.append("")
+        return lines
+
+    @staticmethod
+    def _format_exclusion_log_markdown(exclusion_log: List[Dict[str, str]]) -> List[str]:
+        """Format candidate supplier exclusion audit log into markdown."""
+        lines: List[str] = [
+            "## 5. Candidate Supplier Disqualification Log",
+            "",
+        ]
+        for exclusion in exclusion_log:
+            vendor_name = exclusion.get("vendor_name", "Unknown Supplier")
+            tier = exclusion.get("tier", "UNKNOWN")
+            reason = exclusion.get("disqualification_reason", "Unspecified reason")
+            lines.append(f"- **{vendor_name}** ({tier}): {reason}")
+        lines.append("")
+        return lines
+
     def _format_vendor_shortlist_markdown(self, result: ProcurementResult) -> List[str]:
         """Format 3-tier vendor shortlists."""
         return [
-            "## 3. Evidence-Based Vendor Shortlist",
+            "## 4. Evidence-Based Vendor Shortlist",
             "",
             "### Tier 1: Ahmedabad Local Vendors",
             *(self._format_vendor_markdown(vendor) for vendor in result.ahmedabad_vendors),
