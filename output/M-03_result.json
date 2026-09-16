@@ -1,7 +1,7 @@
 {
   "material_id": "M-03",
-  "run_id": "RUN-M-03-fae17c31",
-  "timestamp": "2026-09-16T03:16:06.196203+00:00",
+  "run_id": "RUN-M-03-810436d5",
+  "timestamp": "2026-09-16T03:34:47.774142+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -15,6 +15,7 @@
     "parsed_wall_thickness_mm": 4.8,
     "parsed_standard": "IS 1239",
     "parsed_class": null,
+    "parsed_steel_grade": null,
     "is_erw": true,
     "assumed_quantity_unit": "meters",
     "estimated_linear_weight_kg_m": 10.026,
@@ -562,7 +563,7 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T03:16:06.196203+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T03:34:47.774142+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 1 technical/quantity ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",

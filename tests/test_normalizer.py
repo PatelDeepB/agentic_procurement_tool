@@ -121,3 +121,117 @@ def test_should_not_flag_ambiguity_when_unit_is_explicitly_specified():
     types = [a.ambiguity_type for a in spec.ambiguities]
     assert AmbiguityType.UNSPECIFIED_QUANTITY_UNIT not in types
 
+
+def test_should_generalize_to_arbitrary_pipe_sizes_without_hardcoding():
+    """Verify that normalizer dynamically resolves arbitrary pipe dimensions (e.g. DN 100, DN 25)."""
+    # Arrange
+    agent = NormalizerAgent()
+    req_dn100 = MaterialInput(
+        id="T-CUSTOM-01",
+        material="DN 100 Class B MS ERW pipe",
+        quantity=800.0,
+        location="Ahmedabad, Gujarat, India",
+    )
+    req_dn25 = MaterialInput(
+        id="T-CUSTOM-02",
+        material="DN 25 Class A pipe",
+        quantity=300.0,
+        location="Ahmedabad, Gujarat, India",
+    )
+
+    # Act
+    spec_100 = agent.normalize(req_dn100)
+    spec_25 = agent.normalize(req_dn25)
+
+    # Assert
+    assert spec_100.parsed_dn_mm == 100
+    assert spec_100.parsed_class == "Class B"
+    assert spec_100.parsed_od_mm == 114.3
+    assert spec_100.parsed_wall_thickness_mm == 4.5
+
+    assert spec_25.parsed_dn_mm == 25
+    assert spec_25.parsed_class == "Class A"
+    assert spec_25.parsed_od_mm == 33.7
+    assert spec_25.parsed_wall_thickness_mm == 2.6
+
+
+def test_should_safely_parse_unrecognized_or_aliased_ambiguity_types():
+    """Verify safe enum parsing handles synonyms, casing, and unknown strings gracefully."""
+    # Arrange / Act
+    t1 = NormalizerAgent._safe_parse_ambiguity_type("OD_VS_NB")
+    t2 = NormalizerAgent._safe_parse_ambiguity_type("WALL_THICKNESS_DEVIATION")
+    t3 = NormalizerAgent._safe_parse_ambiguity_type("UNKNOWN_CUSTOM_STRING")
+    s1 = NormalizerAgent._safe_parse_severity("HIGH")
+    s2 = NormalizerAgent._safe_parse_severity("LOW")
+
+    # Assert
+    assert t1 == AmbiguityType.NOMINAL_BORE_VS_OUTSIDE_DIAMETER
+    assert t2 == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+    assert t3 == AmbiguityType.OTHER
+    assert s1.value == "CRITICAL"
+    assert s2.value == "INFO"
+
+
+def test_should_correct_hallucinated_wall_thickness_ambiguity_via_tool():
+    """Verify bidirectional validation removes false-positive non-standard wall ambiguity."""
+    # Arrange
+    from app.domain.models import AmbiguityItem, AmbiguitySeverity, UnifiedNormalizerLLMResponse
+
+    agent = NormalizerAgent()
+    llm_data = UnifiedNormalizerLLMResponse(
+        parsed_dn_mm=40,
+        parsed_od_mm=48.3,
+        parsed_wall_thickness_mm=3.25,  # Standard Class B for DN 40
+        has_quantity_unit=True,
+        detected_unit="meters",
+    )
+    # Simulate LLM hallucinating a non-standard wall error
+    ambiguities = [
+        AmbiguityItem(
+            field="material",
+            ambiguity_type=AmbiguityType.NON_STANDARD_WALL_THICKNESS,
+            severity=AmbiguitySeverity.WARNING,
+            description="Hallucinated: 3.25 mm is non-standard",
+            stated_assumption="Custom run",
+            clarification_prompt="Confirm thickness",
+        )
+    ]
+
+    # Act
+    agent._verify_wall_thickness_via_tool(llm_data, ambiguities)
+
+    # Assert
+    assert len(ambiguities) == 0, "Tool must remove false-positive hallucinated ambiguity"
+
+
+def test_should_detect_abbreviated_units_such_as_mtrs_and_pcs():
+    """Verify detection of standard industrial unit abbreviations (mtr, mtrs, pcs, mt)."""
+    # Arrange
+    has_m, u_m = NormalizerAgent._detect_explicit_unit("1000 mtrs ERW pipe")
+    has_pcs, u_pcs = NormalizerAgent._detect_explicit_unit("500 pcs DN 50 pipe")
+    has_mt, u_mt = NormalizerAgent._detect_explicit_unit("50 MT MS pipe")
+
+    # Assert
+    assert has_m is True and u_m == "meters"
+    assert has_pcs is True and u_pcs == "pieces"
+    assert has_mt is True and u_mt == "metric_tons"
+
+
+def test_should_extract_steel_grade_when_specified():
+    """Verify extraction of steel grade such as Fe 330 or Fe 410."""
+    # Arrange
+    agent = NormalizerAgent()
+    req = MaterialInput(
+        id="M-05",
+        material="DN 50 MS ERW Pipe Fe 410 Class B",
+        quantity=500.0,
+        location="Ahmedabad, Gujarat, India",
+    )
+
+    # Act
+    spec = agent.normalize(req)
+
+    # Assert
+    assert spec.parsed_steel_grade in ["FE 410", "FE410"]
+
+

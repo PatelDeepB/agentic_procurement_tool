@@ -2,6 +2,17 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.4.0] - 2026-09-16
+
+### Added
+- **Hardened Ambiguity Detection & Generalized Normalizer (`app/agents/normalizer.py`, `app/domain/models.py`, `app/llm/client.py`)**:
+  - Replaced hardcoded fallback checks with generalized regex and dynamic IS 1239 table lookups covering all nominal bores DN 15 to DN 150.
+  - Injected domain engineering reference tables (IS 1239 schedules) directly into the LLM system prompt to prevent hallucination.
+  - Implemented safe enum parsing helpers (`_safe_parse_ambiguity_type` and `_safe_parse_severity`) with synonym mapping to prevent runtime crashes.
+  - Added bidirectional wall thickness verification: evaluates against deterministic ground truth, adding missed deviations and dismissing false-positive hallucinations.
+  - Expanded unit abbreviation detection (`m`, `mtr`, `mtrs`, `pcs`, `mt`, `ft`, `bundle`) and steel tensile grade extraction (`parsed_steel_grade`).
+  - Added 5 new edge-case tests in `tests/test_normalizer.py`, bringing total test count to 33 passing tests in 0.67s.
+
 ## [1.3.0] - 2026-09-16
 
 ### Added

@@ -22,6 +22,7 @@ class AmbiguityType(str, Enum):
     NOMINAL_BORE_VS_OUTSIDE_DIAMETER = "NOMINAL_BORE_VS_OUTSIDE_DIAMETER"
     NON_STANDARD_WALL_THICKNESS = "NON_STANDARD_WALL_THICKNESS"
     UNSPECIFIED_STEEL_GRADE = "UNSPECIFIED_STEEL_GRADE"
+    OTHER = "OTHER"
 
 
 class VendorTier(str, Enum):
@@ -52,7 +53,7 @@ class MaterialInput(BaseModel):
 
     Field 1: id - Unique material requirement identifier (e.g. M-01)
     Field 2: material - Material description and dimensions
-    Field 3: quantity - Quantity required (unitless number per assessment spec)
+    Field 3: quantity - Quantity required (intentionally unitless to evaluate ambiguity detection)
     Field 4: location - Destination procurement location
     """
     id: str = Field(..., description="Unique material identifier, e.g. M-01")
@@ -91,6 +92,7 @@ class UnifiedNormalizerLLMResponse(BaseModel):
     parsed_wall_thickness_mm: Optional[float] = Field(default=None, description="Wall thickness in mm")
     parsed_standard: Optional[str] = Field(default=None, description="Standard code (e.g. IS 1239)")
     parsed_class: Optional[str] = Field(default=None, description="Class (e.g. Class B)")
+    parsed_steel_grade: Optional[str] = Field(default=None, description="Steel grade (e.g. Fe 330, Fe 410, Grade B)")
     is_erw: bool = Field(default=True, description="True if ERW process")
     has_quantity_unit: bool = Field(default=False, description="True if explicit physical unit exists")
     detected_unit: Optional[str] = Field(default=None, description="Detected unit name if any")
@@ -108,6 +110,7 @@ class NormalizedSpecification(BaseModel):
     parsed_wall_thickness_mm: Optional[float] = None
     parsed_standard: Optional[str] = None
     parsed_class: Optional[str] = None
+    parsed_steel_grade: Optional[str] = None
     is_erw: bool = True
     assumed_quantity_unit: str = "meters"
     estimated_linear_weight_kg_m: Optional[float] = None

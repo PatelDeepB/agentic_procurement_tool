@@ -1,7 +1,7 @@
 {
   "material_id": "M-02",
-  "run_id": "RUN-M-02-c891978f",
-  "timestamp": "2026-09-16T03:15:53.000535+00:00",
+  "run_id": "RUN-M-02-5da345c6",
+  "timestamp": "2026-09-16T03:34:30.193917+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -11,14 +11,15 @@
       "location": "Ahmedabad, Gujarat, India"
     },
     "parsed_dn_mm": 40,
-    "parsed_od_mm": 60.3,
-    "parsed_wall_thickness_mm": null,
+    "parsed_od_mm": 48.3,
+    "parsed_wall_thickness_mm": 3.25,
     "parsed_standard": null,
     "parsed_class": "Class B",
+    "parsed_steel_grade": null,
     "is_erw": true,
     "assumed_quantity_unit": "meters",
-    "estimated_linear_weight_kg_m": null,
-    "total_estimated_metric_tons": null,
+    "estimated_linear_weight_kg_m": 3.611,
+    "total_estimated_metric_tons": 1.806,
     "total_estimated_pieces_6m": 83,
     "ambiguities": [
       {
@@ -29,16 +30,16 @@
         "stated_assumption": "Assumed quantity represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.",
         "clarification_prompt": "Please confirm whether quantity is linear meters, metric tons, or standard 6m pipe pieces.",
         "unit_conversions": {
-          "linear_weight_kg_per_meter": 0.0,
+          "linear_weight_kg_per_meter": 3.611,
           "if_assumed_meters": {
             "total_length_meters": 500.0,
-            "estimated_weight_metric_tons": 0.0,
+            "estimated_weight_metric_tons": 1.806,
             "standard_6m_pieces": 83
           },
           "if_assumed_pieces_6m": {
             "total_pieces": 500,
             "total_length_meters": 3000.0,
-            "estimated_weight_metric_tons": 0.0
+            "estimated_weight_metric_tons": 10.833
           }
         }
       },
@@ -534,7 +535,7 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T03:15:53.000535+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T03:34:30.193917+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",

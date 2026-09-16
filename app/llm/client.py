@@ -9,6 +9,7 @@ from abc import ABC, abstractmethod
 import json
 import logging
 import os
+import re
 from typing import Any, Dict, Optional
 import httpx
 
@@ -186,68 +187,125 @@ class MockLLMClient(BaseLLMClient):
 
     def _mock_normalize_response(self, prompt: str) -> str:
         """Simulate unified single-call LLM response for specification normalization."""
+        from app.tools.procurement_tools import (
+            tool_lookup_is1239_spec,
+            tool_evaluate_wall_thickness,
+        )
+
         lower_prompt = prompt.lower()
-        is_40mm = "40 mm" in lower_prompt
-        is_50mm = "50" in lower_prompt or "60.3" in lower_prompt
-        is_80mm = "80" in lower_prompt or "89.5" in lower_prompt
 
         # Dynamic unit detection
-        has_explicit_unit = any(
-            u in lower_prompt for u in ["meter", "metre", " ton", "tonne", "piece", "length", "bundle", "kg"]
+        unit_pattern = (
+            r"\b(m|mtr|mtrs|meter|meters|metre|metres|"
+            r"ft|feet|pcs|piece|pieces|nos|numbers|"
+            r"mt|tonne|tonnes|ton|tons|bundle|bundles|length|lengths|kg)\b"
         )
-        detected_unit = "meters" if "meter" in lower_prompt else None
+        unit_match = re.search(unit_pattern, lower_prompt)
+        has_explicit_unit = bool(unit_match)
+        detected_unit = None
+        if unit_match:
+            raw_u = unit_match.group(1)
+            if raw_u in ["m", "mtr", "mtrs", "meter", "meters", "metre", "metres"]:
+                detected_unit = "meters"
+            elif raw_u in ["pcs", "piece", "pieces", "nos", "numbers"]:
+                detected_unit = "pieces"
+            elif raw_u in ["mt", "tonne", "tonnes", "ton", "tons"]:
+                detected_unit = "metric_tons"
+            else:
+                detected_unit = raw_u
 
-        dn = 40 if is_40mm else (50 if is_50mm else (80 if is_80mm else None))
-        od = 60.3 if is_50mm else (89.5 if is_80mm else None)
-        wall = 5.5 if (is_50mm and "5.5" in lower_prompt) else (4.8 if is_80mm else None)
-        pipe_class = "Class B" if "class b" in lower_prompt else ("Class C" if "class c" in lower_prompt else None)
+        # Parse standard, class, steel grade
+        pipe_class = (
+            "Class B" if "class b" in lower_prompt
+            else ("Class C" if "class c" in lower_prompt
+            else ("Class A" if "class a" in lower_prompt else None))
+        )
+        standard = "IS 1239" if "1239" in lower_prompt else ("ASTM A53" if "a53" in lower_prompt else None)
+        grade_match = re.search(r"\b(fe\s*330|fe\s*410|grade\s*[ab]|e250)\b", lower_prompt)
+        steel_grade = grade_match.group(1).upper() if grade_match else None
+
+        # Parse dimensions (OD x wall)
+        dn = None
+        od = None
+        wall = None
+
+        dim_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:mm)?\s*[xX*]\s*(\d+(?:\.\d+)?)\s*mm", lower_prompt)
+        if dim_match:
+            od = float(dim_match.group(1))
+            wall = float(dim_match.group(2))
+
+        # Parse DN
+        dn_match = re.search(r"\b(?:dn|nb)\s*(\d+)\b", lower_prompt)
+        if dn_match:
+            dn = int(dn_match.group(1))
+        elif od:
+            spec_dn = tool_lookup_is1239_spec(int(od))
+            if spec_dn.get("found"):
+                dn = int(od)
+            else:
+                for cand in [15, 20, 25, 32, 40, 50, 65, 80, 100, 125, 150]:
+                    s = tool_lookup_is1239_spec(cand)
+                    if s.get("found") and abs(s["nominal_od_mm"] - od) < 1.5:
+                        dn = cand
+                        break
 
         technical_ambiguities = []
-        if is_40mm:
-            technical_ambiguities.append({
-                "field": "material",
-                "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
-                "severity": "WARNING",
-                "description": (
-                    "Requirement specifies '40 mm MS ERW, Class B pipe'. In piping terminology, "
-                    "'40 mm' can refer to Nominal Bore (DN 40 / 1.5 inch NB, actual OD 48.3 mm) "
-                    "or strict Outside Diameter (40 mm OD). Standard IS 1239 Part 1 does not "
-                    "specify an OD of 40 mm; DN 40 pipes have an OD of 48.3 mm."
-                ),
-                "stated_assumption": (
-                    "Assumed DN 40 Nominal Bore (OD 48.3 mm, Class B wall thickness 3.25 mm) "
-                    "in accordance with standard Indian manufacturing conventions."
-                ),
-                "clarification_prompt": (
-                    "Please confirm whether '40 mm' denotes Nominal Bore (DN 40, actual OD 48.3 mm) "
-                    "or a non-standard 40 mm outside diameter."
-                ),
-            })
-        elif is_50mm and wall and wall > 4.5:
-            technical_ambiguities.append({
-                "field": "material",
-                "ambiguity_type": "NON_STANDARD_WALL_THICKNESS",
-                "severity": "WARNING",
-                "description": (
-                    f"Specified wall thickness {wall} mm for DN {dn} is non-standard "
-                    "under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50."
-                ),
-                "stated_assumption": (
-                    f"Assumed buyer requires custom heavy-wall ERW pipe ({wall} mm). "
-                    "Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80."
-                ),
-                "clarification_prompt": (
-                    f"Please confirm if {wall} mm wall is mandatory (requiring custom mill run "
-                    f"or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable."
-                ),
-            })
+        if not dn and not od:
+            size_match = re.search(r"\b(\d+)\s*mm\b", lower_prompt)
+            if size_match:
+                size_val = int(size_match.group(1))
+                spec_cand = tool_lookup_is1239_spec(size_val)
+                if spec_cand.get("found"):
+                    dn = size_val
+                    if spec_cand["nominal_od_mm"] != float(size_val):
+                        technical_ambiguities.append({
+                            "field": "material",
+                            "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
+                            "severity": "WARNING",
+                            "description": (
+                                f"Requirement specifies '{size_val} mm MS ERW, {pipe_class or 'Class B'} pipe'. In piping terminology, "
+                                f"'{size_val} mm' can refer to Nominal Bore (DN {size_val} / 1.5 inch NB, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or strict Outside Diameter ({size_val} mm OD). Standard IS 1239 Part 1 does not "
+                                f"specify an OD of {size_val} mm; DN {size_val} pipes have an OD of {spec_cand['nominal_od_mm']} mm."
+                            ),
+                            "stated_assumption": (
+                                f"Assumed DN {size_val} Nominal Bore (OD {spec_cand['nominal_od_mm']} mm, "
+                                f"{pipe_class or 'Class B'} wall thickness 3.25 mm) in accordance with standard Indian manufacturing conventions."
+                            ),
+                            "clarification_prompt": (
+                                f"Please confirm whether '{size_val} mm' denotes Nominal Bore (DN {size_val}, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or a non-standard {size_val} mm outside diameter."
+                            ),
+                        })
+
+        if dn and wall:
+            comp = tool_evaluate_wall_thickness(dn, wall)
+            if not comp.get("is_standard", True):
+                technical_ambiguities.append({
+                    "field": "material",
+                    "ambiguity_type": "NON_STANDARD_WALL_THICKNESS",
+                    "severity": "WARNING",
+                    "description": (
+                        f"Specified wall thickness {wall} mm for DN {dn} is non-standard "
+                        f"under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50."
+                    ),
+                    "stated_assumption": (
+                        f"Assumed buyer requires custom heavy-wall ERW pipe ({wall} mm). "
+                        "Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80."
+                    ),
+                    "clarification_prompt": (
+                        f"Please confirm if {wall} mm wall is mandatory (requiring custom mill run "
+                        f"or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable."
+                    ),
+                })
 
         response = {
             "parsed_dn_mm": dn,
             "parsed_od_mm": od,
             "parsed_wall_thickness_mm": wall,
-            "parsed_standard": "IS 1239" if "1239" in lower_prompt else None,
+            "parsed_standard": standard,
             "parsed_class": pipe_class,
+            "parsed_steel_grade": steel_grade,
             "is_erw": "erw" in lower_prompt,
             "has_quantity_unit": has_explicit_unit,
             "detected_unit": detected_unit,
