@@ -53,16 +53,16 @@ def display_result_summary(result: ProcurementResult) -> None:
 
     print("\n[+] SHORTLISTED VENDORS BY TIER:")
     print(f"  1. Ahmedabad Local: {len(result.ahmedabad_vendors)} vendors")
-    for v in result.ahmedabad_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.ahmedabad_vendors:
+        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  2. India-wide: {len(result.india_vendors)} vendors")
-    for v in result.india_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.india_vendors:
+        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  3. Global: {len(result.global_vendors)} vendors")
-    for v in result.global_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.global_vendors:
+        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
 
 def export_result_files(
@@ -103,7 +103,11 @@ def main() -> None:
     if args.material == "all":
         inputs_to_run.extend(service.get_default_demonstrations())
     elif args.material:
-        inputs_to_run = [d for d in service.get_default_demonstrations() if d.id == args.material]
+        inputs_to_run = [
+            material_item
+            for material_item in service.get_default_demonstrations()
+            if material_item.id == args.material
+        ]
     elif args.desc and args.quantity:
         inputs_to_run.append(
             MaterialInput(

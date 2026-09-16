@@ -131,8 +131,8 @@ class NormalizerAgent:
         compliance = tool_evaluate_wall_thickness(dn, wall)
         is_standard = compliance.get("is_standard", True)
         indices = [
-            i for i, a in enumerate(ambiguities)
-            if a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            index for index, ambiguity in enumerate(ambiguities)
+            if ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
         ]
 
         if is_standard and indices:
@@ -206,7 +206,7 @@ class NormalizerAgent:
         """Append assumption and prompt when pipe class is omitted and defaulted to Class B."""
         if not (is_class_assumed and eff_wall > 0.0):
             return
-        already_flagged = any("class" in a.description.lower() for a in ambiguities)
+        already_flagged = any("class" in ambiguity.description.lower() for ambiguity in ambiguities)
         if already_flagged:
             return
         ambiguities.append(

@@ -1,5 +1,7 @@
 """Unit tests for evaluator and scorer agents."""
 
+from typing import Any, Dict, List
+
 from app.agents.evaluator import EvaluatorAgent
 from app.agents.normalizer import NormalizerAgent
 from app.agents.scorer import ScorerAgent
@@ -45,9 +47,37 @@ def test_should_classify_exact_match_for_is1239_certified_producer():
 
     # Assert
     assert match_cat == MatchCategory.EXACT_MATCH
-    assert any("[SOURCED]" in f for f in evidence.sourced_facts)
-    assert any("[ASSUMPTION]" in a for a in evidence.assumptions)
-    assert any("[NEEDS_CONFIRMATION_RFQ]" in r for r in evidence.needs_confirmation_rfq)
+    assert any("[SOURCED]" in fact for fact in evidence.sourced_facts)
+    assert any("[ASSUMPTION]" in assumption for assumption in evidence.assumptions)
+    assert any("[NEEDS_CONFIRMATION_RFQ]" in rfq_item for rfq_item in evidence.needs_confirmation_rfq)
+
+
+def _create_mock_vendor_dict(
+    vendor_name: str,
+    tier: str,
+    vendor_type: str,
+    supported_classes: List[str],
+    max_wall_thickness_mm: float,
+    certifications: List[str],
+    location: str,
+    stock_evidence: str,
+) -> Dict[str, Any]:
+    """Helper fixture to construct mock vendor dictionaries under 40 lines."""
+    return {
+        "vendor_name": vendor_name,
+        "tier": tier,
+        "vendor_type": vendor_type,
+        "supported_standards": ["IS 1239"],
+        "supported_classes": supported_classes,
+        "max_wall_thickness_mm": max_wall_thickness_mm,
+        "certifications": certifications,
+        "location": location,
+        "address": f"{location} Industrial Area",
+        "stock_or_capacity_evidence": stock_evidence,
+        "delivery_evidence": "Depot dispatch",
+        "catalog_spec": "IS 1239 compliant pipes",
+        "source_url": f"https://{vendor_name.lower().replace(' ', '')}.com",
+    }
 
 
 def test_should_compute_valid_confidence_score_and_breakdown():
@@ -65,27 +95,16 @@ def test_should_compute_valid_confidence_score_and_breakdown():
             location="Ahmedabad, Gujarat, India",
         )
     )
-    raw_vendor = {
-        "vendor_name": "Jindal Pipes Limited",
-        "tier": "INDIA_OUTSIDE_AHMEDABAD",
-        "vendor_type": "PRIMARY_MANUFACTURER",
-        "supported_standards": ["IS 1239"],
-        "supported_classes": ["Class C"],
-        "max_wall_thickness_mm": 10.0,
-        "certifications": ["IS 1239", "ISO 9001:2015"],
-        "location": "Ghaziabad",
-        "address": "Pipe House",
-        "stock_or_capacity_evidence": "250,000 MT",
-        "delivery_evidence": "Ahmedabad depot",
-        "catalog_spec": "IS 1239 Class C",
-        "source_url": "https://jindal.com",
-        "contact_email": "sales@jindal.com",
-        "contact_phone": "+91-11-4139-9999",
-    }
-    match_cat, evidence, unresolved, next_step = evaluator.evaluate_vendor(raw_vendor, spec)
+    raw_vendor = _create_mock_vendor_dict(
+        "Jindal Pipes Limited", "INDIA_OUTSIDE_AHMEDABAD", "PRIMARY_MANUFACTURER",
+        ["Class C"], 10.0, ["IS 1239", "ISO 9001:2015"], "Ghaziabad", "250,000 MT",
+    )
+    raw_vendor["contact_email"] = "sales@jindal.com"
+    raw_vendor["contact_phone"] = "+91-11-4139-9999"
+    match_category, evidence, unresolved, next_step = evaluator.evaluate_vendor(raw_vendor, spec)
     candidates = [{
         "raw_vendor": raw_vendor,
-        "match_category": match_cat,
+        "match_category": match_category,
         "evidence": evidence,
         "unresolved_issues": unresolved,
         "recommended_next_step": next_step,
@@ -98,11 +117,8 @@ def test_should_compute_valid_confidence_score_and_breakdown():
     assert len(ranked) == 1
     vendor = ranked[0]
     assert 0.0 <= vendor.confidence_score <= 100.0
-    assert "technical_fit" in vendor.score_breakdown
-    assert "certifications" in vendor.score_breakdown
-    assert "capacity_feasibility" in vendor.score_breakdown
-    assert "geographic_logistics" in vendor.score_breakdown
-    assert "traceability" in vendor.score_breakdown
+    for key in ["technical_fit", "certifications", "capacity_feasibility", "geographic_logistics", "traceability"]:
+        assert key in vendor.score_breakdown
 
 
 def test_should_deduplicate_identical_vendors():
@@ -120,29 +136,21 @@ def test_should_deduplicate_identical_vendors():
             location="Ahmedabad, Gujarat, India",
         )
     )
-    raw_vendor = {
-        "vendor_name": "Gujarat Infra Pipes Pvt Ltd",
-        "tier": "AHMEDABAD",
-        "vendor_type": "AUTHORIZED_DISTRIBUTOR",
-        "supported_standards": ["IS 1239"],
-        "supported_classes": ["Class A", "Class B", "Class C"],
-        "max_wall_thickness_mm": 5.4,
-        "certifications": ["ISO 9001"],
-        "location": "Ahmedabad",
-        "address": "Odhav GIDC",
-        "stock_or_capacity_evidence": "2,500 MT",
-        "delivery_evidence": "Same day",
-        "catalog_spec": "ERW pipes",
-        "source_url": "https://gujaratinfra.com",
+    raw_vendor = _create_mock_vendor_dict(
+        "Gujarat Infra Pipes Pvt Ltd", "AHMEDABAD", "AUTHORIZED_DISTRIBUTOR",
+        ["Class A", "Class B", "Class C"], 5.4, ["ISO 9001"], "Ahmedabad", "2,500 MT",
+    )
+    match_category, evidence, unresolved, next_step = evaluator.evaluate_vendor(raw_vendor, spec)
+    candidate_item = {
+        "raw_vendor": raw_vendor,
+        "match_category": match_category,
+        "evidence": evidence,
+        "unresolved_issues": unresolved,
+        "recommended_next_step": next_step,
     }
-    match_cat, evidence, unresolved, next_step = evaluator.evaluate_vendor(raw_vendor, spec)
-    duplicate_candidates = [
-        {"raw_vendor": raw_vendor, "match_category": match_cat, "evidence": evidence, "unresolved_issues": unresolved, "recommended_next_step": next_step},
-        {"raw_vendor": raw_vendor, "match_category": match_cat, "evidence": evidence, "unresolved_issues": unresolved, "recommended_next_step": next_step},
-    ]
 
     # Act
-    ranked = scorer.score_and_rank(duplicate_candidates, spec)
+    ranked = scorer.score_and_rank([candidate_item, candidate_item], spec)
 
     # Assert
     assert len(ranked) == 1
@@ -182,7 +190,11 @@ def test_should_not_flag_custom_heavy_wall_assumption_for_standard_pipe_even_if_
     _, evidence, _, _ = evaluator.evaluate_vendor(raw_vendor, spec_dn100)
 
     # Assert: Should NOT assume custom rolling because 5.4 mm is standard for DN 100
-    heavy_assumptions = [a for a in evidence.assumptions if "heavy gauge" in a.lower() or "schedule 80" in a.lower()]
+    heavy_assumptions = [
+        assumption
+        for assumption in evidence.assumptions
+        if "heavy gauge" in assumption.lower() or "schedule 80" in assumption.lower()
+    ]
     assert len(heavy_assumptions) == 0, "Standard DN 100 Class C pipe (5.4 mm) must not be flagged as custom heavy gauge"
 
 

@@ -5,8 +5,8 @@
 - **Material Description**: ERW pipe, DN 50, 60.3 x 5.5 mm, IS 1239
 - **Specified Quantity**: 1000.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-01-87cc4a9c`
-- **Evaluation Timestamp**: 2026-09-16T04:18:23.600177+00:00
+- **Run ID**: `RUN-M-01-13c9c341`
+- **Evaluation Timestamp**: 2026-09-16T04:31:52.253067+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -16,7 +16,7 @@
 - **Weight & Piece Conversion**: 7.433 MT (~167 standard 6-meter pieces).
 
 ### [WARNING] NON_STANDARD_WALL_THICKNESS
-- **Issue**: Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Thickness 5.5 mm deviates from standard IS 1239 Part 1 schedules (Class A: 3.25 mm, Class B: 3.65 mm, Class C Heavy: 4.5 mm). May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard.
+- **Issue**: Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Thickness 5.5 mm deviates from standard IS 1239 Part 1 schedules (Class A: 2.9 mm, Class B: 3.65 mm, Class C Heavy: 4.5 mm). May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard.
 - **Agent Assumption**: Assumed buyer requires custom heavy-wall ERW pipe (5.5 mm). Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80.
 - **Buyer Clarification Prompt**: `Please confirm if 5.5 mm wall is mandatory (requiring custom mill run or ASTM A53 Schedule 80) or if standard IS 1239 Class C is acceptable.`
 
@@ -348,7 +348,7 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- `[2026-09-16T04:18:23.600177+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.`
+- `[2026-09-16T04:31:52.253067+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.`
 - `Stage 1 Complete: Normalized specs. Detected 2 ambiguities.`
 - `Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.`
 - `Stage 3 Complete: Retrieved 10 candidate supplier profiles.`

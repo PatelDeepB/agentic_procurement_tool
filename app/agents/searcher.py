@@ -26,8 +26,8 @@ class SearchAgent:
         """Load vendor dataset from disk."""
         if not self.registry_path.exists():
             return []
-        with open(self.registry_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        with open(self.registry_path, "r", encoding="utf-8") as registry_file:
+            return json.load(registry_file)
 
     def generate_search_queries(self, spec: NormalizedSpecification) -> Dict[str, List[str]]:
         """Generate targeted search queries for each geographic tier."""

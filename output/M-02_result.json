@@ -1,7 +1,7 @@
 {
   "material_id": "M-02",
-  "run_id": "RUN-M-02-4868b81f",
-  "timestamp": "2026-09-16T04:18:33.412740+00:00",
+  "run_id": "RUN-M-02-329cd71f",
+  "timestamp": "2026-09-16T04:31:52.778063+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -545,7 +545,7 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:18:33.412740+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T04:31:52.778063+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs. Detected 2 ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",

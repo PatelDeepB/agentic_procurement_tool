@@ -27,6 +27,7 @@ class GeminiLLMClient(BaseLLMClient):
         """Initialize Gemini client with API key and default free models."""
         self.api_key = api_key
         self.model_name = model_name or self.PRIMARY_MODEL
+        self.is_service_available: bool = True
 
     def _call_gemini_api(self, model: str, system_prompt: str, user_prompt: str, temperature: float) -> str:
         """Make HTTP POST to Google Gemini REST endpoint."""
@@ -38,10 +39,12 @@ class GeminiLLMClient(BaseLLMClient):
             "contents": [{"parts": [{"text": f"{system_prompt}\n\nTask:\n{user_prompt}"}]}],
             "generationConfig": {"temperature": temperature},
         }
-        with httpx.Client(timeout=30.0) as client:
-            res = client.post(url, json=payload)
-            res.raise_for_status()
-            data = res.json()
+        with httpx.Client(timeout=10.0) as client:
+            response = client.post(url, json=payload)
+            if response.status_code in [400, 401, 403, 404]:
+                self.is_service_available = False
+            response.raise_for_status()
+            data = response.json()
             return data["candidates"][0]["content"]["parts"][0]["text"]
 
     def generate_completion(
@@ -51,11 +54,14 @@ class GeminiLLMClient(BaseLLMClient):
         temperature: float = 0.0,
     ) -> str:
         """Generate completion trying primary model then backup with offline fallback."""
+        if not self.is_service_available:
+            return MockLLMClient().generate_completion(system_prompt, user_prompt, temperature)
+
         try:
             return self._call_gemini_api(self.model_name, system_prompt, user_prompt, temperature)
         except Exception as primary_err:
             logger.warning(f"Primary Gemini model '{self.model_name}' encountered error: {primary_err}")
-            if self.model_name != self.BACKUP_MODEL:
+            if self.is_service_available and self.model_name != self.BACKUP_MODEL:
                 try:
                     logger.info(f"Retrying with backup free model '{self.BACKUP_MODEL}'...")
                     return self._call_gemini_api(self.BACKUP_MODEL, system_prompt, user_prompt, temperature)

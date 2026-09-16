@@ -22,8 +22,8 @@ class ExportService:
         raw = spec.raw_input
 
         has_unit_ambiguity = any(
-            a.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT
-            for a in spec.ambiguities
+            ambiguity.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT
+            for ambiguity in spec.ambiguities
         )
         unit_suffix = " *(unit unspecified in input)*" if has_unit_ambiguity else f" {spec.assumed_quantity_unit}"
 
@@ -86,13 +86,13 @@ class ExportService:
             "## 3. Evidence-Based Vendor Shortlist",
             "",
             "### Tier 1: Ahmedabad Local Vendors",
-            *(self._format_vendor_markdown(v) for v in result.ahmedabad_vendors),
+            *(self._format_vendor_markdown(vendor) for vendor in result.ahmedabad_vendors),
             "",
             "### Tier 2: India-Based Vendors (Outside Ahmedabad)",
-            *(self._format_vendor_markdown(v) for v in result.india_vendors),
+            *(self._format_vendor_markdown(vendor) for vendor in result.india_vendors),
             "",
             "### Tier 3: International / Global Vendors",
-            *(self._format_vendor_markdown(v) for v in result.global_vendors),
+            *(self._format_vendor_markdown(vendor) for vendor in result.global_vendors),
             "",
         ]
 
@@ -100,9 +100,9 @@ class ExportService:
     def _format_vendor_markdown(vendor: EvaluatedVendor) -> str:
         """Helper to format a single vendor's evidence block in markdown."""
         ev = vendor.evidence
-        facts = "\n".join(f"  - {f}" for f in ev.sourced_facts)
-        assumptions = "\n".join(f"  - {a}" for a in ev.assumptions)
-        rfq = "\n".join(f"  - {r}" for r in ev.needs_confirmation_rfq)
+        facts = "\n".join(f"  - {fact}" for fact in ev.sourced_facts)
+        assumptions = "\n".join(f"  - {assumption}" for assumption in ev.assumptions)
+        rfq = "\n".join(f"  - {rfq_item}" for rfq_item in ev.needs_confirmation_rfq)
         notes_line = f"- **Technical Audit Notes**: {ev.evaluation_notes}\n" if ev.evaluation_notes else ""
 
         return (
@@ -141,21 +141,21 @@ class ExportService:
         writer.writeheader()
 
         all_vendors = result.ahmedabad_vendors + result.india_vendors + result.global_vendors
-        for v in all_vendors:
+        for vendor in all_vendors:
             writer.writerow({
                 "material_id": result.material_id,
-                "tier": v.tier.value,
-                "rank": v.rank,
-                "vendor_name": v.vendor_name,
-                "location": v.location,
-                "country": v.country,
-                "vendor_type": v.vendor_type.value,
-                "match_category": v.match_category.value,
-                "confidence_score": v.confidence_score,
-                "contact_email": v.evidence.contact_email or "",
-                "contact_phone": v.evidence.contact_phone or "",
-                "source_url": v.evidence.source_url,
-                "recommended_next_step": v.recommended_next_step,
+                "tier": vendor.tier.value,
+                "rank": vendor.rank,
+                "vendor_name": vendor.vendor_name,
+                "location": vendor.location,
+                "country": vendor.country,
+                "vendor_type": vendor.vendor_type.value,
+                "match_category": vendor.match_category.value,
+                "confidence_score": vendor.confidence_score,
+                "contact_email": vendor.evidence.contact_email or "",
+                "contact_phone": vendor.evidence.contact_phone or "",
+                "source_url": vendor.evidence.source_url,
+                "recommended_next_step": vendor.recommended_next_step,
             })
 
         return output.getvalue()

@@ -2,6 +2,22 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.7.0] - 2026-09-16
+
+### Refactored & Hardened
+- **Rule 2 Naming Conventions Enforcement (`app/`, `tests/`)**:
+  - Eliminated all single-letter variables across production code and test suites, replacing them with descriptive names (`vendor`, `ambiguity`, `material_item`, `registry_file`, `env_file`, `standard_name`, `fact`, `assumption`, `rfq_item`).
+- **Standards Catalog Expansion (`app/core/standards.py`, `app/tools/procurement_tools.py`)**:
+  - Added full technical specifications for DN 125 (139.7 mm OD, 4.5/4.85/5.4 mm walls) and DN 150 (165.1 mm OD, 4.5/4.85/5.4 mm walls) into `IS1239_PART1_TABLE`.
+  - Harmonized DN 50 Class A wall thickness from 3.25 mm to standard 2.9 mm per IS 1239 Part 1 Table 1.
+  - Updated tool lookup error message to reflect full range from DN 15 to DN 150.
+- **Fail-Fast Gemini Client Session Resilience (`app/llm/client.py`)**:
+  - Added `is_service_available` session circuit breaker to `GeminiLLMClient` that detects HTTP 4xx authentication/endpoint errors and disables subsequent remote calls, eliminating repetitive retry timeouts.
+- **Test Suite Modularization (Rules 3 & 5 Compliance)**:
+  - Extracted advanced and decoupled tests into `tests/test_normalizer_advanced.py`, bringing `test_normalizer.py` from 303 lines down to 206 lines.
+  - Extracted `_create_mock_vendor_dict` fixture in `tests/test_evaluator_and_scorer.py`, shortening all test functions to under 35 lines.
+  - Added unit tests for DN 125 and DN 150 spec retrieval and reverse tolerance matching in `tests/test_standards.py`. Total test count reached 42 passing tests.
+
 ## [1.6.0] - 2026-09-16
 
 ### Refactored & Hardened

@@ -20,8 +20,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 21.0,
         "max_od_mm": 21.8,
         "class_a_thickness_mm": 2.0,
-        "class_b_thickness_mm": 2.6,
-        "class_c_thickness_mm": 3.2,
+        "class_b_thickness_mm": 2.65,
+        "class_c_thickness_mm": 3.25,
     },
     20: {
         "nominal_bore_inch": "3/4",
@@ -29,8 +29,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 26.5,
         "max_od_mm": 27.3,
         "class_a_thickness_mm": 2.3,
-        "class_b_thickness_mm": 2.6,
-        "class_c_thickness_mm": 3.2,
+        "class_b_thickness_mm": 2.65,
+        "class_c_thickness_mm": 3.25,
     },
     25: {
         "nominal_bore_inch": "1",
@@ -38,8 +38,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 33.3,
         "max_od_mm": 34.2,
         "class_a_thickness_mm": 2.6,
-        "class_b_thickness_mm": 3.2,
-        "class_c_thickness_mm": 4.0,
+        "class_b_thickness_mm": 3.25,
+        "class_c_thickness_mm": 4.05,
     },
     32: {
         "nominal_bore_inch": "1-1/4",
@@ -47,8 +47,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 42.0,
         "max_od_mm": 42.9,
         "class_a_thickness_mm": 2.6,
-        "class_b_thickness_mm": 3.2,
-        "class_c_thickness_mm": 4.0,
+        "class_b_thickness_mm": 3.25,
+        "class_c_thickness_mm": 4.05,
     },
     40: {
         "nominal_bore_inch": "1-1/2",
@@ -64,7 +64,7 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "nominal_od_mm": 60.3,
         "min_od_mm": 59.7,
         "max_od_mm": 60.8,
-        "class_a_thickness_mm": 3.25,
+        "class_a_thickness_mm": 2.9,
         "class_b_thickness_mm": 3.65,
         "class_c_thickness_mm": 4.5,
     },
@@ -93,6 +93,24 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "max_od_mm": 115.0,
         "class_a_thickness_mm": 3.65,
         "class_b_thickness_mm": 4.5,
+        "class_c_thickness_mm": 5.4,
+    },
+    125: {
+        "nominal_bore_inch": "5",
+        "nominal_od_mm": 139.7,
+        "min_od_mm": 138.5,
+        "max_od_mm": 140.8,
+        "class_a_thickness_mm": 4.5,
+        "class_b_thickness_mm": 4.85,
+        "class_c_thickness_mm": 5.4,
+    },
+    150: {
+        "nominal_bore_inch": "6",
+        "nominal_od_mm": 165.1,
+        "min_od_mm": 163.9,
+        "max_od_mm": 166.3,
+        "class_a_thickness_mm": 4.5,
+        "class_b_thickness_mm": 4.85,
         "class_c_thickness_mm": 5.4,
     },
 }
@@ -218,10 +236,12 @@ def evaluate_thickness_compliance(
                 "deviation_note": note,
             }
 
-    ca, cb, cc = (c[1] for c in classes)
+    class_a_wall, class_b_wall, class_c_wall = (entry[1] for entry in classes)
     return {
         "is_standard": False,
         "matched_class": None,
-        "standard_thickness_mm": cc,
-        "deviation_note": _format_non_standard_note(thickness_mm, ca, cb, cc),
+        "standard_thickness_mm": class_c_wall,
+        "deviation_note": _format_non_standard_note(
+            thickness_mm, class_a_wall, class_b_wall, class_c_wall
+        ),
     }

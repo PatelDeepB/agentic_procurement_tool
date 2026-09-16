@@ -88,7 +88,10 @@ class EvaluatorAgent:
         req_wall = spec.parsed_wall_thickness_mm or 0.0
 
         has_is1239 = "IS 1239" in supported_standards
-        has_intl_equiv = any(s in supported_standards for s in ["ASTM A53", "BS 1387", "EN 10255"])
+        has_intl_equiv = any(
+            standard_name in supported_standards
+            for standard_name in ["ASTM A53", "BS 1387", "EN 10255"]
+        )
         has_thickness_capability = max_wall >= req_wall if req_wall > 0 else True
 
         if has_is1239 and has_thickness_capability:
@@ -138,8 +141,8 @@ class EvaluatorAgent:
             )
 
         has_non_standard_wall = any(
-            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
-            for a in spec.ambiguities
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
         )
 
         if has_non_standard_wall and spec.parsed_wall_thickness_mm:
@@ -162,8 +165,8 @@ class EvaluatorAgent:
         ]
 
         has_non_standard_wall = any(
-            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
-            for a in spec.ambiguities
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
         )
 
         if has_non_standard_wall and spec.parsed_wall_thickness_mm:
@@ -187,8 +190,8 @@ class EvaluatorAgent:
             issues.append("International transit time (15-30 days) and currency exchange fluctuations.")
 
         has_non_standard_wall = any(
-            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
-            for a in spec.ambiguities
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
         )
 
         if has_non_standard_wall and spec.parsed_wall_thickness_mm:

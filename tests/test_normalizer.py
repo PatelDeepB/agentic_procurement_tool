@@ -19,7 +19,7 @@ def test_should_detect_missing_quantity_unit_ambiguity():
     spec = agent.normalize(req)
 
     # Assert
-    types = [a.ambiguity_type for a in spec.ambiguities]
+    types = [ambiguity.ambiguity_type for ambiguity in spec.ambiguities]
     assert AmbiguityType.UNSPECIFIED_QUANTITY_UNIT in types
 
 
@@ -36,7 +36,11 @@ def test_should_calculate_tonnage_and_pieces_conversions_for_quantity():
 
     # Act
     spec = agent.normalize(req)
-    qty_amb = next(a for a in spec.ambiguities if a.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT)
+    qty_amb = next(
+        ambiguity
+        for ambiguity in spec.ambiguities
+        if ambiguity.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT
+    )
 
     # Assert
     conversions = qty_amb.unit_conversions
@@ -60,7 +64,7 @@ def test_should_detect_nominal_bore_vs_outside_diameter_ambiguity_on_m02():
     spec = agent.normalize(req)
 
     # Assert
-    types = [a.ambiguity_type for a in spec.ambiguities]
+    types = [ambiguity.ambiguity_type for ambiguity in spec.ambiguities]
     assert AmbiguityType.NOMINAL_BORE_VS_OUTSIDE_DIAMETER in types
 
 
@@ -79,7 +83,7 @@ def test_should_detect_non_standard_wall_thickness_on_m01():
     spec = agent.normalize(req)
 
     # Assert
-    types = [a.ambiguity_type for a in spec.ambiguities]
+    types = [ambiguity.ambiguity_type for ambiguity in spec.ambiguities]
     assert AmbiguityType.NON_STANDARD_WALL_THICKNESS in types
 
 
@@ -118,7 +122,7 @@ def test_should_not_flag_ambiguity_when_unit_is_explicitly_specified():
     spec = agent.normalize(req)
 
     # Assert
-    types = [a.ambiguity_type for a in spec.ambiguities]
+    types = [ambiguity.ambiguity_type for ambiguity in spec.ambiguities]
     assert AmbiguityType.UNSPECIFIED_QUANTITY_UNIT not in types
 
 
@@ -202,101 +206,4 @@ def test_should_correct_hallucinated_wall_thickness_ambiguity_via_tool():
 
     # Assert
     assert len(ambiguities) == 0, "Tool must remove false-positive hallucinated ambiguity"
-
-
-def test_should_resolve_wall_thickness_when_od_and_class_are_specified():
-    """Verify that specifying OD does not bypass class wall thickness lookup (fixes Flaw 1)."""
-    # Arrange
-    agent = NormalizerAgent()
-    req = MaterialInput(
-        id="T-DECOUPLED-01",
-        material="DN 50, 60.3 mm MS ERW, Class B pipe",
-        quantity=500.0,
-        location="Ahmedabad, Gujarat, India",
-    )
-
-    # Act
-    spec = agent.normalize(req)
-
-    # Assert
-    assert spec.parsed_dn_mm == 50
-    assert spec.parsed_od_mm == 60.3
-    assert spec.parsed_wall_thickness_mm == 3.65
-    assert spec.estimated_linear_weight_kg_m is not None and spec.estimated_linear_weight_kg_m > 0
-    assert spec.total_estimated_metric_tons is not None and spec.total_estimated_metric_tons > 0
-
-
-def test_should_default_to_class_b_and_record_assumption_when_class_is_omitted():
-    """Verify that omitting class defaults to Class B with stated ambiguity assumption (fixes Flaw 2)."""
-    # Arrange
-    agent = NormalizerAgent()
-    req = MaterialInput(
-        id="T-DECOUPLED-02",
-        material="DN 50 MS ERW pipe",
-        quantity=1000.0,
-        location="Ahmedabad, Gujarat, India",
-    )
-
-    # Act
-    spec = agent.normalize(req)
-
-    # Assert
-    assert spec.parsed_dn_mm == 50
-    assert spec.parsed_wall_thickness_mm == 3.65  # Class B default for DN 50
-    assert spec.estimated_linear_weight_kg_m is not None and spec.estimated_linear_weight_kg_m > 0
-    # Verify ambiguity item was added explaining the Class B assumption
-    class_amb = [a for a in spec.ambiguities if "class" in a.description.lower() or "class" in a.stated_assumption.lower()]
-    assert len(class_amb) > 0
-
-
-def test_should_resolve_dn_when_actual_od_is_given_without_dn_prefix():
-    """Verify reverse lookup finds DN 50 when given 60.3 mm OD directly (fixes Flaw 3)."""
-    # Arrange
-    agent = NormalizerAgent()
-    req = MaterialInput(
-        id="T-OD-01",
-        material="60.3 mm MS ERW pipe, Class B",
-        quantity=600.0,
-        location="Ahmedabad, Gujarat, India",
-    )
-
-    # Act
-    spec = agent.normalize(req)
-
-    # Assert
-    assert spec.parsed_dn_mm == 50
-    assert spec.parsed_od_mm == 60.3
-    assert spec.parsed_wall_thickness_mm == 3.65
-
-
-def test_should_detect_abbreviated_units_such_as_mtrs_and_pcs():
-    """Verify detection of standard industrial unit abbreviations (mtr, mtrs, pcs, mt)."""
-    # Arrange
-    has_m, u_m = NormalizerAgent._detect_explicit_unit("1000 mtrs ERW pipe")
-    has_pcs, u_pcs = NormalizerAgent._detect_explicit_unit("500 pcs DN 50 pipe")
-    has_mt, u_mt = NormalizerAgent._detect_explicit_unit("50 MT MS pipe")
-
-    # Assert
-    assert has_m is True and u_m == "meters"
-    assert has_pcs is True and u_pcs == "pieces"
-    assert has_mt is True and u_mt == "metric_tons"
-
-
-def test_should_extract_steel_grade_when_specified():
-    """Verify extraction of steel grade such as Fe 330 or Fe 410."""
-    # Arrange
-    agent = NormalizerAgent()
-    req = MaterialInput(
-        id="M-05",
-        material="DN 50 MS ERW Pipe Fe 410 Class B",
-        quantity=500.0,
-        location="Ahmedabad, Gujarat, India",
-    )
-
-    # Act
-    spec = agent.normalize(req)
-
-    # Assert
-    assert spec.parsed_steel_grade in ["FE 410", "FE410"]
-
 

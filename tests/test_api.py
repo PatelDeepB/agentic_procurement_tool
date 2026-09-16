@@ -28,7 +28,7 @@ def test_should_return_default_demonstration_materials():
     assert response.status_code == 200
     materials = response.json()
     assert len(materials) == 3
-    ids = [m["id"] for m in materials]
+    ids = [item["id"] for item in materials]
     assert "M-01" in ids
     assert "M-02" in ids
     assert "M-03" in ids

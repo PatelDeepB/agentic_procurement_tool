@@ -22,7 +22,7 @@ def tool_lookup_is1239_spec(dn_mm: int) -> Dict[str, Any]:
     if not spec:
         return {
             "found": False,
-            "error": f"DN {dn_mm} is not listed in IS 1239 Part 1 nominal size table (DN 15 to DN 100).",
+            "error": f"DN {dn_mm} is not listed in IS 1239 Part 1 nominal size table (DN 15 to DN 150).",
         }
     return {
         "found": True,

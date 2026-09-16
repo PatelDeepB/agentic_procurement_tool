@@ -117,23 +117,23 @@ class ProcurementOrchestrator:
         all_scored: List[EvaluatedVendor],
     ) -> Tuple[List[EvaluatedVendor], List[EvaluatedVendor], List[EvaluatedVendor]]:
         """Segregate scored candidates into three geographic tiers."""
-        ahmedabad = [v for v in all_scored if v.tier == VendorTier.AHMEDABAD]
-        india = [v for v in all_scored if v.tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD]
-        global_v = [v for v in all_scored if v.tier == VendorTier.GLOBAL]
-        return ahmedabad, india, global_v
+        ahmedabad = [vendor for vendor in all_scored if vendor.tier == VendorTier.AHMEDABAD]
+        india = [vendor for vendor in all_scored if vendor.tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD]
+        global_vendors = [vendor for vendor in all_scored if vendor.tier == VendorTier.GLOBAL]
+        return ahmedabad, india, global_vendors
 
     def _generate_executive_synthesis(
         self,
         spec: NormalizedSpecification,
         ahmedabad: list,
         india: list,
-        global_v: list,
+        global_vendors: list,
     ) -> str:
         """Call LLM to generate high-level executive procurement reasoning."""
         prompt = (
             f"Provide executive procurement reasoning for {spec.raw_input.material}. "
-            f"Candidate counts: Ahmedabad local={len(ahmedabad)}, India-wide={len(india)}, Global={len(global_v)}. "
-            f"Identified ambiguities: {[a.description for a in spec.ambiguities]}."
+            f"Candidate counts: Ahmedabad local={len(ahmedabad)}, India-wide={len(india)}, Global={len(global_vendors)}. "
+            f"Identified ambiguities: {[ambiguity.description for ambiguity in spec.ambiguities]}."
         )
         return self.llm.generate_completion(
             system_prompt="You are a Chief Procurement Officer summarizing vendor options, logistics risks, and RFQ next steps.",

@@ -48,7 +48,7 @@ class ScorerAgent:
             )
             scored_list.append(evaluated_vendor)
 
-        scored_list.sort(key=lambda v: v.confidence_score, reverse=True)
+        scored_list.sort(key=lambda vendor: vendor.confidence_score, reverse=True)
         for index, vendor in enumerate(scored_list, start=1):
             vendor.rank = index
 
