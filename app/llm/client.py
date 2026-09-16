@@ -20,9 +20,9 @@ logger = logging.getLogger(__name__)
 class GeminiLLMClient(BaseLLMClient):
     """Google Gemini LLM client supporting latest free models with graceful fallbacks."""
 
-    PRIMARY_MODEL = "gemini-2.0-flash"
-    BACKUP_MODEL = "gemini-1.5-flash"
-
+    PRIMARY_MODEL = "gemini-3.6-flash"
+    BACKUP_MODEL = "gemini-3.5-flash"
+    
     def __init__(self, api_key: str, model_name: Optional[str] = None):
         """Initialize Gemini client with API key and default free models."""
         self.api_key = api_key
