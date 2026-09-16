@@ -75,15 +75,15 @@ def _print_shortlisted_vendors_summary(result: ProcurementResult) -> None:
     print("\n[+] SHORTLISTED VENDORS BY TIER:")
     print(f"  1. Ahmedabad Local: {len(result.ahmedabad_vendors)} vendors")
     for vendor in result.ahmedabad_vendors:
-        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  2. India-wide: {len(result.india_vendors)} vendors")
     for vendor in result.india_vendors:
-        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  3. Global: {len(result.global_vendors)} vendors")
     for vendor in result.global_vendors:
-        print(f"     - Rank {vendor.rank}: {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
 
 def _print_exclusion_log_summary(exclusion_log: list) -> None:

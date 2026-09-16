@@ -1,7 +1,7 @@
 {
   "material_id": "M-03",
-  "run_id": "RUN-M-03-6789b0af",
-  "timestamp": "2026-09-16T04:56:00.832122+00:00",
+  "run_id": "RUN-M-03-029c3799",
+  "timestamp": "2026-09-16T06:37:38.215011+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -91,7 +91,8 @@
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.",
-      "rank": 5
+      "rank": 1,
+      "global_rank": 5
     },
     {
       "vendor_name": "Western Steel Agency Ahmedabad",
@@ -137,7 +138,8 @@
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.",
-      "rank": 6
+      "rank": 2,
+      "global_rank": 6
     },
     {
       "vendor_name": "Ashapura Steel Tube Corporation",
@@ -182,10 +184,60 @@
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.",
-      "rank": 10
+      "rank": 3,
+      "global_rank": 10
     }
   ],
   "india_vendors": [
+    {
+      "vendor_name": "APL Apollo Tubes Limited",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur)",
+      "country": "India",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 99.0,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 25.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 14.0,
+        "traceability": 5.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur) (37 Hargobind Enclave, Vikas Marg, Delhi 110092 (Distribution Centre: Changodar, Ahmedabad)).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: Structural and ERW piping solutions, IS 1239 Class A, B, C, hollow sections..",
+          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001:2015, CE Mark, UL Listed.",
+          "[SOURCED] Capacity / inventory evidence: World's largest hollow section & ERW tube producer with 2.6 Million MT capacity per annum..",
+          "[SOURCED] Delivery / logistics: Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "APL Apollo IS 1239 Part 1 ERW pipes with precision direct forming technology.",
+        "source_url": "https://www.aplapollo.com/products/ms-black-pipes-is1239.html",
+        "contact_email": "info@aplapollo.com",
+        "contact_phone": "+91-11-2237-3456",
+        "address": "37 Hargobind Enclave, Vikas Marg, Delhi 110092 (Distribution Centre: Changodar, Ahmedabad)",
+        "certifications": [
+          "BIS ISI Mark IS 1239",
+          "ISO 9001:2015",
+          "CE Mark",
+          "UL Listed"
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [],
+      "recommended_next_step": "Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 1,
+      "global_rank": 1
+    },
     {
       "vendor_name": "Jindal Pipes Limited",
       "tier": "INDIA_OUTSIDE_AHMEDABAD",
@@ -232,55 +284,8 @@
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 1
-    },
-    {
-      "vendor_name": "Tata Steel Limited (Tubes Division)",
-      "tier": "INDIA_OUTSIDE_AHMEDABAD",
-      "location": "Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad)",
-      "country": "India",
-      "vendor_type": "PRIMARY_MANUFACTURER",
-      "match_category": "EXACT_MATCH",
-      "confidence_score": 99.0,
-      "score_breakdown": {
-        "technical_fit": 35.0,
-        "certifications": 25.0,
-        "capacity_feasibility": 20.0,
-        "geographic_logistics": 14.0,
-        "traceability": 5.0
-      },
-      "evidence": {
-        "sourced_facts": [
-          "[SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).",
-          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
-          "[SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..",
-          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.",
-          "[SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..",
-          "[SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.."
-        ],
-        "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
-        ],
-        "needs_confirmation_rfq": [
-          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
-        ],
-        "catalog_spec": "Tata Pipes commercial ERW steel tubes with high tensile strength and uniform zinc coating where galvanized.",
-        "source_url": "https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html",
-        "contact_email": "tubes.sales@tatasteel.com",
-        "contact_phone": "+91-33-2288-3333",
-        "address": "Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)",
-        "certifications": [
-          "BIS ISI Mark IS 1239",
-          "ISO 9001",
-          "ISO 14001",
-          "GreenPro Certified"
-        ],
-        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
-      },
-      "unresolved_issues": [],
-      "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 2
+      "rank": 2,
+      "global_rank": 2
     },
     {
       "vendor_name": "Surya Roshni Limited (Steel Division)",
@@ -328,12 +333,13 @@
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 3
+      "rank": 3,
+      "global_rank": 3
     },
     {
-      "vendor_name": "APL Apollo Tubes Limited",
+      "vendor_name": "Tata Steel Limited (Tubes Division)",
       "tier": "INDIA_OUTSIDE_AHMEDABAD",
-      "location": "Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur)",
+      "location": "Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad)",
       "country": "India",
       "vendor_type": "PRIMARY_MANUFACTURER",
       "match_category": "EXACT_MATCH",
@@ -347,12 +353,12 @@
       },
       "evidence": {
         "sourced_facts": [
-          "[SOURCED] Operating location: Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur) (37 Hargobind Enclave, Vikas Marg, Delhi 110092 (Distribution Centre: Changodar, Ahmedabad)).",
+          "[SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).",
           "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
-          "[SOURCED] Supported product scope: Structural and ERW piping solutions, IS 1239 Class A, B, C, hollow sections..",
-          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001:2015, CE Mark, UL Listed.",
-          "[SOURCED] Capacity / inventory evidence: World's largest hollow section & ERW tube producer with 2.6 Million MT capacity per annum..",
-          "[SOURCED] Delivery / logistics: Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory.."
+          "[SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..",
+          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.",
+          "[SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..",
+          "[SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.."
         ],
         "assumptions": [
           "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
@@ -361,22 +367,23 @@
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
           "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
-        "catalog_spec": "APL Apollo IS 1239 Part 1 ERW pipes with precision direct forming technology.",
-        "source_url": "https://www.aplapollo.com/products/ms-black-pipes-is1239.html",
-        "contact_email": "info@aplapollo.com",
-        "contact_phone": "+91-11-2237-3456",
-        "address": "37 Hargobind Enclave, Vikas Marg, Delhi 110092 (Distribution Centre: Changodar, Ahmedabad)",
+        "catalog_spec": "Tata Pipes commercial ERW steel tubes with high tensile strength and uniform zinc coating where galvanized.",
+        "source_url": "https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html",
+        "contact_email": "tubes.sales@tatasteel.com",
+        "contact_phone": "+91-33-2288-3333",
+        "address": "Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)",
         "certifications": [
           "BIS ISI Mark IS 1239",
-          "ISO 9001:2015",
-          "CE Mark",
-          "UL Listed"
+          "ISO 9001",
+          "ISO 14001",
+          "GreenPro Certified"
         ],
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
-      "recommended_next_step": "Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 4
+      "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 4,
+      "global_rank": 4
     }
   ],
   "global_vendors": [
@@ -430,7 +437,8 @@
         "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 7
+      "rank": 1,
+      "global_rank": 7
     },
     {
       "vendor_name": "Tenaris S.A. (Middle East & Asia Distribution)",
@@ -482,7 +490,8 @@
         "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 8
+      "rank": 2,
+      "global_rank": 8
     },
     {
       "vendor_name": "Hamriyah Steel & Tube Trading FZE",
@@ -531,7 +540,8 @@
         "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 9
+      "rank": 3,
+      "global_rank": 9
     }
   ],
   "search_queries": {
@@ -550,7 +560,7 @@
   },
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:56:00.832122+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T06:37:38.215011+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs. Detected 1 ambiguities.",
     "Stage 2 Complete: Synthesized 6 search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).",

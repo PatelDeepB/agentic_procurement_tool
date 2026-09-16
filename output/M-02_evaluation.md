@@ -5,8 +5,8 @@
 - **Material Description**: 40 mm MS ERW, Class B pipe
 - **Specified Quantity**: 500.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-02-ddac0aae`
-- **Evaluation Timestamp**: 2026-09-16T04:56:00.828125+00:00
+- **Run ID**: `RUN-M-02-beec3b5c`
+- **Evaluation Timestamp**: 2026-09-16T06:37:38.205898+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -38,7 +38,7 @@
 ## 4. Evidence-Based Vendor Shortlist
 
 ### Tier 1: Ahmedabad Local Vendors
-#### Rank 5: Gujarat Infra Pipes Pvt Ltd (97.0% Confidence)
+#### Rank 1 (Overall #5): Gujarat Infra Pipes Pvt Ltd (97.0% Confidence)
 - **Location**: Ahmedabad, Gujarat, India
 - **Vendor Type**: AUTHORIZED_DISTRIBUTOR
 - **Match Precision**: `EXACT_MATCH`
@@ -67,36 +67,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
 - **Recommended Next Step**: Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.
 
-#### Rank 6: Western Steel Agency Ahmedabad (89.0% Confidence)
-- **Location**: Ahmedabad, Gujarat, India
-- **Vendor Type**: STOCKIST_TRADER
-- **Match Precision**: `EXACT_MATCH`
-- **Website**: [Western Steel Agency Ahmedabad](https://www.westernsteelgujarat.com/catalog/erw-pipes-ahmedabad.pdf)
-- **Contact**: Email: procurement@westernsteelgujarat.com, Phone: +91-79-2281-9040
-- **Technical Audit Notes**: {
-  "thought_process": [
-    "Cross-referenced vendor product catalog against normalized dimensions.",
-    "Tagged verified credentials as [SOURCED].",
-    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
-  ],
-  "match_category": "EXACT_MATCH",
-  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
-}
-- **Sourced Evidence**:
-  - [SOURCED] Operating location: Ahmedabad, Gujarat (Shed 28, Naroda GIDC Industrial Park, Naroda, Ahmedabad, Gujarat 382330).
-  - [SOURCED] Vendor type: STOCKIST_TRADER.
-  - [SOURCED] Supported product scope: Heavy duty MS ERW line pipes, structural tubes, IS 1239, IS 3589, custom heavy-wall rolling orders..
-  - [SOURCED] Verified certifications: ISO 9001:2015, Authorized Stockist for Jindal & Surya.
-  - [SOURCED] Capacity / inventory evidence: Central stocking yard of 1,800 MT with specialized tie-ups for thick-walled ERW pipes..
-  - [SOURCED] Delivery / logistics: Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours..
-- **Engineering Assumptions**:
-  - [ASSUMPTION] Vendor can supply standard order quantities from local warehouse.
-- **RFQ Confirmation Items**:
-  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
-  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-- **Recommended Next Step**: Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.
-
-#### Rank 7: Ashapura Steel Tube Corporation (89.0% Confidence)
+#### Rank 2 (Overall #6): Ashapura Steel Tube Corporation (89.0% Confidence)
 - **Location**: Ahmedabad, Gujarat, India
 - **Vendor Type**: STOCKIST_TRADER
 - **Match Precision**: `EXACT_MATCH`
@@ -125,96 +96,38 @@
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
 - **Recommended Next Step**: Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.
 
+#### Rank 3 (Overall #7): Western Steel Agency Ahmedabad (89.0% Confidence)
+- **Location**: Ahmedabad, Gujarat, India
+- **Vendor Type**: STOCKIST_TRADER
+- **Match Precision**: `EXACT_MATCH`
+- **Website**: [Western Steel Agency Ahmedabad](https://www.westernsteelgujarat.com/catalog/erw-pipes-ahmedabad.pdf)
+- **Contact**: Email: procurement@westernsteelgujarat.com, Phone: +91-79-2281-9040
+- **Technical Audit Notes**: {
+  "thought_process": [
+    "Cross-referenced vendor product catalog against normalized dimensions.",
+    "Tagged verified credentials as [SOURCED].",
+    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
+  ],
+  "match_category": "EXACT_MATCH",
+  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
+}
+- **Sourced Evidence**:
+  - [SOURCED] Operating location: Ahmedabad, Gujarat (Shed 28, Naroda GIDC Industrial Park, Naroda, Ahmedabad, Gujarat 382330).
+  - [SOURCED] Vendor type: STOCKIST_TRADER.
+  - [SOURCED] Supported product scope: Heavy duty MS ERW line pipes, structural tubes, IS 1239, IS 3589, custom heavy-wall rolling orders..
+  - [SOURCED] Verified certifications: ISO 9001:2015, Authorized Stockist for Jindal & Surya.
+  - [SOURCED] Capacity / inventory evidence: Central stocking yard of 1,800 MT with specialized tie-ups for thick-walled ERW pipes..
+  - [SOURCED] Delivery / logistics: Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours..
+- **Engineering Assumptions**:
+  - [ASSUMPTION] Vendor can supply standard order quantities from local warehouse.
+- **RFQ Confirmation Items**:
+  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
+  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
+- **Recommended Next Step**: Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.
+
 
 ### Tier 2: India-Based Vendors (Outside Ahmedabad)
-#### Rank 1: Jindal Pipes Limited (99.0% Confidence)
-- **Location**: Ghaziabad, Uttar Pradesh (Branch: Ahmedabad, Gujarat), India
-- **Vendor Type**: PRIMARY_MANUFACTURER
-- **Match Precision**: `EXACT_MATCH`
-- **Website**: [Jindal Pipes Limited](https://www.jindal.com/jpl/product-specifications-is1239.html)
-- **Contact**: Email: pipesales@jindal.com, Phone: +91-11-4139-9999
-- **Technical Audit Notes**: {
-  "thought_process": [
-    "Cross-referenced vendor product catalog against normalized dimensions.",
-    "Tagged verified credentials as [SOURCED].",
-    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
-  ],
-  "match_category": "EXACT_MATCH",
-  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
-}
-- **Sourced Evidence**:
-  - [SOURCED] Operating location: Ghaziabad, Uttar Pradesh (Branch: Ahmedabad, Gujarat) (Pipe House, 56 Hanuman Road, New Delhi 110001 (Mill: Ghaziabad, UP; Depot: Changodar, Ahmedabad)).
-  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
-  - [SOURCED] Supported product scope: ERW Black and Galvanized Steel Pipes (IS 1239 Part 1:2004, IS 3589, ASTM A53 Grade A & B)..
-  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239 (CM/L-0018721), ISO 9001:2015, API 5L, ISO 14001.
-  - [SOURCED] Capacity / inventory evidence: Annual ERW pipe manufacturing capacity of 250,000 MT across automated high-frequency induction weld mills..
-  - [SOURCED] Delivery / logistics: Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill..
-- **Engineering Assumptions**:
-  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-- **RFQ Confirmation Items**:
-  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
-  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-- **Recommended Next Step**: Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.
-
-#### Rank 2: Tata Steel Limited (Tubes Division) (99.0% Confidence)
-- **Location**: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad), India
-- **Vendor Type**: PRIMARY_MANUFACTURER
-- **Match Precision**: `EXACT_MATCH`
-- **Website**: [Tata Steel Limited (Tubes Division)](https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html)
-- **Contact**: Email: tubes.sales@tatasteel.com, Phone: +91-33-2288-3333
-- **Technical Audit Notes**: {
-  "thought_process": [
-    "Cross-referenced vendor product catalog against normalized dimensions.",
-    "Tagged verified credentials as [SOURCED].",
-    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
-  ],
-  "match_category": "EXACT_MATCH",
-  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
-}
-- **Sourced Evidence**:
-  - [SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).
-  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
-  - [SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..
-  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.
-  - [SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..
-  - [SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad..
-- **Engineering Assumptions**:
-  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-- **RFQ Confirmation Items**:
-  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
-  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-- **Recommended Next Step**: Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.
-
-#### Rank 3: Surya Roshni Limited (Steel Division) (99.0% Confidence)
-- **Location**: New Delhi / Bahadurgarh, Haryana, India
-- **Vendor Type**: PRIMARY_MANUFACTURER
-- **Match Precision**: `EXACT_MATCH`
-- **Website**: [Surya Roshni Limited (Steel Division)](https://www.suryaroshniltd.com/steel-division/is-1239-erw-pipes.html)
-- **Contact**: Email: steel.marketing@surya.in, Phone: +91-11-2581-0093
-- **Technical Audit Notes**: {
-  "thought_process": [
-    "Cross-referenced vendor product catalog against normalized dimensions.",
-    "Tagged verified credentials as [SOURCED].",
-    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
-  ],
-  "match_category": "EXACT_MATCH",
-  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
-}
-- **Sourced Evidence**:
-  - [SOURCED] Operating location: New Delhi / Bahadurgarh, Haryana (Padma Tower-1, Rajendra Place, New Delhi 110008 (Gujarat Logistics Hub: Vadodara)).
-  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
-  - [SOURCED] Supported product scope: ERW steel pipes from 1/2 inch to 100 inch OD, IS 1239, ASTM A53, API 5L PSL-1/PSL-2..
-  - [SOURCED] Verified certifications: BIS Mark IS 1239, BIS Mark IS 3589, API 5L, ISO 9001:2015.
-  - [SOURCED] Capacity / inventory evidence: Annual steel pipe capacity of 700,000 MT across three integrated manufacturing units..
-  - [SOURCED] Delivery / logistics: Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days..
-- **Engineering Assumptions**:
-  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-- **RFQ Confirmation Items**:
-  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
-  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-- **Recommended Next Step**: Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.
-
-#### Rank 4: APL Apollo Tubes Limited (99.0% Confidence)
+#### Rank 1 (Overall #1): APL Apollo Tubes Limited (99.0% Confidence)
 - **Location**: Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur), India
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `EXACT_MATCH`
@@ -243,9 +156,96 @@
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
 - **Recommended Next Step**: Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.
 
+#### Rank 2 (Overall #2): Jindal Pipes Limited (99.0% Confidence)
+- **Location**: Ghaziabad, Uttar Pradesh (Branch: Ahmedabad, Gujarat), India
+- **Vendor Type**: PRIMARY_MANUFACTURER
+- **Match Precision**: `EXACT_MATCH`
+- **Website**: [Jindal Pipes Limited](https://www.jindal.com/jpl/product-specifications-is1239.html)
+- **Contact**: Email: pipesales@jindal.com, Phone: +91-11-4139-9999
+- **Technical Audit Notes**: {
+  "thought_process": [
+    "Cross-referenced vendor product catalog against normalized dimensions.",
+    "Tagged verified credentials as [SOURCED].",
+    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
+  ],
+  "match_category": "EXACT_MATCH",
+  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
+}
+- **Sourced Evidence**:
+  - [SOURCED] Operating location: Ghaziabad, Uttar Pradesh (Branch: Ahmedabad, Gujarat) (Pipe House, 56 Hanuman Road, New Delhi 110001 (Mill: Ghaziabad, UP; Depot: Changodar, Ahmedabad)).
+  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
+  - [SOURCED] Supported product scope: ERW Black and Galvanized Steel Pipes (IS 1239 Part 1:2004, IS 3589, ASTM A53 Grade A & B)..
+  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239 (CM/L-0018721), ISO 9001:2015, API 5L, ISO 14001.
+  - [SOURCED] Capacity / inventory evidence: Annual ERW pipe manufacturing capacity of 250,000 MT across automated high-frequency induction weld mills..
+  - [SOURCED] Delivery / logistics: Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill..
+- **Engineering Assumptions**:
+  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
+- **RFQ Confirmation Items**:
+  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
+  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
+- **Recommended Next Step**: Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.
+
+#### Rank 3 (Overall #3): Surya Roshni Limited (Steel Division) (99.0% Confidence)
+- **Location**: New Delhi / Bahadurgarh, Haryana, India
+- **Vendor Type**: PRIMARY_MANUFACTURER
+- **Match Precision**: `EXACT_MATCH`
+- **Website**: [Surya Roshni Limited (Steel Division)](https://www.suryaroshniltd.com/steel-division/is-1239-erw-pipes.html)
+- **Contact**: Email: steel.marketing@surya.in, Phone: +91-11-2581-0093
+- **Technical Audit Notes**: {
+  "thought_process": [
+    "Cross-referenced vendor product catalog against normalized dimensions.",
+    "Tagged verified credentials as [SOURCED].",
+    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
+  ],
+  "match_category": "EXACT_MATCH",
+  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
+}
+- **Sourced Evidence**:
+  - [SOURCED] Operating location: New Delhi / Bahadurgarh, Haryana (Padma Tower-1, Rajendra Place, New Delhi 110008 (Gujarat Logistics Hub: Vadodara)).
+  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
+  - [SOURCED] Supported product scope: ERW steel pipes from 1/2 inch to 100 inch OD, IS 1239, ASTM A53, API 5L PSL-1/PSL-2..
+  - [SOURCED] Verified certifications: BIS Mark IS 1239, BIS Mark IS 3589, API 5L, ISO 9001:2015.
+  - [SOURCED] Capacity / inventory evidence: Annual steel pipe capacity of 700,000 MT across three integrated manufacturing units..
+  - [SOURCED] Delivery / logistics: Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days..
+- **Engineering Assumptions**:
+  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
+- **RFQ Confirmation Items**:
+  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
+  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
+- **Recommended Next Step**: Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.
+
+#### Rank 4 (Overall #4): Tata Steel Limited (Tubes Division) (99.0% Confidence)
+- **Location**: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad), India
+- **Vendor Type**: PRIMARY_MANUFACTURER
+- **Match Precision**: `EXACT_MATCH`
+- **Website**: [Tata Steel Limited (Tubes Division)](https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html)
+- **Contact**: Email: tubes.sales@tatasteel.com, Phone: +91-33-2288-3333
+- **Technical Audit Notes**: {
+  "thought_process": [
+    "Cross-referenced vendor product catalog against normalized dimensions.",
+    "Tagged verified credentials as [SOURCED].",
+    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
+  ],
+  "match_category": "EXACT_MATCH",
+  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
+}
+- **Sourced Evidence**:
+  - [SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).
+  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
+  - [SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..
+  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.
+  - [SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..
+  - [SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad..
+- **Engineering Assumptions**:
+  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
+- **RFQ Confirmation Items**:
+  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
+  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
+- **Recommended Next Step**: Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.
+
 
 ### Tier 3: International / Global Vendors
-#### Rank 8: Baoshan Iron & Steel Co., Ltd. (Baosteel) (80.0% Confidence)
+#### Rank 1 (Overall #8): Baoshan Iron & Steel Co., Ltd. (Baosteel) (80.0% Confidence)
 - **Location**: Shanghai, China
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `NEAR_MATCH`
@@ -275,7 +275,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.
 
-#### Rank 9: Tenaris S.A. (Middle East & Asia Distribution) (80.0% Confidence)
+#### Rank 2 (Overall #9): Tenaris S.A. (Middle East & Asia Distribution) (80.0% Confidence)
 - **Location**: Dubai (Global HQ: Luxembourg), United Arab Emirates
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `NEAR_MATCH`
@@ -305,7 +305,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.
 
-#### Rank 10: Hamriyah Steel & Tube Trading FZE (74.0% Confidence)
+#### Rank 3 (Overall #10): Hamriyah Steel & Tube Trading FZE (74.0% Confidence)
 - **Location**: Sharjah, United Arab Emirates
 - **Vendor Type**: STOCKIST_TRADER
 - **Match Precision**: `NEAR_MATCH`
@@ -343,7 +343,7 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 7. Audit Trail and Agentic State Transitions
-- `[2026-09-16T04:56:00.828125+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.`
+- `[2026-09-16T06:37:38.205898+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.`
 - `Stage 1 Complete: Normalized specs. Detected 2 ambiguities.`
 - `Stage 2 Complete: Synthesized 7 search queries across Ahmedabad, India, and Global scopes.`
 - `Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).`

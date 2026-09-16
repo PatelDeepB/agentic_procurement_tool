@@ -155,7 +155,8 @@ class EvaluatedVendor(BaseModel):
     evidence: VendorEvidence
     unresolved_issues: List[str] = Field(default_factory=list)
     recommended_next_step: str
-    rank: int = 1
+    rank: int = Field(default=1, description="Rank within the supplier geographic tier (1 = top recommendation)")
+    global_rank: int = Field(default=1, description="Rank across all candidate suppliers regardless of tier")
 
 
 class ProcurementResult(BaseModel):

@@ -87,7 +87,9 @@ $$\text{Confidence Score} = S_{\text{tech}} + S_{\text{cert}} + S_{\text{capacit
    - Primary integrated manufacturer (> 100,000 MT/year): 20 points.
    - Large authorized distributor (> 2,000 MT warehouse buffer): 17 points.
    - Regional stockist (500 to 2,000 MT): 14 points.
+   - EPC Supplier: 12 points.
    - Small trader: 10 points.
+   - Bulk Batch Feasibility Adjustment: Deducts 2.0 points from stockists/traders on bulk orders exceeding 50 Metric Tons to favor primary mills with continuous production.
 
 4. **Geographic Coverage & Logistics ($S_{\text{logistics}}$ - 15 points max)**:
    - Ahmedabad local warehouse / same-day dispatch: 15 points.
@@ -96,8 +98,18 @@ $$\text{Confidence Score} = S_{\text{tech}} + S_{\text{cert}} + S_{\text{capacit
    - Global exporter with established shipping corridor to Mundra Port: 8 points.
 
 5. **Contact & Traceability ($S_{\text{trace}}$ - 5 points max)**:
-   - Verifiable address, verified website, email, and direct phone: 5 points.
-   - Partial contact details: 2 to 3.5 points.
+   - Physical address: 2.0 points.
+   - Verifiable domain URL: 1.5 points.
+   - Direct communication channels:
+     - Verified email and phone: 1.5 points.
+     - Partial communication (email or phone only): 0.75 points.
+     - Unverified/missing communication: 0.0 points.
+
+### Dual Intra-Tier & Global Ranking Architecture
+
+To deliver an intuitive and actionable procurement shortlist, vendors are assigned two complementary rankings:
+- **Intra-Tier Rank (`rank`)**: Sequential standing (Rank 1 to N) within each geographic tier (Ahmedabad, India Domestic, Global Exporters), allowing buyers to immediately identify the top candidate in each logistics radius.
+- **Global Rank (`global_rank`)**: Absolute cross-tier standing (1 to 10) sorted deterministically by confidence score descending, technical fit descending, certifications descending, and vendor name ascending for deterministic tie-breaking.
 
 ---
 

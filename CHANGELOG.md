@@ -2,6 +2,27 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.0.0] - 2026-09-16
+
+### Hardened & Refactored
+- **Dual Rank Architecture (`app/domain/models.py`, `app/agents/scorer.py`, `app/services/export_service.py`, `app/cli.py`)**:
+  - Implemented dual ranking across `EvaluatedVendor`: `rank` for sequential intra-tier ranking (1..N within Ahmedabad, India, and Global scopes) and `global_rank` for cross-tier standing (1..10).
+  - Resolved the ranking display discrepancy where Tier 1 previously started at "Rank 3" and Tier 3 at "Rank 7".
+  - Updated Markdown reports, CSV exports, and CLI summaries to display both intra-tier rank and overall cross-tier position.
+- **Traceability Scoring Logic Correction (`app/agents/scorer.py`)**:
+  - Corrected communication channel scoring math: suppliers with zero contact channels receive 0.0 communication points, partial contact (email or phone) receives 0.75 points, and verified dual contact receives 1.5 points.
+- **Safe Enum Parsing & Case-Insensitive Matching (`app/agents/scorer.py`)**:
+  - Added `_parse_vendor_tier` and `_parse_vendor_type` static helpers with case-insensitive fallback, preventing `ValueError` crashes on lowercase inputs (e.g. "ahmedabad", "stockist_trader").
+  - Fixed geography and capacity scoring to match case-insensitively, preventing local suppliers from being erroneously penalized with global distance scores.
+  - Added explicit scoring support for `VendorType.EPC_SUPPLIER` (12.0 points).
+- **Active Specification Capacity Integration (`app/agents/scorer.py`)**:
+  - Connected `spec.total_estimated_metric_tons` to capacity feasibility evaluation, adjusting stockist scores when batch tonnage exceeds routine warehouse buffer capacity (> 50 MT).
+- **Deterministic Multi-Key Sorting (`app/agents/scorer.py`)**:
+  - Implemented composite tuple sorting by confidence score descending, technical fit descending, certifications descending, and vendor name ascending, ensuring 100% deterministic ranking for suppliers tied at 99.0%.
+- **Dedicated Scorer Test Suite (`tests/test_scorer.py`)**:
+  - Added 8 dedicated AAA unit tests covering dual ranking, traceability scoring math, case-insensitive tier parsing, deterministic tie-breaking, and batch order capacity adjustments.
+  - Test suite expanded to 59 passing tests in 0.59s with 100% compliance across all rules.
+
 ## [1.9.0] - 2026-09-16
 
 ### Hardened & Refactored

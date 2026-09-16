@@ -3,7 +3,7 @@
 import csv
 import io
 import json
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from app.domain.models import (
     AmbiguityItem,
@@ -149,7 +149,7 @@ class ExportService:
         notes_line = f"- **Technical Audit Notes**: {ev.evaluation_notes}\n" if ev.evaluation_notes else ""
 
         return (
-            f"#### Rank {vendor.rank}: {vendor.vendor_name} ({vendor.confidence_score}% Confidence)\n"
+            f"#### Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} ({vendor.confidence_score}% Confidence)\n"
             f"- **Location**: {vendor.location}, {vendor.country}\n"
             f"- **Vendor Type**: {vendor.vendor_type.value}\n"
             f"- **Match Precision**: `{vendor.match_category.value}`\n"
@@ -162,44 +162,40 @@ class ExportService:
             f"- **Recommended Next Step**: {vendor.recommended_next_step}\n"
         )
 
+    @staticmethod
+    def _build_csv_row_dict(material_id: str, vendor: EvaluatedVendor) -> Dict[str, Any]:
+        """Construct dictionary representation of evaluated vendor for CSV export."""
+        return {
+            "material_id": material_id,
+            "tier": vendor.tier.value,
+            "rank": vendor.rank,
+            "vendor_name": vendor.vendor_name,
+            "location": vendor.location,
+            "country": vendor.country,
+            "vendor_type": vendor.vendor_type.value,
+            "match_category": vendor.match_category.value,
+            "confidence_score": vendor.confidence_score,
+            "global_rank": vendor.global_rank,
+            "contact_email": vendor.evidence.contact_email or "",
+            "contact_phone": vendor.evidence.contact_phone or "",
+            "source_url": vendor.evidence.source_url,
+            "recommended_next_step": vendor.recommended_next_step,
+        }
+
     def to_csv(self, result: ProcurementResult) -> str:
         """Format vendor evaluations across all three tiers into standard CSV."""
         output = io.StringIO()
         fieldnames = [
-            "material_id",
-            "tier",
-            "rank",
-            "vendor_name",
-            "location",
-            "country",
-            "vendor_type",
-            "match_category",
-            "confidence_score",
-            "contact_email",
-            "contact_phone",
-            "source_url",
-            "recommended_next_step",
+            "material_id", "tier", "rank", "vendor_name", "location", "country",
+            "vendor_type", "match_category", "confidence_score", "global_rank",
+            "contact_email", "contact_phone", "source_url", "recommended_next_step",
         ]
         writer = csv.DictWriter(output, fieldnames=fieldnames)
         writer.writeheader()
 
         all_vendors = result.ahmedabad_vendors + result.india_vendors + result.global_vendors
         for vendor in all_vendors:
-            writer.writerow({
-                "material_id": result.material_id,
-                "tier": vendor.tier.value,
-                "rank": vendor.rank,
-                "vendor_name": vendor.vendor_name,
-                "location": vendor.location,
-                "country": vendor.country,
-                "vendor_type": vendor.vendor_type.value,
-                "match_category": vendor.match_category.value,
-                "confidence_score": vendor.confidence_score,
-                "contact_email": vendor.evidence.contact_email or "",
-                "contact_phone": vendor.evidence.contact_phone or "",
-                "source_url": vendor.evidence.source_url,
-                "recommended_next_step": vendor.recommended_next_step,
-            })
+            writer.writerow(self._build_csv_row_dict(result.material_id, vendor))
 
         return output.getvalue()
 

@@ -5,8 +5,8 @@
 - **Material Description**: ERW pipe, DN 50, 60.3 x 5.5 mm, IS 1239
 - **Specified Quantity**: 1000.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-01-fc697869`
-- **Evaluation Timestamp**: 2026-09-16T04:56:00.298371+00:00
+- **Run ID**: `RUN-M-01-0eaccb3a`
+- **Evaluation Timestamp**: 2026-09-16T06:37:37.756058+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -34,11 +34,12 @@
 ### Global / Import Queries
 - `Carbon steel ERW line pipe exporter DN 50 60.3 mm OD ASTM A53 BS 1387 EN 10255`
 - `Global tubular supplier CIF Mundra Port Gujarat India DN 50 5.5 mm wall`
+- `Heavy wall ERW pipe exporter DN 50 5.5 mm wall ASTM A53 Schedule 80 CIF Mundra Port`
 
 ## 4. Evidence-Based Vendor Shortlist
 
 ### Tier 1: Ahmedabad Local Vendors
-#### Rank 3: Western Steel Agency Ahmedabad (89.0% Confidence)
+#### Rank 1 (Overall #3): Western Steel Agency Ahmedabad (89.0% Confidence)
 - **Location**: Ahmedabad, Gujarat, India
 - **Vendor Type**: STOCKIST_TRADER
 - **Match Precision**: `EXACT_MATCH`
@@ -69,7 +70,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
 - **Recommended Next Step**: Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.
 
-#### Rank 6: Gujarat Infra Pipes Pvt Ltd (80.0% Confidence)
+#### Rank 2 (Overall #8): Gujarat Infra Pipes Pvt Ltd (80.0% Confidence)
 - **Location**: Ahmedabad, Gujarat, India
 - **Vendor Type**: AUTHORIZED_DISTRIBUTOR
 - **Match Precision**: `CATEGORY_LEVEL_LEAD`
@@ -100,7 +101,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
 - **Recommended Next Step**: Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.
 
-#### Rank 10: Ashapura Steel Tube Corporation (72.0% Confidence)
+#### Rank 3 (Overall #10): Ashapura Steel Tube Corporation (72.0% Confidence)
 - **Location**: Ahmedabad, Gujarat, India
 - **Vendor Type**: STOCKIST_TRADER
 - **Match Precision**: `CATEGORY_LEVEL_LEAD`
@@ -133,7 +134,7 @@
 
 
 ### Tier 2: India-Based Vendors (Outside Ahmedabad)
-#### Rank 1: Jindal Pipes Limited (99.0% Confidence)
+#### Rank 1 (Overall #1): Jindal Pipes Limited (99.0% Confidence)
 - **Location**: Ghaziabad, Uttar Pradesh (Branch: Ahmedabad, Gujarat), India
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `EXACT_MATCH`
@@ -164,7 +165,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.
 
-#### Rank 2: Surya Roshni Limited (Steel Division) (99.0% Confidence)
+#### Rank 2 (Overall #2): Surya Roshni Limited (Steel Division) (99.0% Confidence)
 - **Location**: New Delhi / Bahadurgarh, Haryana, India
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `EXACT_MATCH`
@@ -195,38 +196,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.
 
-#### Rank 4: Tata Steel Limited (Tubes Division) (82.0% Confidence)
-- **Location**: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad), India
-- **Vendor Type**: PRIMARY_MANUFACTURER
-- **Match Precision**: `CATEGORY_LEVEL_LEAD`
-- **Website**: [Tata Steel Limited (Tubes Division)](https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html)
-- **Contact**: Email: tubes.sales@tatasteel.com, Phone: +91-33-2288-3333
-- **Technical Audit Notes**: {
-  "thought_process": [
-    "Cross-referenced vendor product catalog against normalized dimensions.",
-    "Tagged verified credentials as [SOURCED].",
-    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
-  ],
-  "match_category": "EXACT_MATCH",
-  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
-}
-- **Sourced Evidence**:
-  - [SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).
-  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
-  - [SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..
-  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.
-  - [SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..
-  - [SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad..
-- **Engineering Assumptions**:
-  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (5.5 mm) or supply ASTM A53 Schedule 80 equivalent.
-- **RFQ Confirmation Items**:
-  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
-  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
-- **Recommended Next Step**: Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.
-
-#### Rank 5: APL Apollo Tubes Limited (82.0% Confidence)
+#### Rank 3 (Overall #4): APL Apollo Tubes Limited (82.0% Confidence)
 - **Location**: Delhi NCR (Manufacturing: Raipur, Sikandrabad, Hosur), India
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `CATEGORY_LEVEL_LEAD`
@@ -257,9 +227,40 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.
 
+#### Rank 4 (Overall #5): Tata Steel Limited (Tubes Division) (82.0% Confidence)
+- **Location**: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad), India
+- **Vendor Type**: PRIMARY_MANUFACTURER
+- **Match Precision**: `CATEGORY_LEVEL_LEAD`
+- **Website**: [Tata Steel Limited (Tubes Division)](https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html)
+- **Contact**: Email: tubes.sales@tatasteel.com, Phone: +91-33-2288-3333
+- **Technical Audit Notes**: {
+  "thought_process": [
+    "Cross-referenced vendor product catalog against normalized dimensions.",
+    "Tagged verified credentials as [SOURCED].",
+    "Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ]."
+  ],
+  "match_category": "EXACT_MATCH",
+  "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity."
+}
+- **Sourced Evidence**:
+  - [SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).
+  - [SOURCED] Vendor type: PRIMARY_MANUFACTURER.
+  - [SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..
+  - [SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.
+  - [SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..
+  - [SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad..
+- **Engineering Assumptions**:
+  - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
+  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (5.5 mm) or supply ASTM A53 Schedule 80 equivalent.
+- **RFQ Confirmation Items**:
+  - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
+  - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
+  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling.
+- **Recommended Next Step**: Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.
+
 
 ### Tier 3: International / Global Vendors
-#### Rank 7: Baoshan Iron & Steel Co., Ltd. (Baosteel) (80.0% Confidence)
+#### Rank 1 (Overall #6): Baoshan Iron & Steel Co., Ltd. (Baosteel) (80.0% Confidence)
 - **Location**: Shanghai, China
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `NEAR_MATCH`
@@ -291,7 +292,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.
 
-#### Rank 8: Tenaris S.A. (Middle East & Asia Distribution) (80.0% Confidence)
+#### Rank 2 (Overall #7): Tenaris S.A. (Middle East & Asia Distribution) (80.0% Confidence)
 - **Location**: Dubai (Global HQ: Luxembourg), United Arab Emirates
 - **Vendor Type**: PRIMARY_MANUFACTURER
 - **Match Precision**: `NEAR_MATCH`
@@ -323,7 +324,7 @@
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.
 
-#### Rank 9: Hamriyah Steel & Tube Trading FZE (74.0% Confidence)
+#### Rank 3 (Overall #9): Hamriyah Steel & Tube Trading FZE (74.0% Confidence)
 - **Location**: Sharjah, United Arab Emirates
 - **Vendor Type**: STOCKIST_TRADER
 - **Match Precision**: `NEAR_MATCH`
@@ -363,9 +364,9 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 7. Audit Trail and Agentic State Transitions
-- `[2026-09-16T04:56:00.298371+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.`
+- `[2026-09-16T06:37:37.756058+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.`
 - `Stage 1 Complete: Normalized specs. Detected 2 ambiguities.`
-- `Stage 2 Complete: Synthesized 7 search queries across Ahmedabad, India, and Global scopes.`
+- `Stage 2 Complete: Synthesized 8 search queries across Ahmedabad, India, and Global scopes.`
 - `Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).`
 - `Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.`
 - `Stage 6 Complete: Scored and ranked vendors. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global.`

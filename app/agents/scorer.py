@@ -10,6 +10,7 @@ from app.domain.models import (
     EvaluatedVendor,
     MatchCategory,
     NormalizedSpecification,
+    VendorEvidence,
     VendorTier,
     VendorType,
 )
@@ -23,46 +24,111 @@ class ScorerAgent:
         evaluated_candidates: List[Dict[str, Any]],
         spec: NormalizedSpecification,
     ) -> List[EvaluatedVendor]:
-        """Deduplicate, calculate composite scores, and sort candidates by rank."""
+        """Deduplicate, calculate composite scores, and assign intra-tier and global ranks."""
         deduplicated = self._deduplicate_candidates(evaluated_candidates)
-        scored_list: List[EvaluatedVendor] = []
+        scored_list = [self._build_evaluated_vendor(item, spec) for item in deduplicated]
 
-        for item in deduplicated:
-            vendor = item["raw_vendor"]
-            match_cat: MatchCategory = item["match_category"]
-            score, breakdown = self._calculate_confidence_score(vendor, match_cat, spec)
-
-            evaluated_vendor = EvaluatedVendor(
-                vendor_name=vendor.get("vendor_name", "Unknown Vendor"),
-                tier=VendorTier(vendor.get("tier")),
-                location=vendor.get("location", ""),
-                country=vendor.get("country", "India"),
-                vendor_type=VendorType(vendor.get("vendor_type")),
-                match_category=match_cat,
-                confidence_score=round(score, 1),
-                score_breakdown=breakdown,
-                evidence=item["evidence"],
-                unresolved_issues=item["unresolved_issues"],
-                recommended_next_step=item["recommended_next_step"],
-                rank=1,
+        scored_list.sort(
+            key=lambda candidate: (
+                -candidate.confidence_score,
+                -candidate.score_breakdown.get("technical_fit", 0.0),
+                -candidate.score_breakdown.get("certifications", 0.0),
+                candidate.vendor_name,
             )
-            scored_list.append(evaluated_vendor)
+        )
 
-        scored_list.sort(key=lambda vendor: vendor.confidence_score, reverse=True)
-        for index, vendor in enumerate(scored_list, start=1):
-            vendor.rank = index
+        return self._assign_tier_and_global_ranks(scored_list)
+
+    def _build_evaluated_vendor(
+        self,
+        item: Dict[str, Any],
+        spec: NormalizedSpecification,
+    ) -> EvaluatedVendor:
+        """Construct EvaluatedVendor instance with calculated composite score."""
+        vendor = item["raw_vendor"]
+        match_cat: MatchCategory = item["match_category"]
+        score, breakdown = self._calculate_confidence_score(vendor, match_cat, spec)
+        tier = self._parse_vendor_tier(vendor.get("tier"))
+        vendor_type = self._parse_vendor_type(vendor.get("vendor_type"))
+
+        evidence = item.get("evidence")
+        if evidence is None:
+            evidence = VendorEvidence(
+                catalog_spec=vendor.get("catalog_spec", "Catalog reference"),
+                source_url=vendor.get("source_url", "https://example.com"),
+                address=vendor.get("address", "Registered facility"),
+                contact_email=vendor.get("contact_email"),
+                contact_phone=vendor.get("contact_phone"),
+                certifications=vendor.get("certifications", []),
+            )
+
+        return EvaluatedVendor(
+            vendor_name=vendor.get("vendor_name", "Unknown Vendor"),
+            tier=tier,
+            location=vendor.get("location", ""),
+            country=vendor.get("country", "India"),
+            vendor_type=vendor_type,
+            match_category=match_cat,
+            confidence_score=round(score, 1),
+            score_breakdown=breakdown,
+            evidence=evidence,
+            unresolved_issues=item.get("unresolved_issues", []),
+            recommended_next_step=item.get("recommended_next_step", "Issue RFQ"),
+            rank=1,
+            global_rank=1,
+        )
+
+    @staticmethod
+    def _assign_tier_and_global_ranks(
+        scored_list: List[EvaluatedVendor],
+    ) -> List[EvaluatedVendor]:
+        """Assign sequential global ranks and intra-tier ranks (1..N within each tier)."""
+        tier_counters: Dict[VendorTier, int] = {
+            VendorTier.AHMEDABAD: 0,
+            VendorTier.INDIA_OUTSIDE_AHMEDABAD: 0,
+            VendorTier.GLOBAL: 0,
+        }
+
+        for global_index, vendor in enumerate(scored_list, start=1):
+            vendor.global_rank = global_index
+            tier_counters[vendor.tier] = tier_counters.get(vendor.tier, 0) + 1
+            vendor.rank = tier_counters[vendor.tier]
 
         return scored_list
+
+    @staticmethod
+    def _parse_vendor_tier(tier_value: Any) -> VendorTier:
+        """Safely parse vendor tier with case-insensitive fallback."""
+        if isinstance(tier_value, VendorTier):
+            return tier_value
+        if isinstance(tier_value, str):
+            clean_tier = tier_value.strip().upper()
+            for tier_member in VendorTier:
+                if tier_member.value == clean_tier:
+                    return tier_member
+        return VendorTier.GLOBAL
+
+    @staticmethod
+    def _parse_vendor_type(type_value: Any) -> VendorType:
+        """Safely parse vendor type with case-insensitive fallback."""
+        if isinstance(type_value, VendorType):
+            return type_value
+        if isinstance(type_value, str):
+            clean_type = type_value.strip().upper()
+            for type_member in VendorType:
+                if type_member.value == clean_type:
+                    return type_member
+        return VendorType.STOCKIST_TRADER
 
     def _deduplicate_candidates(self, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Remove duplicate vendor entries based on normalized vendor name."""
         seen_names = set()
         deduped: List[Dict[str, Any]] = []
-        for cand in candidates:
-            name = cand["raw_vendor"].get("vendor_name", "").strip().lower()
+        for candidate in candidates:
+            name = candidate["raw_vendor"].get("vendor_name", "").strip().lower()
             if name not in seen_names:
                 seen_names.add(name)
-                deduped.append(cand)
+                deduped.append(candidate)
         return deduped
 
     def _calculate_confidence_score(
@@ -75,7 +141,7 @@ class ScorerAgent:
         breakdown: Dict[str, float] = {
             "technical_fit": self._score_technical_fit(match_cat),
             "certifications": self._score_certifications(vendor.get("certifications", [])),
-            "capacity_feasibility": self._score_capacity(vendor.get("vendor_type")),
+            "capacity_feasibility": self._score_capacity(vendor.get("vendor_type"), spec),
             "geographic_logistics": self._score_geography(
                 vendor.get("tier"),
                 vendor.get("delivery_evidence", "").lower(),
@@ -108,22 +174,44 @@ class ScorerAgent:
         return 5.0
 
     @staticmethod
-    def _score_capacity(vendor_type: Optional[str]) -> float:
+    def _score_capacity(
+        vendor_type: Optional[Any],
+        spec: Optional[NormalizedSpecification] = None,
+    ) -> float:
         """Score production volume and order fulfillment capacity (20 points max)."""
-        if vendor_type == VendorType.PRIMARY_MANUFACTURER.value:
-            return 20.0
-        if vendor_type == VendorType.AUTHORIZED_DISTRIBUTOR.value:
-            return 17.0
-        if vendor_type == VendorType.STOCKIST_TRADER.value:
-            return 14.0
-        return 10.0
+        clean_type = (
+            vendor_type.value if isinstance(vendor_type, VendorType)
+            else (str(vendor_type).strip().upper() if vendor_type else "")
+        )
+
+        if clean_type == VendorType.PRIMARY_MANUFACTURER.value:
+            base_score = 20.0
+        elif clean_type == VendorType.AUTHORIZED_DISTRIBUTOR.value:
+            base_score = 17.0
+        elif clean_type == VendorType.STOCKIST_TRADER.value:
+            base_score = 14.0
+        elif clean_type == VendorType.EPC_SUPPLIER.value:
+            base_score = 12.0
+        else:
+            base_score = 10.0
+
+        if spec and spec.total_estimated_metric_tons:
+            is_heavy_batch = spec.total_estimated_metric_tons > 50.0
+            if is_heavy_batch and clean_type in [VendorType.STOCKIST_TRADER.value, VendorType.EPC_SUPPLIER.value]:
+                base_score = max(8.0, base_score - 2.0)
+
+        return base_score
 
     @staticmethod
-    def _score_geography(tier: Optional[str], delivery_text: str) -> float:
+    def _score_geography(tier: Optional[Any], delivery_text: str) -> float:
         """Score transit distance and warehouse proximity (15 points max)."""
-        if tier == VendorTier.AHMEDABAD.value:
+        clean_tier = (
+            tier.value if isinstance(tier, VendorTier)
+            else (str(tier).strip().upper() if tier else "")
+        )
+        if clean_tier == VendorTier.AHMEDABAD.value:
             return 15.0
-        if tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD.value:
+        if clean_tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD.value:
             if any(hub in delivery_text for hub in ["changodar", "sarkhej", "ahmedabad"]):
                 return 14.0
             return 11.0
@@ -135,5 +223,16 @@ class ScorerAgent:
         has_email = bool(vendor.get("contact_email"))
         has_phone = bool(vendor.get("contact_phone"))
         has_url = bool(vendor.get("source_url"))
-        contact_score = 2.0 + (1.5 if has_email and has_phone else 0.5) + (1.5 if has_url else 0.0)
-        return min(5.0, contact_score)
+        has_address = bool(vendor.get("address"))
+
+        score = 2.0 if has_address else 1.0
+        if has_url:
+            score += 1.5
+
+        if has_email and has_phone:
+            score += 1.5
+        elif has_email or has_phone:
+            score += 0.75
+
+        return min(5.0, score)
+

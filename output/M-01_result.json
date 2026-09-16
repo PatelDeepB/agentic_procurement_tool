@@ -1,7 +1,7 @@
 {
   "material_id": "M-01",
-  "run_id": "RUN-M-01-fc697869",
-  "timestamp": "2026-09-16T04:56:00.298371+00:00",
+  "run_id": "RUN-M-01-0eaccb3a",
+  "timestamp": "2026-09-16T06:37:37.756058+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -103,7 +103,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.",
-      "rank": 3
+      "rank": 1,
+      "global_rank": 3
     },
     {
       "vendor_name": "Gujarat Infra Pipes Pvt Ltd",
@@ -154,7 +155,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.",
-      "rank": 6
+      "rank": 2,
+      "global_rank": 8
     },
     {
       "vendor_name": "Ashapura Steel Tube Corporation",
@@ -203,7 +205,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.",
-      "rank": 10
+      "rank": 3,
+      "global_rank": 10
     }
   ],
   "india_vendors": [
@@ -257,7 +260,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 1
+      "rank": 1,
+      "global_rank": 1
     },
     {
       "vendor_name": "Surya Roshni Limited (Steel Division)",
@@ -309,59 +313,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 2
-    },
-    {
-      "vendor_name": "Tata Steel Limited (Tubes Division)",
-      "tier": "INDIA_OUTSIDE_AHMEDABAD",
-      "location": "Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad)",
-      "country": "India",
-      "vendor_type": "PRIMARY_MANUFACTURER",
-      "match_category": "CATEGORY_LEVEL_LEAD",
-      "confidence_score": 82.0,
-      "score_breakdown": {
-        "technical_fit": 18.0,
-        "certifications": 25.0,
-        "capacity_feasibility": 20.0,
-        "geographic_logistics": 14.0,
-        "traceability": 5.0
-      },
-      "evidence": {
-        "sourced_facts": [
-          "[SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).",
-          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
-          "[SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..",
-          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.",
-          "[SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..",
-          "[SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.."
-        ],
-        "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (5.5 mm) or supply ASTM A53 Schedule 80 equivalent."
-        ],
-        "needs_confirmation_rfq": [
-          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling."
-        ],
-        "catalog_spec": "Tata Pipes commercial ERW steel tubes with high tensile strength and uniform zinc coating where galvanized.",
-        "source_url": "https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html",
-        "contact_email": "tubes.sales@tatasteel.com",
-        "contact_phone": "+91-33-2288-3333",
-        "address": "Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)",
-        "certifications": [
-          "BIS ISI Mark IS 1239",
-          "ISO 9001",
-          "ISO 14001",
-          "GreenPro Certified"
-        ],
-        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
-      },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 5.5 mm wall."
-      ],
-      "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 4
+      "rank": 2,
+      "global_rank": 2
     },
     {
       "vendor_name": "APL Apollo Tubes Limited",
@@ -413,7 +366,61 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.",
-      "rank": 5
+      "rank": 3,
+      "global_rank": 4
+    },
+    {
+      "vendor_name": "Tata Steel Limited (Tubes Division)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad)",
+      "country": "India",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "CATEGORY_LEVEL_LEAD",
+      "confidence_score": 82.0,
+      "score_breakdown": {
+        "technical_fit": 18.0,
+        "certifications": 25.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 14.0,
+        "traceability": 5.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Kolkata, West Bengal (Plant: Jamshedpur; Hub: Ahmedabad) (Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004..",
+          "[SOURCED] Verified certifications: BIS ISI Mark IS 1239, ISO 9001, ISO 14001, GreenPro Certified.",
+          "[SOURCED] Capacity / inventory evidence: Over 500,000 MT annual production capacity across Tubes Division mills..",
+          "[SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
+          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (5.5 mm) or supply ASTM A53 Schedule 80 equivalent."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
+          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 5.5 mm wall rolling."
+        ],
+        "catalog_spec": "Tata Pipes commercial ERW steel tubes with high tensile strength and uniform zinc coating where galvanized.",
+        "source_url": "https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html",
+        "contact_email": "tubes.sales@tatasteel.com",
+        "contact_phone": "+91-33-2288-3333",
+        "address": "Tata Centre, 43 Jawaharlal Nehru Road, Kolkata 700071 (Stockyard: Sarkhej-Bavla Road, Ahmedabad)",
+        "certifications": [
+          "BIS ISI Mark IS 1239",
+          "ISO 9001",
+          "ISO 14001",
+          "GreenPro Certified"
+        ],
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Custom rolling lead time required for non-standard 5.5 mm wall."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 4,
+      "global_rank": 5
     }
   ],
   "global_vendors": [
@@ -470,7 +477,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 7
+      "rank": 1,
+      "global_rank": 6
     },
     {
       "vendor_name": "Tenaris S.A. (Middle East & Asia Distribution)",
@@ -525,7 +533,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 8
+      "rank": 2,
+      "global_rank": 7
     },
     {
       "vendor_name": "Hamriyah Steel & Tube Trading FZE",
@@ -577,7 +586,8 @@
         "Custom rolling lead time required for non-standard 5.5 mm wall."
       ],
       "recommended_next_step": "Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 9
+      "rank": 3,
+      "global_rank": 9
     }
   ],
   "search_queries": {
@@ -592,14 +602,15 @@
     ],
     "global": [
       "Carbon steel ERW line pipe exporter DN 50 60.3 mm OD ASTM A53 BS 1387 EN 10255",
-      "Global tubular supplier CIF Mundra Port Gujarat India DN 50 5.5 mm wall"
+      "Global tubular supplier CIF Mundra Port Gujarat India DN 50 5.5 mm wall",
+      "Heavy wall ERW pipe exporter DN 50 5.5 mm wall ASTM A53 Schedule 80 CIF Mundra Port"
     ]
   },
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T04:56:00.298371+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T06:37:37.756058+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs. Detected 2 ambiguities.",
-    "Stage 2 Complete: Synthesized 7 search queries across Ahmedabad, India, and Global scopes.",
+    "Stage 2 Complete: Synthesized 8 search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",
     "Stage 6 Complete: Scored and ranked vendors. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global."
