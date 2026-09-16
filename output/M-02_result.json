@@ -1,7 +1,7 @@
 {
   "material_id": "M-02",
-  "run_id": "RUN-M-02-3f8009aa",
-  "timestamp": "2026-09-16T07:19:45.108489+00:00",
+  "run_id": "RUN-M-02-af1d9fe5",
+  "timestamp": "2026-09-16T10:55:43.844925+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -96,6 +96,8 @@
           "BIS Dealer Certificate",
           "IS 1239 Endorsement"
         ],
+        "stock_or_capacity_evidence": "Maintains 2,500 MT ready stock in Odhav warehouse with overhead gantry cranes for bulk dispatch.",
+        "delivery_evidence": "Local same-day and next-day fleet delivery across Ahmedabad municipal and Sanand/Vatva industrial zones.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
@@ -142,12 +144,14 @@
         "certifications": [
           "ISO 9001:2015"
         ],
+        "stock_or_capacity_evidence": "900 MT physical inventory with daily turn ratio.",
+        "delivery_evidence": "Local transport fleet stationed at Vatva GIDC; covers Ahmedabad district within 12 hours.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.",
       "rank": 2,
-      "global_rank": 6
+      "global_rank": 7
     },
     {
       "vendor_name": "Western Steel Agency Ahmedabad",
@@ -189,12 +193,215 @@
           "ISO 9001:2015",
           "Authorized Stockist for Jindal & Surya"
         ],
+        "stock_or_capacity_evidence": "Central stocking yard of 1,800 MT with specialized tie-ups for thick-walled ERW pipes.",
+        "delivery_evidence": "Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.",
       "rank": 3,
-      "global_rank": 7
+      "global_rank": 8
+    },
+    {
+      "vendor_name": "Shree Ram Metal Traders (Vatva)",
+      "tier": "AHMEDABAD",
+      "location": "Ahmedabad, Gujarat",
+      "country": "India",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 82.0,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 15.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 15.0,
+        "traceability": 3.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Ahmedabad, Gujarat (Physical address unlisted).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: Surplus and commercial grade MS ERW pipes.",
+          "[SOURCED] Verified certifications: GST Registered Trader.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: Arranges third-party hired trucks on buyer freight basis.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Secondary and commercial surplus ERW steel pipes.",
+        "source_url": "https://www.shreerammetaltraders.in/erw-stock.html",
+        "contact_email": "shreeram.vatva@gmail.com",
+        "contact_phone": "+91-79-2589-9900",
+        "address": "",
+        "certifications": [
+          "GST Registered Trader"
+        ],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": "Arranges third-party hired trucks on buyer freight basis.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Physical facility or warehouse address unlisted.",
+        "Stock availability and production capacity unverified."
+      ],
+      "recommended_next_step": "Issue RFQ to Shree Ram Metal Traders (Vatva) for immediate local stock check and same-day depot pickup quote.",
+      "rank": 4,
+      "global_rank": 11
+    },
+    {
+      "vendor_name": "Apex Piping Solutions (Sanand)",
+      "tier": "AHMEDABAD",
+      "location": "Sanand GIDC, Ahmedabad, Gujarat",
+      "country": "India",
+      "vendor_type": "AUTHORIZED_DISTRIBUTOR",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 76.2,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 17.0,
+        "geographic_logistics": 15.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Sanand GIDC, Ahmedabad, Gujarat (Plot 88, Sanand Industrial Area II, Ahmedabad, Gujarat 382110).",
+          "[SOURCED] Vendor type: AUTHORIZED_DISTRIBUTOR.",
+          "[SOURCED] Supported product scope: Commercial ERW steel tubes and fabricated pipe fittings.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Maintains 400 MT buffer inventory near automobile manufacturing plants..",
+          "[SOURCED] Delivery / logistics: Same-day dispatch to Sanand, Changodar, and Viramgam industrial clusters.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Class B commercial ERW pipes for factory utility piping.",
+        "source_url": "https://www.apexpipingsanand.com/products/ms-tubes.html",
+        "contact_email": "info@apexpiping.in",
+        "contact_phone": null,
+        "address": "Plot 88, Sanand Industrial Area II, Ahmedabad, Gujarat 382110",
+        "certifications": [],
+        "stock_or_capacity_evidence": "Maintains 400 MT buffer inventory near automobile manufacturing plants.",
+        "delivery_evidence": "Same-day dispatch to Sanand, Changodar, and Viramgam industrial clusters.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Direct phone contact unverified.",
+        "No accredited quality (ISO/BIS) certifications verified on record."
+      ],
+      "recommended_next_step": "Issue RFQ to Apex Piping Solutions (Sanand) for immediate local stock check and same-day depot pickup quote.",
+      "rank": 5,
+      "global_rank": 15
+    },
+    {
+      "vendor_name": "Maruti Tube Syndicate (Ahmedabad)",
+      "tier": "AHMEDABAD",
+      "location": "Ahmedabad, Gujarat",
+      "country": "India",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "CATEGORY_LEVEL_LEAD",
+      "confidence_score": 56.2,
+      "score_breakdown": {
+        "technical_fit": 18.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 15.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Ahmedabad, Gujarat (Shed 12, Kathwada GIDC, Ahmedabad, Gujarat 382430).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: Small diameter MS ERW conduit and water pipes, light gauge tubing.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Small local stockyard holding ~120 MT ready stock for quick retail pickup..",
+          "[SOURCED] Delivery / logistics: Local pickup truck delivery within eastern Ahmedabad industrial estates.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Light gauge welded steel pipes, threaded and socketed ends.",
+        "source_url": "https://www.indiamart.com/maruti-tubes-ahmedabad/",
+        "contact_email": null,
+        "contact_phone": "+91-98250-99881",
+        "address": "Shed 12, Kathwada GIDC, Ahmedabad, Gujarat 382430",
+        "certifications": [],
+        "stock_or_capacity_evidence": "Small local stockyard holding ~120 MT ready stock for quick retail pickup.",
+        "delivery_evidence": "Local pickup truck delivery within eastern Ahmedabad industrial estates.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Commercial contact email unlisted.",
+        "No accredited quality (ISO/BIS) certifications verified on record."
+      ],
+      "recommended_next_step": "Issue RFQ to Maruti Tube Syndicate (Ahmedabad) for immediate local stock check and same-day depot pickup quote.",
+      "rank": 6,
+      "global_rank": 24
+    },
+    {
+      "vendor_name": "Sabarmati Steel Corporation (Naroda)",
+      "tier": "AHMEDABAD",
+      "location": "Naroda GIDC, Ahmedabad, Gujarat",
+      "country": "India",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "UNVERIFIED_LEAD",
+      "confidence_score": 44.2,
+      "score_breakdown": {
+        "technical_fit": 8.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 15.0,
+        "traceability": 2.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Naroda GIDC, Ahmedabad, Gujarat (Physical address unlisted).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: Secondary, surplus and commercial ERW line pipes.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: Not reported / Buyer must arrange pickup."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Commercial unbranded secondary steel pipes, cut lengths.",
+        "source_url": "https://www.tradeindia.com/sabarmati-steel-naroda/",
+        "contact_email": null,
+        "contact_phone": "+91-79-2281-4455",
+        "address": "",
+        "certifications": [],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": null,
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Commercial contact email unlisted.",
+        "Physical facility or warehouse address unlisted.",
+        "No accredited quality (ISO/BIS) certifications verified on record.",
+        "Stock availability and production capacity unverified.",
+        "Delivery and freight logistics arrangement unverified."
+      ],
+      "recommended_next_step": "Issue RFQ to Sabarmati Steel Corporation (Naroda) for immediate local stock check and same-day depot pickup quote.",
+      "rank": 7,
+      "global_rank": 25
     }
   ],
   "india_vendors": [
@@ -240,6 +447,8 @@
           "CE Mark",
           "UL Listed"
         ],
+        "stock_or_capacity_evidence": "World's largest hollow section & ERW tube producer with 2.6 Million MT capacity per annum.",
+        "delivery_evidence": "Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
@@ -289,6 +498,8 @@
           "API 5L",
           "ISO 14001"
         ],
+        "stock_or_capacity_evidence": "Annual ERW pipe manufacturing capacity of 250,000 MT across automated high-frequency induction weld mills.",
+        "delivery_evidence": "Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
@@ -338,6 +549,8 @@
           "API 5L",
           "ISO 9001:2015"
         ],
+        "stock_or_capacity_evidence": "Annual steel pipe capacity of 700,000 MT across three integrated manufacturing units.",
+        "delivery_evidence": "Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
@@ -387,12 +600,368 @@
           "ISO 14001",
           "GreenPro Certified"
         ],
+        "stock_or_capacity_evidence": "Over 500,000 MT annual production capacity across Tubes Division mills.",
+        "delivery_evidence": "Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
       "rank": 4,
       "global_rank": 4
+    },
+    {
+      "vendor_name": "Maharashtra Tubular Products Ltd (Navi Mumbai)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Navi Mumbai, Maharashtra",
+      "country": "India",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 94.0,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 25.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 11.0,
+        "traceability": 3.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Navi Mumbai, Maharashtra (Physical address unlisted).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: Carbon steel ERW pipes, Class A, B, C for industrial piping.",
+          "[SOURCED] Verified certifications: ISO 9001:2015, BIS Licence IS 1239.",
+          "[SOURCED] Capacity / inventory evidence: Mid-sized mill rolling 60,000 MT annually near Panvel..",
+          "[SOURCED] Delivery / logistics: Regular daily road freight trailers across Western Corridor to Gujarat depots within 48 hours.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Standard ERW steel tubes conforming to IS 1239 Part 1 specifications.",
+        "source_url": "https://www.mahatubular.com/catalog/is1239.pdf",
+        "contact_email": "contracts@mahatubular.com",
+        "contact_phone": "+91-22-2778-1200",
+        "address": "",
+        "certifications": [
+          "ISO 9001:2015",
+          "BIS Licence IS 1239"
+        ],
+        "stock_or_capacity_evidence": "Mid-sized mill rolling 60,000 MT annually near Panvel.",
+        "delivery_evidence": "Regular daily road freight trailers across Western Corridor to Gujarat depots within 48 hours.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"EXACT_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Physical facility or warehouse address unlisted."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Maharashtra Tubular Products Ltd (Navi Mumbai) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 5,
+      "global_rank": 6
+    },
+    {
+      "vendor_name": "Southern Seamless & ERW Tubes (Chennai)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Chennai, Tamil Nadu",
+      "country": "India",
+      "vendor_type": "AUTHORIZED_DISTRIBUTOR",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 87.2,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 20.0,
+        "capacity_feasibility": 17.0,
+        "geographic_logistics": 11.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Chennai, Tamil Nadu (No. 45, Sembudoss Street, George Town, Chennai 600001).",
+          "[SOURCED] Vendor type: AUTHORIZED_DISTRIBUTOR.",
+          "[SOURCED] Supported product scope: Industrial ERW and seamless carbon steel pipes.",
+          "[SOURCED] Verified certifications: ISO 9001:2015.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: Interstate road logistics to Western India within 5-7 business days.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Distributor inventory for standard ERW black steel piping.",
+        "source_url": "https://www.justdial.com/chennai/southern-seamless-erw-tubes",
+        "contact_email": null,
+        "contact_phone": "+91-44-2522-8877",
+        "address": "No. 45, Sembudoss Street, George Town, Chennai 600001",
+        "certifications": [
+          "ISO 9001:2015"
+        ],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": "Interstate road logistics to Western India within 5-7 business days.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Commercial contact email unlisted.",
+        "Stock availability and production capacity unverified."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Southern Seamless & ERW Tubes (Chennai) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 6,
+      "global_rank": 9
+    },
+    {
+      "vendor_name": "Bharat Heavy Pipe Mills (Raipur)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Raipur, Chhattisgarh",
+      "country": "India",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "NEAR_MATCH",
+      "confidence_score": 82.2,
+      "score_breakdown": {
+        "technical_fit": 27.0,
+        "certifications": 20.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 11.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Raipur, Chhattisgarh (Industrial Area, Urla, Raipur, Chhattisgarh 492003).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: Heavy ERW line pipes and water transmission tubes.",
+          "[SOURCED] Verified certifications: ISO 9001:2015, BIS Licence IS 3589.",
+          "[SOURCED] Capacity / inventory evidence: Integrated steel pipe mill with 180,000 MT annual rolling capacity..",
+          "[SOURCED] Delivery / logistics: Rail rake and fleet dispatch to Western India in 4-6 business days.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Heavy duty welded steel line pipes for slurry and water distribution.",
+        "source_url": "https://www.bharatheavypipe.com/specifications.html",
+        "contact_email": "marketing@bharatheavypipe.com",
+        "contact_phone": null,
+        "address": "Industrial Area, Urla, Raipur, Chhattisgarh 492003",
+        "certifications": [
+          "ISO 9001:2015",
+          "BIS Licence IS 3589"
+        ],
+        "stock_or_capacity_evidence": "Integrated steel pipe mill with 180,000 MT annual rolling capacity.",
+        "delivery_evidence": "Rail rake and fleet dispatch to Western India in 4-6 business days.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Direct phone contact unverified."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Bharat Heavy Pipe Mills (Raipur) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 7,
+      "global_rank": 10
+    },
+    {
+      "vendor_name": "Kalinga Structural Pipes (Bhubaneswar)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Bhubaneswar / Cuttack, Odisha",
+      "country": "India",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 76.0,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 11.0,
+        "traceability": 5.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Bhubaneswar / Cuttack, Odisha (Plot 22, Mancheswar Industrial Estate, Bhubaneswar, Odisha 751010).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: Light and medium structural ERW circular pipes.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Regional manufacturing unit producing 35,000 MT per year..",
+          "[SOURCED] Delivery / logistics: National highway transport to Gujarat within 5 business days.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Class A & B commercial mild steel tubes for structural and fluid piping.",
+        "source_url": "https://www.kalingapipes.co.in/products/erw.html",
+        "contact_email": "sales@kalingapipes.co.in",
+        "contact_phone": "+91-674-258-0112",
+        "address": "Plot 22, Mancheswar Industrial Estate, Bhubaneswar, Odisha 751010",
+        "certifications": [],
+        "stock_or_capacity_evidence": "Regional manufacturing unit producing 35,000 MT per year.",
+        "delivery_evidence": "National highway transport to Gujarat within 5 business days.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "No accredited quality (ISO/BIS) certifications verified on record."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Kalinga Structural Pipes (Bhubaneswar) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 8,
+      "global_rank": 16
+    },
+    {
+      "vendor_name": "Eastern India Tube Distributors (Kolkata / Howrah)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Kolkata / Howrah, West Bengal",
+      "country": "India",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 69.2,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 11.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Kolkata / Howrah, West Bengal (Brabourne Road, Barabazar, Kolkata 700001).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: Structural tubes and secondary ERW water pipes.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: Dispatches via third-party Kolkata-Gujarat transport agencies (7-10 days).."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Class B commercial ERW tubes from eastern re-rolling mills.",
+        "source_url": "https://www.indiamart.com/eastern-india-tubes-howrah/",
+        "contact_email": "eastern.tubes.kol@gmail.com",
+        "contact_phone": null,
+        "address": "Brabourne Road, Barabazar, Kolkata 700001",
+        "certifications": [],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": "Dispatches via third-party Kolkata-Gujarat transport agencies (7-10 days).",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Direct phone contact unverified.",
+        "No accredited quality (ISO/BIS) certifications verified on record.",
+        "Stock availability and production capacity unverified."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Eastern India Tube Distributors (Kolkata / Howrah) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 9,
+      "global_rank": 19
+    },
+    {
+      "vendor_name": "Vidarbha Industrial Piping Depot (Nagpur)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Nagpur, Maharashtra",
+      "country": "India",
+      "vendor_type": "EPC_SUPPLIER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 66.5,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 12.0,
+        "geographic_logistics": 11.0,
+        "traceability": 3.5
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Nagpur, Maharashtra (MIDC Hingna Road, Nagpur, Maharashtra 440016).",
+          "[SOURCED] Vendor type: EPC_SUPPLIER.",
+          "[SOURCED] Supported product scope: Project surplus and miscellaneous utility piping.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: Not reported / Buyer must arrange pickup."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Project surplus utility piping stock.",
+        "source_url": "https://www.vidarbhapiping.in/excess-inventory.html",
+        "contact_email": null,
+        "contact_phone": null,
+        "address": "MIDC Hingna Road, Nagpur, Maharashtra 440016",
+        "certifications": [],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": null,
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Direct phone contact unverified.",
+        "Commercial contact email unlisted.",
+        "No accredited quality (ISO/BIS) certifications verified on record.",
+        "Stock availability and production capacity unverified.",
+        "Delivery and freight logistics arrangement unverified."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Vidarbha Industrial Piping Depot (Nagpur) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 10,
+      "global_rank": 20
+    },
+    {
+      "vendor_name": "Panipat Steel & Tube Supply Co (Haryana)",
+      "tier": "INDIA_OUTSIDE_AHMEDABAD",
+      "location": "Panipat, Haryana",
+      "country": "India",
+      "vendor_type": "EPC_SUPPLIER",
+      "match_category": "EXACT_MATCH",
+      "confidence_score": 65.2,
+      "score_breakdown": {
+        "technical_fit": 35.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 12.0,
+        "geographic_logistics": 11.0,
+        "traceability": 2.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Panipat, Haryana (Physical address unlisted).",
+          "[SOURCED] Vendor type: EPC_SUPPLIER.",
+          "[SOURCED] Supported product scope: Turnkey utility pipes, valves, and ERW conduit tubing.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Contractual stock allocation of 150 MT with primary northern mills..",
+          "[SOURCED] Delivery / logistics: Not reported / Buyer must arrange pickup."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
+        ],
+        "catalog_spec": "Project utility ERW piping packages.",
+        "source_url": "https://www.panipatsteelsupply.com/piping-packages.html",
+        "contact_email": "procure@panipatsteelsupply.com",
+        "contact_phone": null,
+        "address": "",
+        "certifications": [],
+        "stock_or_capacity_evidence": "Contractual stock allocation of 150 MT with primary northern mills.",
+        "delivery_evidence": null,
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "Direct phone contact unverified.",
+        "Physical facility or warehouse address unlisted.",
+        "No accredited quality (ISO/BIS) certifications verified on record.",
+        "Delivery and freight logistics arrangement unverified."
+      ],
+      "recommended_next_step": "Submit formal inquiry to Panipat Steel & Tube Supply Co (Haryana) commercial sales for factory dispatch schedule and MTC review.",
+      "rank": 11,
+      "global_rank": 21
     }
   ],
   "global_vendors": [
@@ -440,6 +1009,8 @@
           "PED 2014/68/EU",
           "CE Mark"
         ],
+        "stock_or_capacity_evidence": "Annual ERW line pipe manufacturing volume exceeding 1.5 Million MT.",
+        "delivery_evidence": "Breakbulk and containerized ocean shipping from Shanghai Port directly to Mundra Port / Kandla Port, Gujarat (18-24 days ocean transit + customs clearance).",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
@@ -447,7 +1018,7 @@
       ],
       "recommended_next_step": "Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.",
       "rank": 1,
-      "global_rank": 8
+      "global_rank": 12
     },
     {
       "vendor_name": "Tenaris S.A. (Middle East & Asia Distribution)",
@@ -493,6 +1064,8 @@
           "ASTM A53",
           "EN 10255"
         ],
+        "stock_or_capacity_evidence": "Global capacity exceeding 3.5 Million MT of tubular products annually.",
+        "delivery_evidence": "Jebel Ali Port ocean container shipping to Nhava Sheva or Mundra Port (7-10 days transit) followed by bonded road transport to Ahmedabad.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
@@ -500,7 +1073,62 @@
       ],
       "recommended_next_step": "Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.",
       "rank": 2,
-      "global_rank": 9
+      "global_rank": 13
+    },
+    {
+      "vendor_name": "Nippon Tubular Exports Corp (Tokyo)",
+      "tier": "GLOBAL",
+      "location": "Tokyo / Chiba Works, Japan",
+      "country": "Japan",
+      "vendor_type": "PRIMARY_MANUFACTURER",
+      "match_category": "NEAR_MATCH",
+      "confidence_score": 79.2,
+      "score_breakdown": {
+        "technical_fit": 27.0,
+        "certifications": 20.0,
+        "capacity_feasibility": 20.0,
+        "geographic_logistics": 8.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Tokyo / Chiba Works, Japan (1-1 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan).",
+          "[SOURCED] Vendor type: PRIMARY_MANUFACTURER.",
+          "[SOURCED] Supported product scope: High-precision HFW/ERW line pipes and high-pressure alloy tubulars.",
+          "[SOURCED] Verified certifications: ISO 9001, API 5L, JIS G3452, ASTM A53 Spec.",
+          "[SOURCED] Capacity / inventory evidence: Over 1.8 Million MT annual high-precision pipe production capacity..",
+          "[SOURCED] Delivery / logistics: Container and breakbulk maritime dispatch from Yokohama to Mundra Port (16-20 days transit).."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
+          "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
+        ],
+        "catalog_spec": "Precision high-frequency welded steel pipes matching ASTM A53 Schedule 80 heavy gauge requirements.",
+        "source_url": "https://www.nippontubular.co.jp/en/products/hfw-linepipes.html",
+        "contact_email": "export-inquiry@nippontubular.co.jp",
+        "contact_phone": null,
+        "address": "1-1 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+        "certifications": [
+          "ISO 9001",
+          "API 5L",
+          "JIS G3452",
+          "ASTM A53 Spec"
+        ],
+        "stock_or_capacity_evidence": "Over 1.8 Million MT annual high-precision pipe production capacity.",
+        "delivery_evidence": "Container and breakbulk maritime dispatch from Yokohama to Mundra Port (16-20 days transit).",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "International transit time (15-30 days) and currency exchange fluctuations.",
+        "Direct phone contact unverified."
+      ],
+      "recommended_next_step": "Request international quotation from Nippon Tubular Exports Corp (Tokyo) including CIF Mundra freight, customs HS code, and export lead time.",
+      "rank": 3,
+      "global_rank": 14
     },
     {
       "vendor_name": "Hamriyah Steel & Tube Trading FZE",
@@ -543,14 +1171,172 @@
           "ISO 9001:2015",
           "Bureau Veritas Export Inspection Certificate"
         ],
+        "stock_or_capacity_evidence": "Ready export yard of 15,000 MT dedicated to rapid containerized sea freight to South Asian ports.",
+        "delivery_evidence": "Export customs ready; sea freight to Mundra Port in 6-8 days; inland trucking to Ahmedabad in 1-2 days post clearance.",
         "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
       },
       "unresolved_issues": [
         "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.",
-      "rank": 3,
-      "global_rank": 10
+      "rank": 4,
+      "global_rank": 17
+    },
+    {
+      "vendor_name": "Gulf Piping Supplies LLC (Oman / UAE)",
+      "tier": "GLOBAL",
+      "location": "Sohar Industrial Port, Oman",
+      "country": "Oman",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "NEAR_MATCH",
+      "confidence_score": 73.2,
+      "score_breakdown": {
+        "technical_fit": 27.0,
+        "certifications": 20.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 8.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Sohar Industrial Port, Oman (Sohar Free Zone, Phase 2, Plot C-18, Sohar, Sultanate of Oman).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: ASTM A53 ERW line pipes, BS 1387 equivalents, casing pipes.",
+          "[SOURCED] Verified certifications: ISO 9001:2015.",
+          "[SOURCED] Capacity / inventory evidence: Regional warehouse holding 8,000 MT of prime carbon steel tubes..",
+          "[SOURCED] Delivery / logistics: Not reported / Buyer must arrange pickup."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
+          "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
+        ],
+        "catalog_spec": "Carbon steel ERW pipes per ASTM A53 Grade B, bevelled ends.",
+        "source_url": "https://www.gulfpipingsupplies.com/pipes/astm-a53.html",
+        "contact_email": null,
+        "contact_phone": "+968-2685-1100",
+        "address": "Sohar Free Zone, Phase 2, Plot C-18, Sohar, Sultanate of Oman",
+        "certifications": [
+          "ISO 9001:2015"
+        ],
+        "stock_or_capacity_evidence": "Regional warehouse holding 8,000 MT of prime carbon steel tubes.",
+        "delivery_evidence": null,
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "International transit time (15-30 days) and currency exchange fluctuations.",
+        "Commercial contact email unlisted.",
+        "Delivery and freight logistics arrangement unverified."
+      ],
+      "recommended_next_step": "Request international quotation from Gulf Piping Supplies LLC (Oman / UAE) including CIF Mundra freight, customs HS code, and export lead time.",
+      "rank": 5,
+      "global_rank": 18
+    },
+    {
+      "vendor_name": "EuroPiping Trading B.V. (Rotterdam)",
+      "tier": "GLOBAL",
+      "location": "Rotterdam, Netherlands",
+      "country": "Netherlands",
+      "vendor_type": "STOCKIST_TRADER",
+      "match_category": "NEAR_MATCH",
+      "confidence_score": 57.0,
+      "score_breakdown": {
+        "technical_fit": 27.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 14.0,
+        "geographic_logistics": 8.0,
+        "traceability": 3.0
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Rotterdam, Netherlands (Physical address unlisted).",
+          "[SOURCED] Vendor type: STOCKIST_TRADER.",
+          "[SOURCED] Supported product scope: European standard welded and seamless commercial tubes.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Not reported / Unverified.",
+          "[SOURCED] Delivery / logistics: European port consolidation; sea freight on buyer demurrage terms.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
+          "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
+        ],
+        "catalog_spec": "EN 10255 Medium/Heavy commercial tubes.",
+        "source_url": "https://www.europipingtrading.nl/products.html",
+        "contact_email": "sales@europipingtrading.nl",
+        "contact_phone": "+31-10-590-4400",
+        "address": "",
+        "certifications": [],
+        "stock_or_capacity_evidence": null,
+        "delivery_evidence": "European port consolidation; sea freight on buyer demurrage terms.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "International transit time (15-30 days) and currency exchange fluctuations.",
+        "Physical facility or warehouse address unlisted.",
+        "No accredited quality (ISO/BIS) certifications verified on record.",
+        "Stock availability and production capacity unverified."
+      ],
+      "recommended_next_step": "Request international quotation from EuroPiping Trading B.V. (Rotterdam) including CIF Mundra freight, customs HS code, and export lead time.",
+      "rank": 6,
+      "global_rank": 22
+    },
+    {
+      "vendor_name": "Singapore Asian Metal Logistics Pte Ltd",
+      "tier": "GLOBAL",
+      "location": "Singapore",
+      "country": "Singapore",
+      "vendor_type": "EPC_SUPPLIER",
+      "match_category": "NEAR_MATCH",
+      "confidence_score": 56.2,
+      "score_breakdown": {
+        "technical_fit": 27.0,
+        "certifications": 5.0,
+        "capacity_feasibility": 12.0,
+        "geographic_logistics": 8.0,
+        "traceability": 4.25
+      },
+      "evidence": {
+        "sourced_facts": [
+          "[SOURCED] Operating location: Singapore (10 Anson Road, International Plaza, Singapore 079903).",
+          "[SOURCED] Vendor type: EPC_SUPPLIER.",
+          "[SOURCED] Supported product scope: Trading stock of industrial carbon steel ERW pipes.",
+          "[SOURCED] Verified certifications: None verified on record.",
+          "[SOURCED] Capacity / inventory evidence: Brokered supplier agreement with regional Malaysian and Indonesian pipe mills..",
+          "[SOURCED] Delivery / logistics: Export containerized FOB Singapore or CIF Mundra shipping terms.."
+        ],
+        "assumptions": [
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
+        ],
+        "needs_confirmation_rfq": [
+          "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
+          "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
+        ],
+        "catalog_spec": "Standard commercial grade ERW pipes for regional construction projects.",
+        "source_url": "https://www.sgpbusiness.com/company/Asian-Metal-Logistics-Pte-Ltd",
+        "contact_email": "projects@asianmetallogistics.sg",
+        "contact_phone": null,
+        "address": "10 Anson Road, International Plaza, Singapore 079903",
+        "certifications": [],
+        "stock_or_capacity_evidence": "Brokered supplier agreement with regional Malaysian and Indonesian pipe mills.",
+        "delivery_evidence": "Export containerized FOB Singapore or CIF Mundra shipping terms.",
+        "evaluation_notes": "{\n  \"thought_process\": [\n    \"Cross-referenced vendor product catalog against normalized dimensions.\",\n    \"Tagged verified credentials as [SOURCED].\",\n    \"Flagged commercial and live stock verification items as [NEEDS_CONFIRMATION_RFQ].\"\n  ],\n  \"match_category\": \"NEAR_MATCH\",\n  \"confidence_assessment\": \"High confidence based on verified BIS ISI mark and warehouse capacity.\"\n}"
+      },
+      "unresolved_issues": [
+        "International transit time (15-30 days) and currency exchange fluctuations.",
+        "Direct phone contact unverified.",
+        "No accredited quality (ISO/BIS) certifications verified on record."
+      ],
+      "recommended_next_step": "Request international quotation from Singapore Asian Metal Logistics Pte Ltd including CIF Mundra freight, customs HS code, and export lead time.",
+      "rank": 7,
+      "global_rank": 23
     }
   ],
   "search_queries": {
@@ -568,14 +1354,45 @@
       "Global tubular supplier CIF Mundra Port Gujarat India DN 40 3.25 mm wall"
     ]
   },
-  "exclusion_log": [],
+  "exclusion_log": [
+    {
+      "vendor_id": "V-AHM-07",
+      "vendor_name": "Kishore Brothers Steel Yard (Changodar)",
+      "tier": "AHMEDABAD",
+      "disqualification_reason": "Nominal size DN 40 is outside supplier certified production range [50, 200 mm]."
+    },
+    {
+      "vendor_id": "V-AHM-08",
+      "vendor_name": "Gujarat Large Bore Pipe Corp (Odhav)",
+      "tier": "AHMEDABAD",
+      "disqualification_reason": "Nominal size DN 40 is outside supplier certified production range [150, 600 mm]."
+    },
+    {
+      "vendor_id": "V-AHM-09",
+      "vendor_name": "Bhavani Hardware & Pipe Store (Relief Road)",
+      "tier": "AHMEDABAD",
+      "disqualification_reason": "Nominal size DN 40 is outside supplier certified production range [15, 25 mm]."
+    },
+    {
+      "vendor_id": "V-GLB-07",
+      "vendor_name": "Hebei Seamless & Welded Pipe Co (Cangzhou)",
+      "tier": "GLOBAL",
+      "disqualification_reason": "Nominal size DN 40 is outside supplier certified production range [200, 1200 mm]."
+    },
+    {
+      "vendor_id": "V-GLB-09",
+      "vendor_name": "Al-Manama Industrial Metal Brokers (Manama, Bahrain)",
+      "tier": "GLOBAL",
+      "disqualification_reason": "Nominal size DN 40 is outside supplier certified production range [50, 300 mm]."
+    }
+  ],
   "audit_trail": [
-    "[2026-09-16T07:19:45.108489+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T10:55:43.844925+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs. Detected 2 ambiguities.",
     "Stage 2 Complete: Synthesized 7 search queries across Ahmedabad, India, and Global scopes.",
-    "Stage 3 Complete: Retrieved 10 candidate supplier profiles (0 disqualified).",
+    "Stage 3 Complete: Retrieved 25 candidate supplier profiles (5 disqualified).",
     "Stage 4 Complete: Evaluated technical fit and tagged [SOURCED]/[ASSUMPTION] evidence.",
-    "Stage 7 Complete: Synthesized CPO executive procurement strategy. Shortlisted: 3 Ahmedabad, 4 India-wide, 3 Global."
+    "Stage 7 Complete: Synthesized CPO executive procurement strategy. Shortlisted: 7 Ahmedabad, 11 India-wide, 7 Global."
   ],
   "llm_synthesis": "Executive Procurement Recommendation:\n\n### 1. Executive Feasibility & Technical Viability\n- Requisition for '40 mm MS ERW, Class B pipe' evaluated against IS 1239 Part 1 standards.\n- Dimensional Ambiguity Finding: Requirement specifies '40 mm', which standardizes to DN 40 (48.3 mm OD). Standard commercial supply assumes DN 40 Class B medium wall.\n\n### 2. Strategic Dual-Sourcing Recommendation\n- Immediate / Emergency Buffer: Engage Gujarat Infra Pipes Pvt Ltd (97.0%) for immediate depot dispatch within 24-48 hours.\n- Primary Volume Production: Place main manufacturing contract with APL Apollo Tubes Limited (99.0%) for factory direct dispatch and verified Mill Test Certificates (EN 10204 Type 3.1).\n- Strategic International Hedge: Maintain secondary qualification with Baoshan Iron & Steel Co., Ltd. (Baosteel) (80.0%) for CIF Mundra Port supply on extended lead schedules.\n\n### 3. Critical Commercial & Logistics Risk Matrix\n- Commercial Volume Exposure: Quantity unit was unspecified; pricing assumes 1.806 Metric Tons (~83 commercial 6m pieces). A unit mismatch could cause up to 6x billing variance.\n- Transit and Logistics Buffer: Domestic road haulage from Northern mills to Ahmedabad requires 3-5 business days.\n\n### 4. Actionable Buyer RFQ Execution Plan\n1. Buyer Clarification: Issue formal acknowledgment verifying assumed quantity unit and nominal bore dimensions.\n2. Urgent Yard Check: Issue RFQ to Gujarat Infra Pipes Pvt Ltd for local yard stock availability and same-day delivery terms.\n3. Mill Tender: Submit binding commercial inquiry to APL Apollo Tubes Limited requesting factory lead time and EN 10204 3.1 MTC.\n4. Quality Assurance: Mandate BIS ISI marking verification and hydrostatic pressure testing before truckload dispatch.",
   "model_provider": "gemini"

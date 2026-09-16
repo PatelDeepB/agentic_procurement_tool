@@ -97,3 +97,12 @@ def test_should_export_results_in_markdown_and_csv():
     assert "# Procurement Evaluation Report: M-03" in md_res.text
     assert csv_res.status_code == 200
     assert "vendor_name,location" in csv_res.text
+
+
+def test_should_serve_web_ui_at_root():
+    """Verify GET / returns HTTP 200 and serves HTML web UI."""
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "text/html" in response.headers.get("content-type", "")
+    assert "Agentic Procurement Engine" in response.text
+

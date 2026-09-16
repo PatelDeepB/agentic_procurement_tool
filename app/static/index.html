@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Procurement Tool | Multi-Tier Industrial Piping Sourcing</title>
+  <meta name="description" content="Evidence-grounded multi-agent industrial procurement platform evaluating vendor capabilities across Ahmedabad, India, and Global markets with zero-hallucination guardrails.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Agentic Procurement Engine</h1>
+          <p class="brand-subtitle">Evidence-Grounded Multi-Tier Vendor Sourcing</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div id="systemHealthBadge" class="status-pill status-healthy">
+          <span class="status-dot"></span>
+          <span id="healthText">Registry Active (10 Suppliers)</span>
+        </div>
+        <a href="/docs" target="_blank" class="nav-link-btn" title="Open Swagger API documentation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Requisition Input Section -->
+    <section class="card input-card" aria-labelledby="requisition-heading">
+      <div class="card-header">
+        <div>
+          <h2 id="requisition-heading" class="card-title">Material Requisition & RFQ Parameters</h2>
+          <p class="card-subtitle">Select a benchmark scenario or enter custom industrial piping requirements</p>
+        </div>
+      </div>
+
+      <div class="presets-bar">
+        <span class="presets-label">Evaluation Benchmarks:</span>
+        <div class="preset-buttons" role="group" aria-label="Benchmark Scenarios">
+          <button type="button" class="preset-btn active" id="btnPresetM01">
+            <span class="preset-code">M-01</span>
+            <span class="preset-name">DN 50 IS 1239 (5.5mm Wall)</span>
+          </button>
+          <button type="button" class="preset-btn" id="btnPresetM02">
+            <span class="preset-code">M-02</span>
+            <span class="preset-name">40mm MS ERW Class B</span>
+          </button>
+          <button type="button" class="preset-btn" id="btnPresetM03">
+            <span class="preset-code">M-03</span>
+            <span class="preset-name">DN 80 IS 1239 (4.8mm Wall)</span>
+          </button>
+        </div>
+      </div>
+
+      <form id="procurementForm" class="procurement-form">
+        <div class="form-grid">
+          <div class="form-group form-group-span-2">
+            <label for="materialInput" class="form-label">Material Description & Dimensions</label>
+            <textarea id="materialInput" class="form-control" rows="2" required placeholder="e.g. ERW pipe, DN 50, 60.3 x 5.5 mm, IS 1239"></textarea>
+            <span class="form-hint">Engineering descriptions are normalized and validated against IS 1239:2004 standards.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="quantityInput" class="form-label">Required Quantity</label>
+            <input type="number" id="quantityInput" class="form-control" step="any" min="1" required value="1000">
+            <span class="form-hint">Physical unit (meters) assumed if unspecified. Tonnage auto-calculated.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="materialIdInput" class="form-label">Requirement Identifier</label>
+            <input type="text" id="materialIdInput" class="form-control" required value="M-01" placeholder="e.g. M-01">
+            <span class="form-hint">Unique requisition or project reference key.</span>
+          </div>
+
+          <div class="form-group form-group-span-2">
+            <label for="locationInput" class="form-label">Procurement & Delivery Destination</label>
+            <input type="text" id="locationInput" class="form-control" required value="Ahmedabad, Gujarat, India" placeholder="e.g. Ahmedabad, Gujarat, India">
+            <span class="form-hint">Determines tier segregation (Ahmedabad local stockyards vs India-wide mills vs Global imports).</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="runProcureBtn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span>Run Multi-Agent Procurement Analysis</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loadingIndicator" class="loading-container hidden" role="status" aria-live="polite">
+      <div class="spinner"></div>
+      <div class="loading-text">
+        <h3 id="loadingStage">Executing Multi-Agent Workflow...</h3>
+        <p id="loadingSubtext">Evaluating specifications against IS 1239 standards and searching 3 geographic tiers.</p>
+      </div>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div id="errorAlert" class="alert alert-danger hidden" role="alert">
+      <div class="alert-icon">!</div>
+      <div id="errorMessage" class="alert-content">An unexpected error occurred.</div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsContainer" class="results-container hidden">
+      <!-- Action Export Bar -->
+      <section class="export-banner" aria-label="Export Evaluation Reports">
+        <div class="export-info">
+          <span class="export-label">Evaluation Complete:</span>
+          <span id="exportRunId" class="badge badge-mono">RUN-ID</span>
+          <span id="exportTimestamp" class="text-muted">Just now</span>
+        </div>
+        <div class="export-buttons">
+          <button type="button" id="btnExportMd" class="btn btn-outline" title="Download formatted Markdown report">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            Download Markdown (.md)
+          </button>
+          <button type="button" id="btnExportCsv" class="btn btn-outline" title="Download supplier evaluation CSV">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            Download CSV (.csv)
+          </button>
+          <button type="button" id="btnExportJson" class="btn btn-outline" title="Download structured JSON result">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            Download JSON (.json)
+          </button>
+        </div>
+      </section>
+
+      <!-- Stage 1 & 2: Normalization & Ambiguity Cards -->
+      <div class="grid-2-col">
+        <!-- Normalized Specification -->
+        <article class="card" aria-labelledby="norm-heading">
+          <div class="card-header">
+            <h3 id="norm-heading" class="card-title">1. Normalized Technical Specification</h3>
+          </div>
+          <div class="spec-metrics-grid">
+            <div class="metric-box">
+              <span class="metric-label">Nominal Bore (DN)</span>
+              <span id="metricDn" class="metric-value">-- mm</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-label">Outside Diameter (OD)</span>
+              <span id="metricOd" class="metric-value">-- mm</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-label">Wall Thickness</span>
+              <span id="metricWall" class="metric-value">-- mm</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-label">Standard Specification</span>
+              <span id="metricStd" class="metric-value">--</span>
+            </div>
+            <div class="metric-box highlight">
+              <span class="metric-label">Estimated Batch Weight</span>
+              <span id="metricTonnage" class="metric-value">-- MT</span>
+            </div>
+            <div class="metric-box highlight">
+              <span class="metric-label">Standard 6m Pieces</span>
+              <span id="metricPieces" class="metric-value">-- pcs</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Technical Ambiguities & Stated Assumptions -->
+        <article class="card" aria-labelledby="ambiguity-heading">
+          <div class="card-header">
+            <h3 id="ambiguity-heading" class="card-title">2. Technical Ambiguities & Stated Assumptions</h3>
+            <span id="ambiguityCountBadge" class="badge badge-warning">0 Ambiguities</span>
+          </div>
+          <div id="ambiguitiesContainer" class="ambiguities-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </article>
+      </div>
+
+      <!-- Stage 3 & 4: Multi-Tier Structured Vendor Shortlist -->
+      <section class="card" aria-labelledby="vendors-heading">
+        <div class="card-header flex-between">
+          <div>
+            <h3 id="vendors-heading" class="card-title">3. Structured Multi-Tier Vendor Shortlist</h3>
+            <p class="card-subtitle">Evaluated on technical capability, certifications, logistics, and bulk order feasibility</p>
+          </div>
+          <div class="tier-tabs" role="tablist" aria-label="Vendor Tiers">
+            <button type="button" class="tier-tab-btn active" id="tabAll" data-tier="ALL" role="tab">All Vendors (<span id="countAll">0</span>)</button>
+            <button type="button" class="tier-tab-btn" id="tabAhm" data-tier="AHMEDABAD" role="tab">Tier 1: Ahmedabad (<span id="countAhm">0</span>)</button>
+            <button type="button" class="tier-tab-btn" id="tabIndia" data-tier="INDIA_OUTSIDE_AHMEDABAD" role="tab">Tier 2: India-Wide (<span id="countIndia">0</span>)</button>
+            <button type="button" class="tier-tab-btn" id="tabGlobal" data-tier="GLOBAL" role="tab">Tier 3: Global (<span id="countGlobal">0</span>)</button>
+          </div>
+        </div>
+
+        <div id="vendorCardsContainer" class="vendor-cards-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Stage 5: Disqualification & Exclusion Log -->
+      <section class="card" aria-labelledby="disqualification-heading">
+        <div class="card-header">
+          <h3 id="disqualification-heading" class="card-title">4. Candidate Supplier Disqualification & Exclusion Log</h3>
+          <p class="card-subtitle">Transparent audit explaining why vendors were excluded or disqualified</p>
+        </div>
+        <div id="exclusionLogContainer" class="exclusion-log-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Stage 6: Executive Strategic Sourcing Synthesis -->
+      <section class="card" aria-labelledby="executive-heading">
+        <div class="card-header">
+          <h3 id="executive-heading" class="card-title">5. Executive Procurement Reasoning & Strategic Plan</h3>
+          <p class="card-subtitle">Strategic dual-sourcing recommendation and CPO purchasing risk matrix</p>
+        </div>
+        <div id="executiveSynthesisContainer" class="executive-synthesis-text markdown-body">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p>Agentic Industrial Procurement Engine &bull; Built with FastAPI & Vanilla JavaScript &bull; ISO & IS 1239:2004 Standard Compliance</p>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

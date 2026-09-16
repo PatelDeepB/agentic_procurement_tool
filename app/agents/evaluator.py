@@ -115,13 +115,19 @@ class EvaluatorAgent:
         spec: NormalizedSpecification,
     ) -> List[str]:
         """Extract verified facts directly from registry data."""
+        address_str = vendor.get("address") or "Physical address unlisted"
+        cert_list = vendor.get("certifications") or []
+        certs_str = ", ".join(cert_list) if cert_list else "None verified on record"
+        stock_str = vendor.get("stock_or_capacity_evidence") or "Not reported / Unverified"
+        delivery_str = vendor.get("delivery_evidence") or "Not reported / Buyer must arrange pickup"
+
         return [
-            f"[SOURCED] Operating location: {vendor.get('location')} ({vendor.get('address')}).",
+            f"[SOURCED] Operating location: {vendor.get('location')} ({address_str}).",
             f"[SOURCED] Vendor type: {vendor.get('vendor_type')}.",
             f"[SOURCED] Supported product scope: {vendor.get('supported_products')}.",
-            f"[SOURCED] Verified certifications: {', '.join(vendor.get('certifications') or [])}.",
-            f"[SOURCED] Capacity / inventory evidence: {vendor.get('stock_or_capacity_evidence')}.",
-            f"[SOURCED] Delivery / logistics: {vendor.get('delivery_evidence')}.",
+            f"[SOURCED] Verified certifications: {certs_str}.",
+            f"[SOURCED] Capacity / inventory evidence: {stock_str}.",
+            f"[SOURCED] Delivery / logistics: {delivery_str}.",
         ]
 
     def _extract_assumptions(
@@ -200,6 +206,16 @@ class EvaluatorAgent:
             issues.append(f"Custom rolling lead time required for non-standard {spec.parsed_wall_thickness_mm} mm wall.")
         if not vendor.get("contact_phone"):
             issues.append("Direct phone contact unverified.")
+        if not vendor.get("contact_email"):
+            issues.append("Commercial contact email unlisted.")
+        if not vendor.get("address"):
+            issues.append("Physical facility or warehouse address unlisted.")
+        if not vendor.get("certifications"):
+            issues.append("No accredited quality (ISO/BIS) certifications verified on record.")
+        if not vendor.get("stock_or_capacity_evidence"):
+            issues.append("Stock availability and production capacity unverified.")
+        if not vendor.get("delivery_evidence"):
+            issues.append("Delivery and freight logistics arrangement unverified.")
         return issues
 
     def _formulate_next_step(

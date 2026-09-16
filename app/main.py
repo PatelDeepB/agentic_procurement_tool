@@ -29,6 +29,22 @@ app.add_middleware(
 # Register API routes
 app.include_router(router)
 
+# Mount static files and serve Web UI
+from pathlib import Path
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
+static_directory = Path(__file__).parent / "static"
+static_directory.mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_directory)), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def serve_index_page() -> FileResponse:
+    """Serve the single-page web UI application."""
+    index_file_path = static_directory / "index.html"
+    return FileResponse(index_file_path)
+
 
 if __name__ == "__main__":
     import uvicorn

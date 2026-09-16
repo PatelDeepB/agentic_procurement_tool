@@ -2,6 +2,25 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.3.0] - 2026-09-16
+
+### Added & Enhanced
+- **Realistic Imperfect Vendor Dataset Expansion (`app/data/vendor_registry.json`)**:
+  - Expanded vendor database from 10 to 30 suppliers (10 Ahmedabad, 11 India-wide, 9 Global), adding 20 realistic, messy real-world vendor profiles.
+  - Injected authentic real-world imperfections: 8 vendors with missing websites, 7 with missing emails, 8 with missing phones, 6 with unlisted physical addresses, 12 with empty certifications (`[]`), 7 with unverified stock/capacity, and 7 with unverified delivery logistics.
+  - Added narrow and out-of-range pipe sizes (e.g. DN 15-25 mm, DN 15-40 mm, DN 150-600 mm, DN 200-1200 mm) to trigger deterministic candidate disqualification logs.
+  - Injected non-standard commercial re-rolled standards and lower wall thickness limits (2.0 mm to 3.65 mm) to evaluate capability gap detection.
+- **Resilient Evidence & Unresolved Issues Auditing (`app/agents/evaluator.py`)**:
+  - Enhanced `_extract_sourced_facts` to format missing attributes with explicit grounded statements ("Physical address unlisted", "None verified on record", "Not reported / Unverified") instead of Python None strings.
+  - Enhanced `_identify_unresolved_issues` to systematically flag missing commercial emails, unverified physical facilities, unverified certifications, and unverified logistics arrangements as actionable buyer RFQ risks.
+- **Interactive Procurement Web UI Application (`app/main.py`, `app/static/index.html`, `app/static/style.css`, `app/static/app.js`)**:
+  - Mounted `/static` directory and served responsive single-page Web UI application at root `/`.
+  - Built real-time material evaluation dashboard with benchmark preset selectors (M-01, M-02, M-03) and custom material input forms.
+  - Displayed normalized engineering metrics, ambiguity cards, multi-tier vendor cards (Ahmedabad Local, India-Wide, Global Exporters), disqualification logs, and executive CPO synthesis.
+  - Included direct one-click downloads for Markdown reports, CSV files, and JSON payloads.
+- **Windows File Lock Safety (`app/cli.py`)**:
+  - Implemented `_safe_write_text` in CLI export handler to gracefully handle `PermissionError` when export files are locked by external applications like Microsoft Excel.
+
 ## [2.2.2] - 2026-09-16
 
 ### Enhanced & Aligned

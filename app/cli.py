@@ -96,6 +96,16 @@ def _print_exclusion_log_summary(exclusion_log: list) -> None:
         print(f"  * {vendor_name} ({tier}): {reason}")
 
 
+def _safe_write_text(file_path: Path, content: str) -> bool:
+    """Safely write text to file, handling locked files gracefully."""
+    try:
+        file_path.write_text(content, encoding="utf-8")
+        return True
+    except PermissionError:
+        print(f"  [!] Warning: Could not overwrite '{file_path}' (file is open in another program).")
+        return False
+
+
 def export_result_files(
     result: ProcurementResult,
     export_format: str,
@@ -108,18 +118,18 @@ def export_result_files(
 
     if export_format in ["md", "all"]:
         md_file = output_dir / f"{mat_id}_evaluation.md"
-        md_file.write_text(exporter.to_markdown(result), encoding="utf-8")
-        print(f"  -> Saved Markdown report: {md_file}")
+        if _safe_write_text(md_file, exporter.to_markdown(result)):
+            print(f"  -> Saved Markdown report: {md_file}")
 
     if export_format in ["csv", "all"]:
         csv_file = output_dir / f"{mat_id}_vendors.csv"
-        csv_file.write_text(exporter.to_csv(result), encoding="utf-8")
-        print(f"  -> Saved CSV export: {csv_file}")
+        if _safe_write_text(csv_file, exporter.to_csv(result)):
+            print(f"  -> Saved CSV export: {csv_file}")
 
     if export_format in ["json", "all"]:
         json_file = output_dir / f"{mat_id}_result.json"
-        json_file.write_text(exporter.to_json(result), encoding="utf-8")
-        print(f"  -> Saved JSON result: {json_file}")
+        if _safe_write_text(json_file, exporter.to_json(result)):
+            print(f"  -> Saved JSON result: {json_file}")
 
 
 def main() -> None:

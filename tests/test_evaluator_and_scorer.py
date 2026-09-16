@@ -211,8 +211,8 @@ def test_should_retrieve_all_tier_vendors_when_target_dn_is_none():
     # Act
     candidates = searcher.retrieve_candidates(spec)
 
-    # Assert: Should retrieve all 10 registered vendors across tiers
-    assert len(candidates) == 10
+    # Assert: Should retrieve all registered vendors across tiers without exclusion
+    assert len(candidates) == len(searcher._vendors)
 
 
 def test_should_populate_evaluation_notes_on_vendor_evidence():
