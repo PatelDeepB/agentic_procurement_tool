@@ -60,7 +60,6 @@ class GeminiLLMClient(BaseLLMClient):
         try:
             return self._call_gemini_api(self.model_name, system_prompt, user_prompt, temperature)
         except Exception as primary_err:
-            logger.warning(f"Primary Gemini model '{self.model_name}' encountered error: {primary_err}")
             if self.is_service_available and self.model_name != self.BACKUP_MODEL:
                 try:
                     logger.info(f"Retrying with backup free model '{self.BACKUP_MODEL}'...")
