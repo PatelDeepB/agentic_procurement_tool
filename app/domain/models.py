@@ -84,6 +84,22 @@ class AmbiguityItem(BaseModel):
     )
 
 
+class UnifiedNormalizerLLMResponse(BaseModel):
+    """Structured schema returned by the single-call LLM normalizer."""
+    parsed_dn_mm: Optional[int] = Field(default=None, description="Nominal diameter in mm")
+    parsed_od_mm: Optional[float] = Field(default=None, description="Outside diameter in mm")
+    parsed_wall_thickness_mm: Optional[float] = Field(default=None, description="Wall thickness in mm")
+    parsed_standard: Optional[str] = Field(default=None, description="Standard code (e.g. IS 1239)")
+    parsed_class: Optional[str] = Field(default=None, description="Class (e.g. Class B)")
+    is_erw: bool = Field(default=True, description="True if ERW process")
+    has_quantity_unit: bool = Field(default=False, description="True if explicit physical unit exists")
+    detected_unit: Optional[str] = Field(default=None, description="Detected unit name if any")
+    quantity_ambiguity_description: Optional[str] = Field(default=None, description="Explanation of missing unit")
+    quantity_stated_assumption: Optional[str] = Field(default=None, description="Stated assumption")
+    quantity_clarification_prompt: Optional[str] = Field(default=None, description="Buyer clarification prompt")
+    technical_ambiguities: List[Dict[str, Any]] = Field(default_factory=list, description="Technical ambiguities")
+
+
 class NormalizedSpecification(BaseModel):
     """Technical specification parsed and normalized from raw input."""
     raw_input: MaterialInput

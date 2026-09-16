@@ -5,15 +5,15 @@
 - **Material Description**: 40 mm MS ERW, Class B pipe
 - **Specified Quantity**: 500.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-02-3014d650`
-- **Evaluation Timestamp**: 2026-09-15T14:59:15.037120+00:00
+- **Run ID**: `RUN-M-02-c891978f`
+- **Evaluation Timestamp**: 2026-09-16T03:15:53.000535+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
-- **Issue**: Quantity value '500.0' is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
-- **Agent Assumption**: Assumed '500.0' represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
-- **Buyer Clarification Prompt**: `Please confirm whether 500.0 is linear meters, metric tons, or standard 6m pipe pieces.`
-- **Weight & Piece Conversion**: 1.806 MT (~83 standard 6-meter pieces).
+- **Issue**: Quantity value is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
+- **Agent Assumption**: Assumed quantity represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
+- **Buyer Clarification Prompt**: `Please confirm whether quantity is linear meters, metric tons, or standard 6m pipe pieces.`
+- **Weight & Piece Conversion**: 0.0 MT (~83 standard 6-meter pieces).
 
 ### [WARNING] NOMINAL_BORE_VS_OUTSIDE_DIAMETER
 - **Issue**: Requirement specifies '40 mm MS ERW, Class B pipe'. In piping terminology, '40 mm' can refer to Nominal Bore (DN 40 / 1.5 inch NB, actual OD 48.3 mm) or strict Outside Diameter (40 mm OD). Standard IS 1239 Part 1 does not specify an OD of 40 mm; DN 40 pipes have an OD of 48.3 mm.
@@ -231,14 +231,14 @@
 - **Recommended Next Step**: Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.
 
 
-## 4. LLM Executive Procurement Reasoning (Provider: mock)
+## 4. LLM Executive Procurement Reasoning (Provider: gemini)
 Executive Procurement Recommendation:
 1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.
 2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-15T14:59:15.037120+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-16T03:15:53.000535+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.

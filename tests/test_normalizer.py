@@ -101,3 +101,23 @@ def test_should_parse_dimensions_accurately_for_m03():
     assert spec.parsed_dn_mm == 80
     assert spec.parsed_od_mm == 89.5
     assert spec.parsed_wall_thickness_mm == 4.8
+
+
+def test_should_not_flag_ambiguity_when_unit_is_explicitly_specified():
+    """Verify that input with explicit unit does not trigger UNSPECIFIED_QUANTITY_UNIT."""
+    # Arrange
+    agent = NormalizerAgent()
+    req = MaterialInput(
+        id="M-04",
+        material="DN 50 ERW pipe, Class B, 500 meters length",
+        quantity=500.0,
+        location="Ahmedabad, Gujarat, India",
+    )
+
+    # Act
+    spec = agent.normalize(req)
+
+    # Assert
+    types = [a.ambiguity_type for a in spec.ambiguities]
+    assert AmbiguityType.UNSPECIFIED_QUANTITY_UNIT not in types
+

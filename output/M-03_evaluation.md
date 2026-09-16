@@ -5,14 +5,14 @@
 - **Material Description**: ERW pipe, DN 80, 89.5 x 4.8 mm, IS 1239
 - **Specified Quantity**: 1200.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-03-d3ae0372`
-- **Evaluation Timestamp**: 2026-09-15T14:59:15.041794+00:00
+- **Run ID**: `RUN-M-03-fae17c31`
+- **Evaluation Timestamp**: 2026-09-16T03:16:06.196203+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
-- **Issue**: Quantity value '1200.0' is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
-- **Agent Assumption**: Assumed '1200.0' represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
-- **Buyer Clarification Prompt**: `Please confirm whether 1200.0 is linear meters, metric tons, or standard 6m pipe pieces.`
+- **Issue**: Quantity value is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
+- **Agent Assumption**: Assumed quantity represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
+- **Buyer Clarification Prompt**: `Please confirm whether quantity is linear meters, metric tons, or standard 6m pipe pieces.`
 - **Weight & Piece Conversion**: 12.031 MT (~200 standard 6-meter pieces).
 
 ## 3. Evidence-Based Vendor Shortlist
@@ -246,14 +246,14 @@
 - **Recommended Next Step**: Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.
 
 
-## 4. LLM Executive Procurement Reasoning (Provider: mock)
+## 4. LLM Executive Procurement Reasoning (Provider: gemini)
 Executive Procurement Recommendation:
 1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.
 2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-15T14:59:15.041794+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-16T03:16:06.196203+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 1 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.

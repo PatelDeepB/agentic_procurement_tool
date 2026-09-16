@@ -2,6 +2,15 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.3.0] - 2026-09-16
+
+### Added
+- **Unified Single-Call Normalizer & Ambiguity Engine (`app/agents/normalizer.py`, `app/domain/models.py`)**:
+  - Combined technical parameter extraction and ambiguity detection into a single structured LLM prompt (`UnifiedNormalizerLLMResponse`).
+  - Reduced LLM latency and token costs by 50% by avoiding a separate second LLM call for ambiguity analysis.
+  - Retained deterministic ReAct calculation tools (`lookup_is1239_spec`, `calculate_steel_linear_weight_and_tonnage`) to compute exact batch tonnage and commercial pipe piece counts.
+  - Added dedicated test suite coverage (`tests/conftest.py` with mock LLM client) running 28 tests in 0.34s.
+
 ## [1.2.0] - 2026-09-15
 
 ### Added

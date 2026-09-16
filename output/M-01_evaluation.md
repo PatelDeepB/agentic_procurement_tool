@@ -5,18 +5,18 @@
 - **Material Description**: ERW pipe, DN 50, 60.3 x 5.5 mm, IS 1239
 - **Specified Quantity**: 1000.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-01-88c6a303`
-- **Evaluation Timestamp**: 2026-09-15T14:59:15.033100+00:00
+- **Run ID**: `RUN-M-01-3e561750`
+- **Evaluation Timestamp**: 2026-09-16T03:15:39.493417+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
-- **Issue**: Quantity value '1000.0' is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
-- **Agent Assumption**: Assumed '1000.0' represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
-- **Buyer Clarification Prompt**: `Please confirm whether 1000.0 is linear meters, metric tons, or standard 6m pipe pieces.`
+- **Issue**: Quantity value is provided without a physical unit of measure. In industrial steel piping, quantities are typically specified in linear meters, metric tons (MT), or commercial 6-meter pipe lengths/pieces.
+- **Agent Assumption**: Assumed quantity represents linear meters (standard Indian piping contract convention). Commercial lengths are assumed to be 6.0 meters.
+- **Buyer Clarification Prompt**: `Please confirm whether quantity is linear meters, metric tons, or standard 6m pipe pieces.`
 - **Weight & Piece Conversion**: 7.433 MT (~167 standard 6-meter pieces).
 
 ### [WARNING] NON_STANDARD_WALL_THICKNESS
-- **Issue**: Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50. Thickness 5.5 mm deviates from standard IS 1239 Part 1 schedules (Class A: 3.25 mm, Class B: 3.65 mm, Class C Heavy: 4.5 mm). May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard.
+- **Issue**: Specified wall thickness 5.5 mm for DN 50 is non-standard under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50.
 - **Agent Assumption**: Assumed buyer requires custom heavy-wall ERW pipe (5.5 mm). Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80.
 - **Buyer Clarification Prompt**: `Please confirm if 5.5 mm wall is mandatory (requiring custom mill run or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable.`
 
@@ -251,14 +251,14 @@
 - **Recommended Next Step**: Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.
 
 
-## 4. LLM Executive Procurement Reasoning (Provider: mock)
+## 4. LLM Executive Procurement Reasoning (Provider: gemini)
 Executive Procurement Recommendation:
 1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.
 2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-15T14:59:15.033100+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-16T03:15:39.493417+00:00] Stage 1: Received requirement 'M-01' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.

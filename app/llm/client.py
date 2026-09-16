@@ -185,42 +185,87 @@ class MockLLMClient(BaseLLMClient):
         return "Executive Procurement Recommendation: Evaluated candidate capabilities against tender specifications."
 
     def _mock_normalize_response(self, prompt: str) -> str:
-        """Simulate LLM response for specification normalization."""
-        is_40mm = "40 mm" in prompt
-        is_50mm = "50" in prompt or "60.3" in prompt
+        """Simulate unified single-call LLM response for specification normalization."""
+        lower_prompt = prompt.lower()
+        is_40mm = "40 mm" in lower_prompt
+        is_50mm = "50" in lower_prompt or "60.3" in lower_prompt
+        is_80mm = "80" in lower_prompt or "89.5" in lower_prompt
 
-        reasoning = {
-            "thought_process": [
-                "Parsed input string into physical dimensions, standard codes, and class.",
-                "Identified quantity omission: number lacks units (meters, MT, or pieces).",
-                "Invoked engineering tools to compute equivalent mass and piece counts.",
-            ],
-            "detected_ambiguities": [
-                {
-                    "field": "quantity",
-                    "type": "UNSPECIFIED_QUANTITY_UNIT",
-                    "severity": "WARNING",
-                    "description": "Quantity provided without physical unit. Assumed linear meters.",
-                }
-            ],
-        }
+        # Dynamic unit detection
+        has_explicit_unit = any(
+            u in lower_prompt for u in ["meter", "metre", " ton", "tonne", "piece", "length", "bundle", "kg"]
+        )
+        detected_unit = "meters" if "meter" in lower_prompt else None
 
+        dn = 40 if is_40mm else (50 if is_50mm else (80 if is_80mm else None))
+        od = 60.3 if is_50mm else (89.5 if is_80mm else None)
+        wall = 5.5 if (is_50mm and "5.5" in lower_prompt) else (4.8 if is_80mm else None)
+        pipe_class = "Class B" if "class b" in lower_prompt else ("Class C" if "class c" in lower_prompt else None)
+
+        technical_ambiguities = []
         if is_40mm:
-            reasoning["detected_ambiguities"].append({
+            technical_ambiguities.append({
                 "field": "material",
-                "type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
+                "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
                 "severity": "WARNING",
-                "description": "40 mm can denote DN 40 Nominal Bore (OD 48.3 mm) or non-standard 40 mm OD.",
+                "description": (
+                    "Requirement specifies '40 mm MS ERW, Class B pipe'. In piping terminology, "
+                    "'40 mm' can refer to Nominal Bore (DN 40 / 1.5 inch NB, actual OD 48.3 mm) "
+                    "or strict Outside Diameter (40 mm OD). Standard IS 1239 Part 1 does not "
+                    "specify an OD of 40 mm; DN 40 pipes have an OD of 48.3 mm."
+                ),
+                "stated_assumption": (
+                    "Assumed DN 40 Nominal Bore (OD 48.3 mm, Class B wall thickness 3.25 mm) "
+                    "in accordance with standard Indian manufacturing conventions."
+                ),
+                "clarification_prompt": (
+                    "Please confirm whether '40 mm' denotes Nominal Bore (DN 40, actual OD 48.3 mm) "
+                    "or a non-standard 40 mm outside diameter."
+                ),
             })
-        elif is_50mm and "5.5" in prompt:
-            reasoning["detected_ambiguities"].append({
+        elif is_50mm and wall and wall > 4.5:
+            technical_ambiguities.append({
                 "field": "material",
-                "type": "NON_STANDARD_WALL_THICKNESS",
+                "ambiguity_type": "NON_STANDARD_WALL_THICKNESS",
                 "severity": "WARNING",
-                "description": "5.5 mm wall exceeds IS 1239 Part 1 Class C Heavy standard (4.5 mm max).",
+                "description": (
+                    f"Specified wall thickness {wall} mm for DN {dn} is non-standard "
+                    "under IS 1239 Part 1. Heavy Class C is 4.5 mm for DN 50."
+                ),
+                "stated_assumption": (
+                    f"Assumed buyer requires custom heavy-wall ERW pipe ({wall} mm). "
+                    "Evaluating manufacturers capable of custom rolling or ASTM A53 Schedule 80."
+                ),
+                "clarification_prompt": (
+                    f"Please confirm if {wall} mm wall is mandatory (requiring custom mill run "
+                    f"or ASTM A53 Schedule 80) or if standard IS 1239 Class C (4.5 mm) is acceptable."
+                ),
             })
 
-        return json.dumps(reasoning, indent=2)
+        response = {
+            "parsed_dn_mm": dn,
+            "parsed_od_mm": od,
+            "parsed_wall_thickness_mm": wall,
+            "parsed_standard": "IS 1239" if "1239" in lower_prompt else None,
+            "parsed_class": pipe_class,
+            "is_erw": "erw" in lower_prompt,
+            "has_quantity_unit": has_explicit_unit,
+            "detected_unit": detected_unit,
+            "quantity_ambiguity_description": None if has_explicit_unit else (
+                "Quantity value is provided without a physical unit of measure. "
+                "In industrial steel piping, quantities are typically specified in linear meters, "
+                "metric tons (MT), or commercial 6-meter pipe lengths/pieces."
+            ),
+            "quantity_stated_assumption": None if has_explicit_unit else (
+                "Assumed quantity represents linear meters (standard Indian piping contract convention). "
+                "Commercial lengths are assumed to be 6.0 meters."
+            ),
+            "quantity_clarification_prompt": None if has_explicit_unit else (
+                "Please confirm whether quantity is linear meters, metric tons, or standard 6m pipe pieces."
+            ),
+            "technical_ambiguities": technical_ambiguities,
+        }
+        return json.dumps(response, indent=2)
 
     def _mock_evaluator_response(self, prompt: str) -> str:
         """Simulate LLM response for vendor evidence evaluation."""

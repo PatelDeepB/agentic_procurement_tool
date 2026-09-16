@@ -22,7 +22,7 @@ def test_should_instantiate_mock_llm_client_as_default_fallback():
 
 
 def test_should_generate_structured_json_from_mock_client():
-    """Verify MockLLMClient can generate parsed structured dictionary."""
+    """Verify MockLLMClient can generate parsed structured dictionary for unified normalizer."""
     # Arrange
     client = MockLLMClient()
 
@@ -30,8 +30,9 @@ def test_should_generate_structured_json_from_mock_client():
     data = client.generate_structured_json("System prompt", "normalize requisition for 40 mm pipe")
 
     # Assert
-    assert "thought_process" in data
-    assert "detected_ambiguities" in data
+    assert "parsed_dn_mm" in data
+    assert "technical_ambiguities" in data
+    assert "has_quantity_unit" in data
 
 
 def test_should_execute_is1239_lookup_tool_accurately():
