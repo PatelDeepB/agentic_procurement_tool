@@ -2,6 +2,15 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.2.2] - 2026-09-16
+
+### Enhanced & Aligned
+- **Strict Output Specification Alignment (`app/services/export_service.py`, `app/domain/models.py`, `app/agents/evaluator.py`, `app/agents/scorer.py`)**:
+  - Streamlined Markdown report to focus exclusively on the 10 core output requirements, eliminating internal debug logs and query lists.
+  - Formatted each vendor card with 1:1 matching section headers: Vendor Name, Location, Country & Type, Product/Specification Match, Evidence Supporting Match (with [SOURCED], [ASSUMPTION], and [NEEDS_CONFIRMATION_RFQ]), Quantity/Capacity/Stock Relevance, Standard/Grade/Class/Certification Evidence, Delivery/Service-Area Evidence, Contact Details & Website, Source Links, Confidence & Verification Status, and Unresolved Issues & Recommended Next Step.
+  - Aligned CSV output columns with the exact 10 core fields.
+  - Added dedicated `stock_or_capacity_evidence` and `delivery_evidence` fields to `VendorEvidence` domain model.
+
 ## [2.2.1] - 2026-09-16
 
 ### Enhanced

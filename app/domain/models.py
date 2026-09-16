@@ -139,6 +139,8 @@ class VendorEvidence(BaseModel):
     contact_phone: Optional[str] = None
     address: str = Field(..., description="Physical verified facility or office location")
     certifications: List[str] = Field(default_factory=list, description="Verified standards/certifications")
+    stock_or_capacity_evidence: Optional[str] = Field(default=None, description="Verified capacity, stock, or bulk evidence")
+    delivery_evidence: Optional[str] = Field(default=None, description="Verified delivery or service-area evidence")
     evaluation_notes: Optional[str] = Field(default=None, description="LLM technical evaluation reasoning")
 
 

@@ -84,6 +84,8 @@ class ScorerAgent:
             contact_email=vendor.get("contact_email"),
             contact_phone=vendor.get("contact_phone"),
             certifications=vendor.get("certifications") or [],
+            stock_or_capacity_evidence=vendor.get("stock_or_capacity_evidence"),
+            delivery_evidence=vendor.get("delivery_evidence"),
         )
 
     @staticmethod

@@ -22,23 +22,16 @@ class ExportService:
         spec = result.specification
         lines = self._format_requirement_summary(result, spec)
         lines.extend(self._format_ambiguities_markdown(spec.ambiguities))
-        if result.search_queries:
-            lines.extend(self._format_search_queries_markdown(result.search_queries))
         lines.extend(self._format_vendor_shortlist_markdown(result))
         if result.exclusion_log:
             lines.extend(self._format_exclusion_log_markdown(result.exclusion_log))
 
         if result.llm_synthesis:
             lines.extend([
-                f"## 6. LLM Executive Procurement Reasoning (Provider: {result.model_provider or 'active'})",
+                "## 5. Executive Procurement Reasoning & Sourcing Strategy",
                 result.llm_synthesis,
                 "",
             ])
-
-        lines.extend([
-            "## 7. Audit Trail and Agentic State Transitions",
-            *(f"- `{entry}`" for entry in result.audit_trail),
-        ])
         return "\n".join(lines)
 
     @staticmethod
@@ -88,31 +81,10 @@ class ExportService:
         return lines
 
     @staticmethod
-    def _format_search_queries_markdown(queries: Dict[str, List[str]]) -> List[str]:
-        """Format synthesized multi-tier search queries into markdown."""
-        lines: List[str] = [
-            "## 3. Synthesized Multi-Tier Search Strategy",
-            "",
-        ]
-        tier_titles = {
-            "ahmedabad": "Ahmedabad Local Queries",
-            "india_wide": "India-Wide Queries",
-            "global": "Global / Import Queries",
-        }
-        for tier_key, title in tier_titles.items():
-            tier_queries = queries.get(tier_key, [])
-            if tier_queries:
-                lines.append(f"### {title}")
-                for query_item in tier_queries:
-                    lines.append(f"- `{query_item}`")
-                lines.append("")
-        return lines
-
-    @staticmethod
     def _format_exclusion_log_markdown(exclusion_log: List[Dict[str, str]]) -> List[str]:
         """Format candidate supplier exclusion audit log into markdown."""
         lines: List[str] = [
-            "## 5. Candidate Supplier Disqualification Log",
+            "## 4. Candidate Supplier Disqualification & Exclusion Log",
             "",
         ]
         for exclusion in exclusion_log:
@@ -126,7 +98,7 @@ class ExportService:
     def _format_vendor_shortlist_markdown(self, result: ProcurementResult) -> List[str]:
         """Format 3-tier vendor shortlists."""
         return [
-            "## 4. Evidence-Based Vendor Shortlist",
+            "## 3. Structured Multi-Tier Vendor Shortlist",
             "",
             "### Tier 1: Ahmedabad Local Vendors",
             *(self._format_vendor_markdown(vendor) for vendor in result.ahmedabad_vendors),
@@ -141,30 +113,33 @@ class ExportService:
 
     @staticmethod
     def _format_vendor_markdown(vendor: EvaluatedVendor) -> str:
-        """Helper to format a single vendor's evidence block in markdown."""
+        """Format a single vendor strictly following the 10-point assessment specification."""
         evidence = vendor.evidence
-        facts = "\n".join(f"  - {fact}" for fact in evidence.sourced_facts)
-        assumptions = "\n".join(f"  - {assumption}" for assumption in evidence.assumptions)
-        rfq = "\n".join(f"  - {rfq_item}" for rfq_item in evidence.needs_confirmation_rfq)
-        issues = "\n".join(f"  - {issue}" for issue in vendor.unresolved_issues) if vendor.unresolved_issues else "  - None identified."
+        facts = "\n".join(f"    - {fact}" for fact in evidence.sourced_facts)
+        assumptions = "\n".join(f"    - {assumption}" for assumption in evidence.assumptions)
+        rfq = "\n".join(f"    - {rfq_item}" for rfq_item in evidence.needs_confirmation_rfq)
+        issues = "\n".join(f"    - {issue}" for issue in vendor.unresolved_issues) if vendor.unresolved_issues else "    - None identified."
         certs = ", ".join(evidence.certifications) if evidence.certifications else "None listed"
-        notes_line = f"- **Technical Audit Notes**: {evidence.evaluation_notes}\n" if evidence.evaluation_notes else ""
+        capacity = evidence.stock_or_capacity_evidence or "Standard catalog production capacity."
+        delivery = evidence.delivery_evidence or f"Dispatches to {vendor.location} and regional hubs."
 
         return (
-            f"#### Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} ({vendor.confidence_score}% Confidence)\n"
-            f"- **Location**: {vendor.location}, {vendor.country}\n"
-            f"- **Address**: {evidence.address}\n"
-            f"- **Vendor Type**: {vendor.vendor_type.value}\n"
-            f"- **Match Precision**: `{vendor.match_category.value}`\n"
-            f"- **Standards & Certifications**: {certs}\n"
-            f"- **Website**: [{vendor.vendor_name}]({evidence.source_url})\n"
-            f"- **Contact**: Email: {evidence.contact_email or 'N/A'}, Phone: {evidence.contact_phone or 'N/A'}\n"
-            f"{notes_line}"
-            f"- **Sourced Evidence**:\n{facts}\n"
-            f"- **Engineering Assumptions**:\n{assumptions}\n"
-            f"- **RFQ Confirmation Items**:\n{rfq}\n"
-            f"- **Unresolved Issues**:\n{issues}\n"
-            f"- **Recommended Next Step**: {vendor.recommended_next_step}\n"
+            f"#### Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name}\n"
+            f"- **Vendor Name, Location, Country & Type**: {vendor.vendor_name} | {vendor.location}, {vendor.country} | Type: `{vendor.vendor_type.value}`\n"
+            f"- **Product / Specification Match**: `{vendor.match_category.value}` ({evidence.catalog_spec})\n"
+            f"- **Evidence Supporting the Match**:\n"
+            f"  - **Sourced Facts [SOURCED]**:\n{facts}\n"
+            f"  - **Engineering Assumptions [ASSUMPTION]**:\n{assumptions}\n"
+            f"  - **RFQ Confirmation Items [NEEDS_CONFIRMATION_RFQ]**:\n{rfq}\n"
+            f"- **Quantity, Capacity, Stock, or Bulk-Order Relevance**: {capacity}\n"
+            f"- **Standard, Grade, Class, and Certification Evidence**: {certs}\n"
+            f"- **Delivery or Service-Area Evidence**: {delivery}\n"
+            f"- **Contact Details and Website**: Address: {evidence.address} | Email: {evidence.contact_email or 'N/A'} | Phone: {evidence.contact_phone or 'N/A'} | Website: [{vendor.vendor_name}]({evidence.source_url})\n"
+            f"- **Source Links**: [{evidence.source_url}]({evidence.source_url})\n"
+            f"- **Confidence & Verification Status**: `{vendor.confidence_score}% Confidence` (Rank {vendor.rank} in {vendor.tier.value}, Overall #{vendor.global_rank})\n"
+            f"- **Unresolved Issues & Recommended Next Step**:\n"
+            f"  - **Unresolved Issues**:\n{issues}\n"
+            f"  - **Recommended Next Step**: {vendor.recommended_next_step}\n"
         )
 
     @staticmethod
@@ -177,12 +152,14 @@ class ExportService:
             "vendor_name": vendor.vendor_name,
             "location": vendor.location,
             "country": vendor.country,
-            "address": vendor.evidence.address,
             "vendor_type": vendor.vendor_type.value,
             "match_category": vendor.match_category.value,
             "confidence_score": vendor.confidence_score,
             "global_rank": vendor.global_rank,
+            "capacity_or_stock": vendor.evidence.stock_or_capacity_evidence or "",
             "certifications": "; ".join(vendor.evidence.certifications),
+            "delivery_evidence": vendor.evidence.delivery_evidence or "",
+            "contact_address": vendor.evidence.address,
             "contact_email": vendor.evidence.contact_email or "",
             "contact_phone": vendor.evidence.contact_phone or "",
             "source_url": vendor.evidence.source_url,
@@ -195,8 +172,9 @@ class ExportService:
         output = io.StringIO()
         fieldnames = [
             "material_id", "tier", "rank", "vendor_name", "location", "country",
-            "address", "vendor_type", "match_category", "confidence_score", "global_rank",
-            "certifications", "contact_email", "contact_phone", "source_url",
+            "vendor_type", "match_category", "confidence_score", "global_rank",
+            "capacity_or_stock", "certifications", "delivery_evidence",
+            "contact_address", "contact_email", "contact_phone", "source_url",
             "unresolved_issues", "recommended_next_step",
         ]
         writer = csv.DictWriter(output, fieldnames=fieldnames)

@@ -57,6 +57,8 @@ class EvaluatorAgent:
             contact_phone=vendor.get("contact_phone"),
             address=vendor.get("address", ""),
             certifications=vendor.get("certifications", []),
+            stock_or_capacity_evidence=vendor.get("stock_or_capacity_evidence"),
+            delivery_evidence=vendor.get("delivery_evidence"),
             evaluation_notes=eval_notes,
         )
 
