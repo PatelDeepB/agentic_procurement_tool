@@ -51,18 +51,59 @@ def display_result_summary(result: ProcurementResult) -> None:
             print(f"    -> Stated Assumption: {amb.stated_assumption}")
             print(f"    -> Buyer Prompt: {amb.clarification_prompt}")
 
+    if result.search_queries:
+        _print_search_queries_summary(result.search_queries)
+
+    _print_shortlisted_vendors_summary(result)
+
+    if result.exclusion_log:
+        _print_exclusion_log_summary(result.exclusion_log)
+
+
+def _print_search_queries_summary(search_queries: dict) -> None:
+    """Print synthesized multi-tier search queries in terminal."""
+    print("\n[+] SYNTHESIZED SEARCH STRATEGY:")
+    for tier_key, query_list in search_queries.items():
+        title = tier_key.replace("_", " ").title()
+        print(f"  * {title}:")
+        for query_item in query_list:
+            print(f"    - {query_item}")
+
+
+def _print_shortlisted_vendors_summary(result: ProcurementResult) -> None:
+    """Print shortlisted vendors per tier in terminal."""
     print("\n[+] SHORTLISTED VENDORS BY TIER:")
     print(f"  1. Ahmedabad Local: {len(result.ahmedabad_vendors)} vendors")
-    for v in result.ahmedabad_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.ahmedabad_vendors:
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  2. India-wide: {len(result.india_vendors)} vendors")
-    for v in result.india_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.india_vendors:
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
 
     print(f"  3. Global: {len(result.global_vendors)} vendors")
-    for v in result.global_vendors:
-        print(f"     - Rank {v.rank}: {v.vendor_name} | Score: {v.confidence_score}% | {v.match_category.value}")
+    for vendor in result.global_vendors:
+        print(f"     - Rank {vendor.rank} (Overall #{vendor.global_rank}): {vendor.vendor_name} | Score: {vendor.confidence_score}% | {vendor.match_category.value}")
+
+
+def _print_exclusion_log_summary(exclusion_log: list) -> None:
+    """Print candidate supplier disqualification audit in terminal."""
+    print(f"\n[-] DISQUALIFIED SUPPLIERS AUDIT ({len(exclusion_log)} excluded):")
+    for exclusion in exclusion_log:
+        vendor_name = exclusion.get("vendor_name", "Unknown")
+        tier = exclusion.get("tier", "UNKNOWN")
+        reason = exclusion.get("disqualification_reason", "")
+        print(f"  * {vendor_name} ({tier}): {reason}")
+
+
+def _safe_write_text(file_path: Path, content: str) -> bool:
+    """Safely write text to file, handling locked files gracefully."""
+    try:
+        file_path.write_text(content, encoding="utf-8")
+        return True
+    except PermissionError:
+        print(f"  [!] Warning: Could not overwrite '{file_path}' (file is open in another program).")
+        return False
 
 
 def export_result_files(
@@ -77,18 +118,18 @@ def export_result_files(
 
     if export_format in ["md", "all"]:
         md_file = output_dir / f"{mat_id}_evaluation.md"
-        md_file.write_text(exporter.to_markdown(result), encoding="utf-8")
-        print(f"  -> Saved Markdown report: {md_file}")
+        if _safe_write_text(md_file, exporter.to_markdown(result)):
+            print(f"  -> Saved Markdown report: {md_file}")
 
     if export_format in ["csv", "all"]:
         csv_file = output_dir / f"{mat_id}_vendors.csv"
-        csv_file.write_text(exporter.to_csv(result), encoding="utf-8")
-        print(f"  -> Saved CSV export: {csv_file}")
+        if _safe_write_text(csv_file, exporter.to_csv(result)):
+            print(f"  -> Saved CSV export: {csv_file}")
 
     if export_format in ["json", "all"]:
         json_file = output_dir / f"{mat_id}_result.json"
-        json_file.write_text(exporter.to_json(result), encoding="utf-8")
-        print(f"  -> Saved JSON result: {json_file}")
+        if _safe_write_text(json_file, exporter.to_json(result)):
+            print(f"  -> Saved JSON result: {json_file}")
 
 
 def main() -> None:
@@ -103,7 +144,11 @@ def main() -> None:
     if args.material == "all":
         inputs_to_run.extend(service.get_default_demonstrations())
     elif args.material:
-        inputs_to_run = [d for d in service.get_default_demonstrations() if d.id == args.material]
+        inputs_to_run = [
+            material_item
+            for material_item in service.get_default_demonstrations()
+            if material_item.id == args.material
+        ]
     elif args.desc and args.quantity:
         inputs_to_run.append(
             MaterialInput(

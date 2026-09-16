@@ -14,6 +14,7 @@ from app.core.standards import (
     find_is1239_dn_by_od,
     get_is1239_spec_by_dn,
 )
+from app.domain.models import MaterialInput, NormalizedSpecification, VendorTier
 
 
 def tool_lookup_is1239_spec(dn_mm: int) -> Dict[str, Any]:
@@ -22,7 +23,7 @@ def tool_lookup_is1239_spec(dn_mm: int) -> Dict[str, Any]:
     if not spec:
         return {
             "found": False,
-            "error": f"DN {dn_mm} is not listed in IS 1239 Part 1 nominal size table (DN 15 to DN 100).",
+            "error": f"DN {dn_mm} is not listed in IS 1239 Part 1 nominal size table (DN 15 to DN 150).",
         }
     return {
         "found": True,
@@ -64,3 +65,51 @@ def tool_match_dn_from_outside_diameter(outside_diameter_mm: float) -> Dict[str,
     if matched_dn:
         return {"matched": True, "dn_mm": matched_dn}
     return {"matched": False, "note": f"Outside diameter {outside_diameter_mm} mm does not match standard IS 1239 tolerances."}
+
+
+def _format_matched_vendor_candidate(vendor: Dict[str, Any]) -> Dict[str, Any]:
+    """Format matching vendor dictionary for tool response."""
+    return {
+        "id": vendor.get("id"),
+        "vendor_name": vendor.get("vendor_name"),
+        "tier": vendor.get("tier"),
+        "vendor_type": vendor.get("vendor_type"),
+        "location": vendor.get("location"),
+        "supported_dn_range": vendor.get("supported_dn_range"),
+        "supported_standards": vendor.get("supported_standards"),
+    }
+
+
+def tool_search_vendor_registry(
+    tier: Optional[str] = None,
+    target_dn_mm: Optional[int] = None,
+    standard: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Search verified industrial vendor registry with optional tier, DN, and standard filters."""
+    from app.agents.searcher import SearchAgent
+
+    searcher = SearchAgent()
+    tier_enum = None
+    if tier:
+        try:
+            tier_enum = VendorTier(tier.upper())
+        except ValueError:
+            pass
+
+    dummy_input = MaterialInput(
+        id="REACT-TOOL-01",
+        material=f"DN {target_dn_mm or 50} steel pipe {standard or 'IS 1239'}",
+        quantity=100.0,
+    )
+    spec = NormalizedSpecification(
+        raw_input=dummy_input,
+        parsed_dn_mm=target_dn_mm,
+        parsed_standard=standard,
+    )
+    qualified, exclusions = searcher.retrieve_candidates_with_audit(spec, tier=tier_enum)
+    return {
+        "total_matched": len(qualified),
+        "total_excluded": len(exclusions),
+        "candidates": [_format_matched_vendor_candidate(vendor) for vendor in qualified],
+        "exclusions": exclusions,
+    }

@@ -8,6 +8,7 @@ identifies unresolved RFQ items without hallucinating data.
 from typing import Any, Dict, List, Optional, Tuple
 
 from app.domain.models import (
+    AmbiguityType,
     MatchCategory,
     NormalizedSpecification,
     VendorEvidence,
@@ -44,7 +45,7 @@ class EvaluatorAgent:
         recommended_next_step = self._formulate_next_step(vendor, spec)
 
         # Execute LLM reasoning trace for audit
-        self._generate_llm_evaluation_trace(vendor, spec)
+        eval_notes = self._generate_llm_evaluation_trace(vendor, spec)
 
         evidence = VendorEvidence(
             sourced_facts=sourced_facts,
@@ -56,6 +57,9 @@ class EvaluatorAgent:
             contact_phone=vendor.get("contact_phone"),
             address=vendor.get("address", ""),
             certifications=vendor.get("certifications", []),
+            stock_or_capacity_evidence=vendor.get("stock_or_capacity_evidence"),
+            delivery_evidence=vendor.get("delivery_evidence"),
+            evaluation_notes=eval_notes,
         )
 
         return match_cat, evidence, unresolved_issues, recommended_next_step
@@ -70,7 +74,7 @@ class EvaluatorAgent:
             f"Evaluate vendor '{vendor.get('vendor_name')}' ({vendor.get('location')}) "
             f"for supplying '{spec.raw_input.material}'. "
             f"Vendor products: {vendor.get('supported_products')}. "
-            f"Certifications: {', '.join(vendor.get('certifications', []))}."
+            f"Certifications: {', '.join(vendor.get('certifications') or [])}."
         )
         return self.llm.generate_completion(self.SYSTEM_PROMPT, user_prompt)
 
@@ -80,13 +84,16 @@ class EvaluatorAgent:
         spec: NormalizedSpecification,
     ) -> MatchCategory:
         """Categorize match precision level."""
-        supported_standards = vendor.get("supported_standards", [])
-        supported_classes = vendor.get("supported_classes", [])
-        max_wall = vendor.get("max_wall_thickness_mm", 0.0)
+        supported_standards = vendor.get("supported_standards") or []
+        supported_classes = vendor.get("supported_classes") or []
+        max_wall = float(vendor.get("max_wall_thickness_mm") or 0.0)
         req_wall = spec.parsed_wall_thickness_mm or 0.0
 
         has_is1239 = "IS 1239" in supported_standards
-        has_intl_equiv = any(s in supported_standards for s in ["ASTM A53", "BS 1387", "EN 10255"])
+        has_intl_equiv = any(
+            standard_name in supported_standards
+            for standard_name in ["ASTM A53", "BS 1387", "EN 10255"]
+        )
         has_thickness_capability = max_wall >= req_wall if req_wall > 0 else True
 
         if has_is1239 and has_thickness_capability:
@@ -108,13 +115,19 @@ class EvaluatorAgent:
         spec: NormalizedSpecification,
     ) -> List[str]:
         """Extract verified facts directly from registry data."""
+        address_str = vendor.get("address") or "Physical address unlisted"
+        cert_list = vendor.get("certifications") or []
+        certs_str = ", ".join(cert_list) if cert_list else "None verified on record"
+        stock_str = vendor.get("stock_or_capacity_evidence") or "Not reported / Unverified"
+        delivery_str = vendor.get("delivery_evidence") or "Not reported / Buyer must arrange pickup"
+
         return [
-            f"[SOURCED] Operating location: {vendor.get('location')} ({vendor.get('address')}).",
+            f"[SOURCED] Operating location: {vendor.get('location')} ({address_str}).",
             f"[SOURCED] Vendor type: {vendor.get('vendor_type')}.",
             f"[SOURCED] Supported product scope: {vendor.get('supported_products')}.",
-            f"[SOURCED] Verified certifications: {', '.join(vendor.get('certifications', []))}.",
-            f"[SOURCED] Capacity / inventory evidence: {vendor.get('stock_or_capacity_evidence')}.",
-            f"[SOURCED] Delivery / logistics: {vendor.get('delivery_evidence')}.",
+            f"[SOURCED] Verified certifications: {certs_str}.",
+            f"[SOURCED] Capacity / inventory evidence: {stock_str}.",
+            f"[SOURCED] Delivery / logistics: {delivery_str}.",
         ]
 
     def _extract_assumptions(
@@ -135,7 +148,12 @@ class EvaluatorAgent:
                 "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
             )
 
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+        has_non_standard_wall = any(
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             assumptions.append(
                 f"[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge ({spec.parsed_wall_thickness_mm} mm) "
                 "or supply ASTM A53 Schedule 80 equivalent."
@@ -154,7 +172,12 @@ class EvaluatorAgent:
             "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
         ]
 
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+        has_non_standard_wall = any(
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             rfq_items.append(
                 f"[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom {spec.parsed_wall_thickness_mm} mm wall rolling."
             )
@@ -173,10 +196,26 @@ class EvaluatorAgent:
         issues: List[str] = []
         if vendor.get("tier") == VendorTier.GLOBAL.value:
             issues.append("International transit time (15-30 days) and currency exchange fluctuations.")
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+
+        has_non_standard_wall = any(
+            ambiguity.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for ambiguity in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             issues.append(f"Custom rolling lead time required for non-standard {spec.parsed_wall_thickness_mm} mm wall.")
         if not vendor.get("contact_phone"):
             issues.append("Direct phone contact unverified.")
+        if not vendor.get("contact_email"):
+            issues.append("Commercial contact email unlisted.")
+        if not vendor.get("address"):
+            issues.append("Physical facility or warehouse address unlisted.")
+        if not vendor.get("certifications"):
+            issues.append("No accredited quality (ISO/BIS) certifications verified on record.")
+        if not vendor.get("stock_or_capacity_evidence"):
+            issues.append("Stock availability and production capacity unverified.")
+        if not vendor.get("delivery_evidence"):
+            issues.append("Delivery and freight logistics arrangement unverified.")
         return issues
 
     def _formulate_next_step(

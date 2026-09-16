@@ -76,3 +76,29 @@ def test_should_flag_non_standard_thickness_for_dn50():
     # Assert
     assert compliance["is_standard"] is False
     assert "May require custom rolling" in compliance["deviation_note"]
+
+
+def test_should_retrieve_is1239_spec_for_dn125_and_dn150():
+    """Verify IS 1239 lookup returns correct dimensions for DN 125 and DN 150."""
+    # Act
+    spec_125 = get_is1239_spec_by_dn(125)
+    spec_150 = get_is1239_spec_by_dn(150)
+
+    # Assert
+    assert spec_125 is not None
+    assert spec_125["nominal_od_mm"] == 139.7
+    assert spec_125["class_b_thickness_mm"] == 4.85
+    assert spec_150 is not None
+    assert spec_150["nominal_od_mm"] == 165.1
+    assert spec_150["class_c_thickness_mm"] == 5.4
+
+
+def test_should_find_dn_from_od_for_large_sizes():
+    """Verify tolerance matching from OD to DN for DN 125 and DN 150."""
+    # Act
+    dn_125 = find_is1239_dn_by_od(140.0)
+    dn_150 = find_is1239_dn_by_od(165.5)
+
+    # Assert
+    assert dn_125 == 125
+    assert dn_150 == 150

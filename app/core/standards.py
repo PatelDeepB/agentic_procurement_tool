@@ -20,8 +20,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 21.0,
         "max_od_mm": 21.8,
         "class_a_thickness_mm": 2.0,
-        "class_b_thickness_mm": 2.6,
-        "class_c_thickness_mm": 3.2,
+        "class_b_thickness_mm": 2.65,
+        "class_c_thickness_mm": 3.25,
     },
     20: {
         "nominal_bore_inch": "3/4",
@@ -29,8 +29,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 26.5,
         "max_od_mm": 27.3,
         "class_a_thickness_mm": 2.3,
-        "class_b_thickness_mm": 2.6,
-        "class_c_thickness_mm": 3.2,
+        "class_b_thickness_mm": 2.65,
+        "class_c_thickness_mm": 3.25,
     },
     25: {
         "nominal_bore_inch": "1",
@@ -38,8 +38,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 33.3,
         "max_od_mm": 34.2,
         "class_a_thickness_mm": 2.6,
-        "class_b_thickness_mm": 3.2,
-        "class_c_thickness_mm": 4.0,
+        "class_b_thickness_mm": 3.25,
+        "class_c_thickness_mm": 4.05,
     },
     32: {
         "nominal_bore_inch": "1-1/4",
@@ -47,8 +47,8 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "min_od_mm": 42.0,
         "max_od_mm": 42.9,
         "class_a_thickness_mm": 2.6,
-        "class_b_thickness_mm": 3.2,
-        "class_c_thickness_mm": 4.0,
+        "class_b_thickness_mm": 3.25,
+        "class_c_thickness_mm": 4.05,
     },
     40: {
         "nominal_bore_inch": "1-1/2",
@@ -64,7 +64,7 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "nominal_od_mm": 60.3,
         "min_od_mm": 59.7,
         "max_od_mm": 60.8,
-        "class_a_thickness_mm": 3.25,
+        "class_a_thickness_mm": 2.9,
         "class_b_thickness_mm": 3.65,
         "class_c_thickness_mm": 4.5,
     },
@@ -93,6 +93,24 @@ IS1239_PART1_TABLE: Dict[int, Dict[str, Any]] = {
         "max_od_mm": 115.0,
         "class_a_thickness_mm": 3.65,
         "class_b_thickness_mm": 4.5,
+        "class_c_thickness_mm": 5.4,
+    },
+    125: {
+        "nominal_bore_inch": "5",
+        "nominal_od_mm": 139.7,
+        "min_od_mm": 138.5,
+        "max_od_mm": 140.8,
+        "class_a_thickness_mm": 4.5,
+        "class_b_thickness_mm": 4.85,
+        "class_c_thickness_mm": 5.4,
+    },
+    150: {
+        "nominal_bore_inch": "6",
+        "nominal_od_mm": 165.1,
+        "min_od_mm": 163.9,
+        "max_od_mm": 166.3,
+        "class_a_thickness_mm": 4.5,
+        "class_b_thickness_mm": 4.85,
         "class_c_thickness_mm": 5.4,
     },
 }
@@ -179,6 +197,15 @@ def find_is1239_dn_by_od(outside_diameter_mm: float) -> Optional[int]:
     return None
 
 
+def _format_non_standard_note(thickness_mm: float, class_a: float, class_b: float, class_c: float) -> str:
+    """Format technical deviation note for non-standard wall thickness."""
+    return (
+        f"Thickness {thickness_mm} mm deviates from standard IS 1239 Part 1 schedules "
+        f"(Class A: {class_a} mm, Class B: {class_b} mm, Class C Heavy: {class_c} mm). "
+        f"May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard."
+    )
+
+
 def evaluate_thickness_compliance(
     dn_mm: int,
     thickness_mm: float,
@@ -194,40 +221,27 @@ def evaluate_thickness_compliance(
             "deviation_note": f"DN {dn_mm} is not in standard IS 1239 Part 1 lookup table.",
         }
 
-    class_a = spec["class_a_thickness_mm"]
-    class_b = spec["class_b_thickness_mm"]
-    class_c = spec["class_c_thickness_mm"]
+    classes = [
+        ("Class A (Light)", spec["class_a_thickness_mm"], "Standard IS 1239 Light class thickness."),
+        ("Class B (Medium)", spec["class_b_thickness_mm"], "Standard IS 1239 Medium class thickness."),
+        ("Class C (Heavy)", spec["class_c_thickness_mm"], "Standard IS 1239 Heavy class thickness."),
+    ]
 
-    # Check matches with tolerance of 0.1 mm
-    if abs(thickness_mm - class_a) <= 0.1:
-        return {
-            "is_standard": True,
-            "matched_class": "Class A (Light)",
-            "standard_thickness_mm": class_a,
-            "deviation_note": "Standard IS 1239 Light class thickness.",
-        }
-    if abs(thickness_mm - class_b) <= 0.1:
-        return {
-            "is_standard": True,
-            "matched_class": "Class B (Medium)",
-            "standard_thickness_mm": class_b,
-            "deviation_note": "Standard IS 1239 Medium class thickness.",
-        }
-    if abs(thickness_mm - class_c) <= 0.1:
-        return {
-            "is_standard": True,
-            "matched_class": "Class C (Heavy)",
-            "standard_thickness_mm": class_c,
-            "deviation_note": "Standard IS 1239 Heavy class thickness.",
-        }
+    for class_name, std_wall, note in classes:
+        if abs(thickness_mm - std_wall) <= 0.1:
+            return {
+                "is_standard": True,
+                "matched_class": class_name,
+                "standard_thickness_mm": std_wall,
+                "deviation_note": note,
+            }
 
+    class_a_wall, class_b_wall, class_c_wall = (entry[1] for entry in classes)
     return {
         "is_standard": False,
         "matched_class": None,
-        "standard_thickness_mm": class_c,
-        "deviation_note": (
-            f"Thickness {thickness_mm} mm deviates from standard IS 1239 Part 1 schedules "
-            f"(Class A: {class_a} mm, Class B: {class_b} mm, Class C Heavy: {class_c} mm). "
-            f"May require custom rolling, ASTM A53 Sch 80, or IS 3589 standard."
+        "standard_thickness_mm": class_c_wall,
+        "deviation_note": _format_non_standard_note(
+            thickness_mm, class_a_wall, class_b_wall, class_c_wall
         ),
     }

@@ -22,6 +22,7 @@ class AmbiguityType(str, Enum):
     NOMINAL_BORE_VS_OUTSIDE_DIAMETER = "NOMINAL_BORE_VS_OUTSIDE_DIAMETER"
     NON_STANDARD_WALL_THICKNESS = "NON_STANDARD_WALL_THICKNESS"
     UNSPECIFIED_STEEL_GRADE = "UNSPECIFIED_STEEL_GRADE"
+    OTHER = "OTHER"
 
 
 class VendorTier(str, Enum):
@@ -52,7 +53,7 @@ class MaterialInput(BaseModel):
 
     Field 1: id - Unique material requirement identifier (e.g. M-01)
     Field 2: material - Material description and dimensions
-    Field 3: quantity - Quantity required (unitless number per assessment spec)
+    Field 3: quantity - Quantity required (intentionally unitless to evaluate ambiguity detection)
     Field 4: location - Destination procurement location
     """
     id: str = Field(..., description="Unique material identifier, e.g. M-01")
@@ -84,6 +85,23 @@ class AmbiguityItem(BaseModel):
     )
 
 
+class UnifiedNormalizerLLMResponse(BaseModel):
+    """Structured schema returned by the single-call LLM normalizer."""
+    parsed_dn_mm: Optional[int] = Field(default=None, description="Nominal diameter in mm")
+    parsed_od_mm: Optional[float] = Field(default=None, description="Outside diameter in mm")
+    parsed_wall_thickness_mm: Optional[float] = Field(default=None, description="Wall thickness in mm")
+    parsed_standard: Optional[str] = Field(default=None, description="Standard code (e.g. IS 1239)")
+    parsed_class: Optional[str] = Field(default=None, description="Class (e.g. Class B)")
+    parsed_steel_grade: Optional[str] = Field(default=None, description="Steel grade (e.g. Fe 330, Fe 410, Grade B)")
+    is_erw: bool = Field(default=True, description="True if ERW process")
+    has_quantity_unit: bool = Field(default=False, description="True if explicit physical unit exists")
+    detected_unit: Optional[str] = Field(default=None, description="Detected unit name if any")
+    quantity_ambiguity_description: Optional[str] = Field(default=None, description="Explanation of missing unit")
+    quantity_stated_assumption: Optional[str] = Field(default=None, description="Stated assumption")
+    quantity_clarification_prompt: Optional[str] = Field(default=None, description="Buyer clarification prompt")
+    technical_ambiguities: List[Dict[str, Any]] = Field(default_factory=list, description="Technical ambiguities")
+
+
 class NormalizedSpecification(BaseModel):
     """Technical specification parsed and normalized from raw input."""
     raw_input: MaterialInput
@@ -92,6 +110,7 @@ class NormalizedSpecification(BaseModel):
     parsed_wall_thickness_mm: Optional[float] = None
     parsed_standard: Optional[str] = None
     parsed_class: Optional[str] = None
+    parsed_steel_grade: Optional[str] = None
     is_erw: bool = True
     assumed_quantity_unit: str = "meters"
     estimated_linear_weight_kg_m: Optional[float] = None
@@ -120,6 +139,9 @@ class VendorEvidence(BaseModel):
     contact_phone: Optional[str] = None
     address: str = Field(..., description="Physical verified facility or office location")
     certifications: List[str] = Field(default_factory=list, description="Verified standards/certifications")
+    stock_or_capacity_evidence: Optional[str] = Field(default=None, description="Verified capacity, stock, or bulk evidence")
+    delivery_evidence: Optional[str] = Field(default=None, description="Verified delivery or service-area evidence")
+    evaluation_notes: Optional[str] = Field(default=None, description="LLM technical evaluation reasoning")
 
 
 class EvaluatedVendor(BaseModel):
@@ -135,7 +157,8 @@ class EvaluatedVendor(BaseModel):
     evidence: VendorEvidence
     unresolved_issues: List[str] = Field(default_factory=list)
     recommended_next_step: str
-    rank: int = 1
+    rank: int = Field(default=1, description="Rank within the supplier geographic tier (1 = top recommendation)")
+    global_rank: int = Field(default=1, description="Rank across all candidate suppliers regardless of tier")
 
 
 class ProcurementResult(BaseModel):
@@ -148,7 +171,13 @@ class ProcurementResult(BaseModel):
     ahmedabad_vendors: List[EvaluatedVendor] = Field(default_factory=list)
     india_vendors: List[EvaluatedVendor] = Field(default_factory=list)
     global_vendors: List[EvaluatedVendor] = Field(default_factory=list)
+    search_queries: Dict[str, List[str]] = Field(default_factory=dict, description="Synthesized multi-tier search queries")
     exclusion_log: List[Dict[str, str]] = Field(default_factory=list)
     audit_trail: List[str] = Field(default_factory=list)
     llm_synthesis: Optional[str] = Field(default=None, description="Executive procurement synthesis from LLM")
     model_provider: Optional[str] = Field(default="mock", description="Active LLM provider name")
+
+    @property
+    def all_vendors(self) -> List[EvaluatedVendor]:
+        """Return combined list of shortlisted vendors across all tiers."""
+        return self.ahmedabad_vendors + self.india_vendors + self.global_vendors

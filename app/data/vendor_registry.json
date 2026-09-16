@@ -10,11 +10,25 @@
     "website": "https://www.gujaratinfrapipes.com",
     "contact_email": "sales@gujaratinfrapipes.com",
     "contact_phone": "+91-79-2287-4100",
-    "certifications": ["ISO 9001:2015", "BIS Dealer Certificate", "IS 1239 Endorsement"],
+    "certifications": [
+      "ISO 9001:2015",
+      "BIS Dealer Certificate",
+      "IS 1239 Endorsement"
+    ],
     "supported_products": "MS ERW Black & Galvanized Steel Pipes, Class A, Class B, Class C, IS 1239 Part 1",
-    "supported_dn_range": [15, 150],
-    "supported_standards": ["IS 1239", "BS 1387"],
-    "supported_classes": ["Class A", "Class B", "Class C"],
+    "supported_dn_range": [
+      15,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "BS 1387"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C"
+    ],
     "max_wall_thickness_mm": 5.4,
     "stock_or_capacity_evidence": "Maintains 2,500 MT ready stock in Odhav warehouse with overhead gantry cranes for bulk dispatch.",
     "delivery_evidence": "Local same-day and next-day fleet delivery across Ahmedabad municipal and Sanand/Vatva industrial zones.",
@@ -32,11 +46,25 @@
     "website": "https://www.westernsteelgujarat.com",
     "contact_email": "procurement@westernsteelgujarat.com",
     "contact_phone": "+91-79-2281-9040",
-    "certifications": ["ISO 9001:2015", "Authorized Stockist for Jindal & Surya"],
+    "certifications": [
+      "ISO 9001:2015",
+      "Authorized Stockist for Jindal & Surya"
+    ],
     "supported_products": "Heavy duty MS ERW line pipes, structural tubes, IS 1239, IS 3589, custom heavy-wall rolling orders.",
-    "supported_dn_range": [20, 200],
-    "supported_standards": ["IS 1239", "IS 3589", "ASTM A53"],
-    "supported_classes": ["Class B", "Class C", "Custom Heavy Wall"],
+    "supported_dn_range": [
+      20,
+      200
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "IS 3589",
+      "ASTM A53"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C",
+      "Custom Heavy Wall"
+    ],
     "max_wall_thickness_mm": 6.5,
     "stock_or_capacity_evidence": "Central stocking yard of 1,800 MT with specialized tie-ups for thick-walled ERW pipes.",
     "delivery_evidence": "Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours.",
@@ -54,16 +82,238 @@
     "website": "https://www.ashapurasteeltubes.in",
     "contact_email": "inquiry@ashapurasteeltubes.in",
     "contact_phone": "+91-79-2583-1290",
-    "certifications": ["ISO 9001:2015"],
+    "certifications": [
+      "ISO 9001:2015"
+    ],
     "supported_products": "Industrial steel tubes, ERW pipes, scaffolding pipes, IS 1239 Class A and Class B.",
-    "supported_dn_range": [15, 100],
-    "supported_standards": ["IS 1239"],
-    "supported_classes": ["Class A", "Class B"],
+    "supported_dn_range": [
+      15,
+      100
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B"
+    ],
     "max_wall_thickness_mm": 4.5,
     "stock_or_capacity_evidence": "900 MT physical inventory with daily turn ratio.",
     "delivery_evidence": "Local transport fleet stationed at Vatva GIDC; covers Ahmedabad district within 12 hours.",
     "catalog_spec": "ERW carbon steel pipes, nominal sizes 15mm to 100mm, Class A and Class B plain ends.",
     "source_url": "https://www.ashapurasteeltubes.in/mild-steel-erw-pipes.html"
+  },
+  {
+    "id": "V-AHM-04",
+    "vendor_name": "Maruti Tube Syndicate (Ahmedabad)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "Shed 12, Kathwada GIDC, Ahmedabad, Gujarat 382430",
+    "website": null,
+    "contact_email": null,
+    "contact_phone": "+91-98250-99881",
+    "certifications": [],
+    "supported_products": "Small diameter MS ERW conduit and water pipes, light gauge tubing",
+    "supported_dn_range": [
+      15,
+      40
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B"
+    ],
+    "max_wall_thickness_mm": 3.2,
+    "stock_or_capacity_evidence": "Small local stockyard holding ~120 MT ready stock for quick retail pickup.",
+    "delivery_evidence": "Local pickup truck delivery within eastern Ahmedabad industrial estates.",
+    "catalog_spec": "Light gauge welded steel pipes, threaded and socketed ends.",
+    "source_url": "https://www.indiamart.com/maruti-tubes-ahmedabad/"
+  },
+  {
+    "id": "V-AHM-05",
+    "vendor_name": "Apex Piping Solutions (Sanand)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "AUTHORIZED_DISTRIBUTOR",
+    "location": "Sanand GIDC, Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "Plot 88, Sanand Industrial Area II, Ahmedabad, Gujarat 382110",
+    "website": "https://www.apexpipingsanand.com",
+    "contact_email": "info@apexpiping.in",
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Commercial ERW steel tubes and fabricated pipe fittings",
+    "supported_dn_range": [
+      25,
+      125
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class B"
+    ],
+    "max_wall_thickness_mm": 3.65,
+    "stock_or_capacity_evidence": "Maintains 400 MT buffer inventory near automobile manufacturing plants.",
+    "delivery_evidence": "Same-day dispatch to Sanand, Changodar, and Viramgam industrial clusters.",
+    "catalog_spec": "Class B commercial ERW pipes for factory utility piping.",
+    "source_url": "https://www.apexpipingsanand.com/products/ms-tubes.html"
+  },
+  {
+    "id": "V-AHM-06",
+    "vendor_name": "Shree Ram Metal Traders (Vatva)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "",
+    "website": "https://www.shreerammetaltraders.in",
+    "contact_email": "shreeram.vatva@gmail.com",
+    "contact_phone": "+91-79-2589-9900",
+    "certifications": [
+      "GST Registered Trader"
+    ],
+    "supported_products": "Surplus and commercial grade MS ERW pipes",
+    "supported_dn_range": [
+      15,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 4.5,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": "Arranges third-party hired trucks on buyer freight basis.",
+    "catalog_spec": "Secondary and commercial surplus ERW steel pipes.",
+    "source_url": "https://www.shreerammetaltraders.in/erw-stock.html"
+  },
+  {
+    "id": "V-AHM-07",
+    "vendor_name": "Kishore Brothers Steel Yard (Changodar)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Changodar, Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "Survey 401, Sarkhej-Bavla Highway, Changodar, Ahmedabad 382213",
+    "website": null,
+    "contact_email": null,
+    "contact_phone": "+91-94260-33445",
+    "certifications": [],
+    "supported_products": "Heavy structurals, beams, and miscellaneous ERW pipes",
+    "supported_dn_range": [
+      50,
+      200
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "IS 3589"
+    ],
+    "supported_classes": [
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 5.0,
+    "stock_or_capacity_evidence": "Open stockyard of 250 MT mixed structural and piping lots.",
+    "delivery_evidence": null,
+    "catalog_spec": "Heavy gauge surplus and over-rolled line pipes.",
+    "source_url": "https://www.tradeindia.com/kishore-brothers-changodar/"
+  },
+  {
+    "id": "V-AHM-08",
+    "vendor_name": "Gujarat Large Bore Pipe Corp (Odhav)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Odhav GIDC, Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "Plot 302, Ring Road, Odhav GIDC, Ahmedabad, Gujarat 382415",
+    "website": "https://www.gujaratlargebore.com",
+    "contact_email": "sales@gujaratlargebore.com",
+    "contact_phone": "+91-79-2287-9911",
+    "certifications": [
+      "ISO 9001:2015"
+    ],
+    "supported_products": "Submerged arc welded (SAW) and large diameter line pipes",
+    "supported_dn_range": [
+      150,
+      600
+    ],
+    "supported_standards": [
+      "IS 3589",
+      "API 5L"
+    ],
+    "supported_classes": [
+      "Class 1",
+      "Class 2"
+    ],
+    "max_wall_thickness_mm": 14.0,
+    "stock_or_capacity_evidence": "3,000 MT specialized yard for municipal water transmission mains.",
+    "delivery_evidence": "Hydra crane loading and multi-axle trailer delivery across Gujarat.",
+    "catalog_spec": "Spiral and longitudinal SAW pipes above 150 mm NB.",
+    "source_url": "https://www.gujaratlargebore.com/saw-pipes.html"
+  },
+  {
+    "id": "V-AHM-09",
+    "vendor_name": "Bhavani Hardware & Pipe Store (Relief Road)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "Shop 14, Old Relief Road, Near Kalupur, Ahmedabad 380001",
+    "website": null,
+    "contact_email": null,
+    "contact_phone": "+91-98240-11223",
+    "certifications": [],
+    "supported_products": "Retail hardware plumbing pipes and small MS ERW tubes",
+    "supported_dn_range": [
+      15,
+      25
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class A"
+    ],
+    "max_wall_thickness_mm": 2.6,
+    "stock_or_capacity_evidence": "Small retail shop stock (~5 MT) for walk-in plumber sales.",
+    "delivery_evidence": null,
+    "catalog_spec": "Class A light gauge retail plumbing pipes.",
+    "source_url": "https://www.justdial.com/Ahmedabad/Bhavani-Hardware-Pipe-Store"
+  },
+  {
+    "id": "V-AHM-10",
+    "vendor_name": "Sabarmati Steel Corporation (Naroda)",
+    "tier": "AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Naroda GIDC, Ahmedabad, Gujarat",
+    "country": "India",
+    "address": "",
+    "website": null,
+    "contact_email": null,
+    "contact_phone": "+91-79-2281-4455",
+    "certifications": [],
+    "supported_products": "Secondary, surplus and commercial ERW line pipes",
+    "supported_dn_range": [
+      25,
+      200
+    ],
+    "supported_standards": [
+      "Commercial Non-Standard"
+    ],
+    "supported_classes": [
+      "Commercial Surplus"
+    ],
+    "max_wall_thickness_mm": 4.0,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": null,
+    "catalog_spec": "Commercial unbranded secondary steel pipes, cut lengths.",
+    "source_url": "https://www.tradeindia.com/sabarmati-steel-naroda/"
   },
   {
     "id": "V-IND-01",
@@ -76,11 +326,29 @@
     "website": "https://www.jindal.com/jpl",
     "contact_email": "pipesales@jindal.com",
     "contact_phone": "+91-11-4139-9999",
-    "certifications": ["BIS ISI Mark IS 1239 (CM/L-0018721)", "ISO 9001:2015", "API 5L", "ISO 14001"],
+    "certifications": [
+      "BIS ISI Mark IS 1239 (CM/L-0018721)",
+      "ISO 9001:2015",
+      "API 5L",
+      "ISO 14001"
+    ],
     "supported_products": "ERW Black and Galvanized Steel Pipes (IS 1239 Part 1:2004, IS 3589, ASTM A53 Grade A & B).",
-    "supported_dn_range": [15, 350],
-    "supported_standards": ["IS 1239", "IS 3589", "ASTM A53", "BS 1387"],
-    "supported_classes": ["Class A", "Class B", "Class C", "Custom Heavy Wall"],
+    "supported_dn_range": [
+      15,
+      350
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "IS 3589",
+      "ASTM A53",
+      "BS 1387"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C",
+      "Custom Heavy Wall"
+    ],
     "max_wall_thickness_mm": 10.0,
     "stock_or_capacity_evidence": "Annual ERW pipe manufacturing capacity of 250,000 MT across automated high-frequency induction weld mills.",
     "delivery_evidence": "Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill.",
@@ -98,11 +366,27 @@
     "website": "https://www.tatasteeltubes.com",
     "contact_email": "tubes.sales@tatasteel.com",
     "contact_phone": "+91-33-2288-3333",
-    "certifications": ["BIS ISI Mark IS 1239", "ISO 9001", "ISO 14001", "GreenPro Certified"],
+    "certifications": [
+      "BIS ISI Mark IS 1239",
+      "ISO 9001",
+      "ISO 14001",
+      "GreenPro Certified"
+    ],
     "supported_products": "Tata Structura & Tata Pipes ERW mild steel tubes, Class A, B, C under IS 1239 Part 1:2004.",
-    "supported_dn_range": [15, 150],
-    "supported_standards": ["IS 1239", "BS 1387", "EN 10255"],
-    "supported_classes": ["Class A", "Class B", "Class C"],
+    "supported_dn_range": [
+      15,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "BS 1387",
+      "EN 10255"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C"
+    ],
     "max_wall_thickness_mm": 5.4,
     "stock_or_capacity_evidence": "Over 500,000 MT annual production capacity across Tubes Division mills.",
     "delivery_evidence": "Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.",
@@ -120,11 +404,29 @@
     "website": "https://www.suryaroshniltd.com",
     "contact_email": "steel.marketing@surya.in",
     "contact_phone": "+91-11-2581-0093",
-    "certifications": ["BIS Mark IS 1239", "BIS Mark IS 3589", "API 5L", "ISO 9001:2015"],
+    "certifications": [
+      "BIS Mark IS 1239",
+      "BIS Mark IS 3589",
+      "API 5L",
+      "ISO 9001:2015"
+    ],
     "supported_products": "ERW steel pipes from 1/2 inch to 100 inch OD, IS 1239, ASTM A53, API 5L PSL-1/PSL-2.",
-    "supported_dn_range": [15, 250],
-    "supported_standards": ["IS 1239", "IS 3589", "ASTM A53", "BS 1387"],
-    "supported_classes": ["Class A", "Class B", "Class C", "Custom Heavy Wall"],
+    "supported_dn_range": [
+      15,
+      250
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "IS 3589",
+      "ASTM A53",
+      "BS 1387"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C",
+      "Custom Heavy Wall"
+    ],
     "max_wall_thickness_mm": 8.0,
     "stock_or_capacity_evidence": "Annual steel pipe capacity of 700,000 MT across three integrated manufacturing units.",
     "delivery_evidence": "Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days.",
@@ -142,16 +444,251 @@
     "website": "https://www.aplapollo.com",
     "contact_email": "info@aplapollo.com",
     "contact_phone": "+91-11-2237-3456",
-    "certifications": ["BIS ISI Mark IS 1239", "ISO 9001:2015", "CE Mark", "UL Listed"],
+    "certifications": [
+      "BIS ISI Mark IS 1239",
+      "ISO 9001:2015",
+      "CE Mark",
+      "UL Listed"
+    ],
     "supported_products": "Structural and ERW piping solutions, IS 1239 Class A, B, C, hollow sections.",
-    "supported_dn_range": [15, 150],
-    "supported_standards": ["IS 1239", "BS 1387", "ASTM A500"],
-    "supported_classes": ["Class A", "Class B", "Class C"],
+    "supported_dn_range": [
+      15,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "BS 1387",
+      "ASTM A500"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C"
+    ],
     "max_wall_thickness_mm": 5.4,
     "stock_or_capacity_evidence": "World's largest hollow section & ERW tube producer with 2.6 Million MT capacity per annum.",
     "delivery_evidence": "Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory.",
     "catalog_spec": "APL Apollo IS 1239 Part 1 ERW pipes with precision direct forming technology.",
     "source_url": "https://www.aplapollo.com/products/ms-black-pipes-is1239.html"
+  },
+  {
+    "id": "V-IND-05",
+    "vendor_name": "Maharashtra Tubular Products Ltd (Navi Mumbai)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "PRIMARY_MANUFACTURER",
+    "location": "Navi Mumbai, Maharashtra",
+    "country": "India",
+    "address": "",
+    "website": "https://www.mahatubular.com",
+    "contact_email": "contracts@mahatubular.com",
+    "contact_phone": "+91-22-2778-1200",
+    "certifications": [
+      "ISO 9001:2015",
+      "BIS Licence IS 1239"
+    ],
+    "supported_products": "Carbon steel ERW pipes, Class A, B, C for industrial piping",
+    "supported_dn_range": [
+      20,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B",
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 5.4,
+    "stock_or_capacity_evidence": "Mid-sized mill rolling 60,000 MT annually near Panvel.",
+    "delivery_evidence": "Regular daily road freight trailers across Western Corridor to Gujarat depots within 48 hours.",
+    "catalog_spec": "Standard ERW steel tubes conforming to IS 1239 Part 1 specifications.",
+    "source_url": "https://www.mahatubular.com/catalog/is1239.pdf"
+  },
+  {
+    "id": "V-IND-06",
+    "vendor_name": "Bharat Heavy Pipe Mills (Raipur)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "PRIMARY_MANUFACTURER",
+    "location": "Raipur, Chhattisgarh",
+    "country": "India",
+    "address": "Industrial Area, Urla, Raipur, Chhattisgarh 492003",
+    "website": "https://www.bharatheavypipe.com",
+    "contact_email": "marketing@bharatheavypipe.com",
+    "contact_phone": null,
+    "certifications": [
+      "ISO 9001:2015",
+      "BIS Licence IS 3589"
+    ],
+    "supported_products": "Heavy ERW line pipes and water transmission tubes",
+    "supported_dn_range": [
+      40,
+      300
+    ],
+    "supported_standards": [
+      "IS 3589",
+      "ASTM A53"
+    ],
+    "supported_classes": [
+      "Class 1",
+      "Class 2"
+    ],
+    "max_wall_thickness_mm": 7.5,
+    "stock_or_capacity_evidence": "Integrated steel pipe mill with 180,000 MT annual rolling capacity.",
+    "delivery_evidence": "Rail rake and fleet dispatch to Western India in 4-6 business days.",
+    "catalog_spec": "Heavy duty welded steel line pipes for slurry and water distribution.",
+    "source_url": "https://www.bharatheavypipe.com/specifications.html"
+  },
+  {
+    "id": "V-IND-07",
+    "vendor_name": "Southern Seamless & ERW Tubes (Chennai)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "AUTHORIZED_DISTRIBUTOR",
+    "location": "Chennai, Tamil Nadu",
+    "country": "India",
+    "address": "No. 45, Sembudoss Street, George Town, Chennai 600001",
+    "website": null,
+    "contact_email": null,
+    "contact_phone": "+91-44-2522-8877",
+    "certifications": [
+      "ISO 9001:2015"
+    ],
+    "supported_products": "Industrial ERW and seamless carbon steel pipes",
+    "supported_dn_range": [
+      15,
+      100
+    ],
+    "supported_standards": [
+      "IS 1239",
+      "ASTM A106"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 5.0,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": "Interstate road logistics to Western India within 5-7 business days.",
+    "catalog_spec": "Distributor inventory for standard ERW black steel piping.",
+    "source_url": "https://www.justdial.com/chennai/southern-seamless-erw-tubes"
+  },
+  {
+    "id": "V-IND-08",
+    "vendor_name": "Kalinga Structural Pipes (Bhubaneswar)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "PRIMARY_MANUFACTURER",
+    "location": "Bhubaneswar / Cuttack, Odisha",
+    "country": "India",
+    "address": "Plot 22, Mancheswar Industrial Estate, Bhubaneswar, Odisha 751010",
+    "website": "https://www.kalingapipes.co.in",
+    "contact_email": "sales@kalingapipes.co.in",
+    "contact_phone": "+91-674-258-0112",
+    "certifications": [],
+    "supported_products": "Light and medium structural ERW circular pipes",
+    "supported_dn_range": [
+      15,
+      80
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class A",
+      "Class B"
+    ],
+    "max_wall_thickness_mm": 4.0,
+    "stock_or_capacity_evidence": "Regional manufacturing unit producing 35,000 MT per year.",
+    "delivery_evidence": "National highway transport to Gujarat within 5 business days.",
+    "catalog_spec": "Class A & B commercial mild steel tubes for structural and fluid piping.",
+    "source_url": "https://www.kalingapipes.co.in/products/erw.html"
+  },
+  {
+    "id": "V-IND-09",
+    "vendor_name": "Panipat Steel & Tube Supply Co (Haryana)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "EPC_SUPPLIER",
+    "location": "Panipat, Haryana",
+    "country": "India",
+    "address": "",
+    "website": "https://www.panipatsteelsupply.com",
+    "contact_email": "procure@panipatsteelsupply.com",
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Turnkey utility pipes, valves, and ERW conduit tubing",
+    "supported_dn_range": [
+      25,
+      150
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class B"
+    ],
+    "max_wall_thickness_mm": 3.65,
+    "stock_or_capacity_evidence": "Contractual stock allocation of 150 MT with primary northern mills.",
+    "delivery_evidence": null,
+    "catalog_spec": "Project utility ERW piping packages.",
+    "source_url": "https://www.panipatsteelsupply.com/piping-packages.html"
+  },
+  {
+    "id": "V-IND-10",
+    "vendor_name": "Eastern India Tube Distributors (Kolkata / Howrah)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Kolkata / Howrah, West Bengal",
+    "country": "India",
+    "address": "Brabourne Road, Barabazar, Kolkata 700001",
+    "website": null,
+    "contact_email": "eastern.tubes.kol@gmail.com",
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Structural tubes and secondary ERW water pipes",
+    "supported_dn_range": [
+      40,
+      100
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class B"
+    ],
+    "max_wall_thickness_mm": 3.65,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": "Dispatches via third-party Kolkata-Gujarat transport agencies (7-10 days).",
+    "catalog_spec": "Class B commercial ERW tubes from eastern re-rolling mills.",
+    "source_url": "https://www.indiamart.com/eastern-india-tubes-howrah/"
+  },
+  {
+    "id": "V-IND-11",
+    "vendor_name": "Vidarbha Industrial Piping Depot (Nagpur)",
+    "tier": "INDIA_OUTSIDE_AHMEDABAD",
+    "vendor_type": "EPC_SUPPLIER",
+    "location": "Nagpur, Maharashtra",
+    "country": "India",
+    "address": "MIDC Hingna Road, Nagpur, Maharashtra 440016",
+    "website": "https://www.vidarbhapiping.in",
+    "contact_email": null,
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Project surplus and miscellaneous utility piping",
+    "supported_dn_range": [
+      20,
+      80
+    ],
+    "supported_standards": [
+      "IS 1239"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 4.5,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": null,
+    "catalog_spec": "Project surplus utility piping stock.",
+    "source_url": "https://www.vidarbhapiping.in/excess-inventory.html"
   },
   {
     "id": "V-GLB-01",
@@ -164,11 +701,30 @@
     "website": "https://www.baosteel.com/en",
     "contact_email": "export.tubular@baosteel.com",
     "contact_phone": "+86-21-2664-8888",
-    "certifications": ["ISO 9001", "API 5L", "ASTM A53 Spec", "PED 2014/68/EU", "CE Mark"],
+    "certifications": [
+      "ISO 9001",
+      "API 5L",
+      "ASTM A53 Spec",
+      "PED 2014/68/EU",
+      "CE Mark"
+    ],
     "supported_products": "High-frequency ERW welded steel line pipes, ASTM A53 Grade A/B, BS 1387 equivalents.",
-    "supported_dn_range": [25, 600],
-    "supported_standards": ["ASTM A53", "BS 1387", "API 5L", "EN 10255"],
-    "supported_classes": ["Schedule 40", "Schedule 80", "Heavy Wall", "Class B/C equivalents"],
+    "supported_dn_range": [
+      25,
+      600
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "BS 1387",
+      "API 5L",
+      "EN 10255"
+    ],
+    "supported_classes": [
+      "Schedule 40",
+      "Schedule 80",
+      "Heavy Wall",
+      "Class B/C equivalents"
+    ],
     "max_wall_thickness_mm": 12.7,
     "stock_or_capacity_evidence": "Annual ERW line pipe manufacturing volume exceeding 1.5 Million MT.",
     "delivery_evidence": "Breakbulk and containerized ocean shipping from Shanghai Port directly to Mundra Port / Kandla Port, Gujarat (18-24 days ocean transit + customs clearance).",
@@ -186,11 +742,28 @@
     "website": "https://www.tenaris.com",
     "contact_email": "orders.middleeast@tenaris.com",
     "contact_phone": "+971-4-450-4000",
-    "certifications": ["ISO 9001:2015", "API Q1", "API 5L", "ASTM A53", "EN 10255"],
+    "certifications": [
+      "ISO 9001:2015",
+      "API Q1",
+      "API 5L",
+      "ASTM A53",
+      "EN 10255"
+    ],
     "supported_products": "Welded and seamless carbon steel tubular products for energy and heavy industrial infrastructure.",
-    "supported_dn_range": [40, 700],
-    "supported_standards": ["ASTM A53", "EN 10255", "API 5L"],
-    "supported_classes": ["Schedule 40", "Schedule 80", "Heavy Duty"],
+    "supported_dn_range": [
+      40,
+      700
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "EN 10255",
+      "API 5L"
+    ],
+    "supported_classes": [
+      "Schedule 40",
+      "Schedule 80",
+      "Heavy Duty"
+    ],
     "max_wall_thickness_mm": 15.0,
     "stock_or_capacity_evidence": "Global capacity exceeding 3.5 Million MT of tubular products annually.",
     "delivery_evidence": "Jebel Ali Port ocean container shipping to Nhava Sheva or Mundra Port (7-10 days transit) followed by bonded road transport to Ahmedabad.",
@@ -208,15 +781,226 @@
     "website": "https://www.hamriyahsteeltubes.ae",
     "contact_email": "export@hamriyahsteeltubes.ae",
     "contact_phone": "+971-6-526-7811",
-    "certifications": ["ISO 9001:2015", "Bureau Veritas Export Inspection Certificate"],
+    "certifications": [
+      "ISO 9001:2015",
+      "Bureau Veritas Export Inspection Certificate"
+    ],
     "supported_products": "ERW carbon steel pipes, ASTM A53, BS 1387 Class B/C, heavy wall carbon steel piping stock.",
-    "supported_dn_range": [20, 250],
-    "supported_standards": ["ASTM A53", "BS 1387", "IS 1239 equivalent"],
-    "supported_classes": ["Class B", "Class C", "Schedule 40", "Schedule 80"],
+    "supported_dn_range": [
+      20,
+      250
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "BS 1387",
+      "IS 1239 equivalent"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C",
+      "Schedule 40",
+      "Schedule 80"
+    ],
     "max_wall_thickness_mm": 9.5,
     "stock_or_capacity_evidence": "Ready export yard of 15,000 MT dedicated to rapid containerized sea freight to South Asian ports.",
     "delivery_evidence": "Export customs ready; sea freight to Mundra Port in 6-8 days; inland trucking to Ahmedabad in 1-2 days post clearance.",
     "catalog_spec": "BS 1387 / ASTM A53 Class Heavy ERW pipes, black plain ends, mill test certs provided.",
     "source_url": "https://www.hamriyahsteeltubes.ae/inventory/black-erw-pipes.html"
+  },
+  {
+    "id": "V-GLB-04",
+    "vendor_name": "Gulf Piping Supplies LLC (Oman / UAE)",
+    "tier": "GLOBAL",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Sohar Industrial Port, Oman",
+    "country": "Oman",
+    "address": "Sohar Free Zone, Phase 2, Plot C-18, Sohar, Sultanate of Oman",
+    "website": "https://www.gulfpipingsupplies.com",
+    "contact_email": null,
+    "contact_phone": "+968-2685-1100",
+    "certifications": [
+      "ISO 9001:2015"
+    ],
+    "supported_products": "ASTM A53 ERW line pipes, BS 1387 equivalents, casing pipes",
+    "supported_dn_range": [
+      20,
+      200
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "BS 1387"
+    ],
+    "supported_classes": [
+      "Schedule 40",
+      "Schedule 80",
+      "Heavy Duty"
+    ],
+    "max_wall_thickness_mm": 8.5,
+    "stock_or_capacity_evidence": "Regional warehouse holding 8,000 MT of prime carbon steel tubes.",
+    "delivery_evidence": null,
+    "catalog_spec": "Carbon steel ERW pipes per ASTM A53 Grade B, bevelled ends.",
+    "source_url": "https://www.gulfpipingsupplies.com/pipes/astm-a53.html"
+  },
+  {
+    "id": "V-GLB-05",
+    "vendor_name": "Nippon Tubular Exports Corp (Tokyo)",
+    "tier": "GLOBAL",
+    "vendor_type": "PRIMARY_MANUFACTURER",
+    "location": "Tokyo / Chiba Works, Japan",
+    "country": "Japan",
+    "address": "1-1 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+    "website": "https://www.nippontubular.co.jp/en",
+    "contact_email": "export-inquiry@nippontubular.co.jp",
+    "contact_phone": null,
+    "certifications": [
+      "ISO 9001",
+      "API 5L",
+      "JIS G3452",
+      "ASTM A53 Spec"
+    ],
+    "supported_products": "High-precision HFW/ERW line pipes and high-pressure alloy tubulars",
+    "supported_dn_range": [
+      25,
+      400
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "EN 10255",
+      "JIS G3452"
+    ],
+    "supported_classes": [
+      "Schedule 40",
+      "Schedule 80",
+      "Schedule 160"
+    ],
+    "max_wall_thickness_mm": 14.5,
+    "stock_or_capacity_evidence": "Over 1.8 Million MT annual high-precision pipe production capacity.",
+    "delivery_evidence": "Container and breakbulk maritime dispatch from Yokohama to Mundra Port (16-20 days transit).",
+    "catalog_spec": "Precision high-frequency welded steel pipes matching ASTM A53 Schedule 80 heavy gauge requirements.",
+    "source_url": "https://www.nippontubular.co.jp/en/products/hfw-linepipes.html"
+  },
+  {
+    "id": "V-GLB-06",
+    "vendor_name": "EuroPiping Trading B.V. (Rotterdam)",
+    "tier": "GLOBAL",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Rotterdam, Netherlands",
+    "country": "Netherlands",
+    "address": "",
+    "website": "https://www.europipingtrading.nl",
+    "contact_email": "sales@europipingtrading.nl",
+    "contact_phone": "+31-10-590-4400",
+    "certifications": [],
+    "supported_products": "European standard welded and seamless commercial tubes",
+    "supported_dn_range": [
+      15,
+      125
+    ],
+    "supported_standards": [
+      "EN 10255"
+    ],
+    "supported_classes": [
+      "Series M",
+      "Series H"
+    ],
+    "max_wall_thickness_mm": 5.0,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": "European port consolidation; sea freight on buyer demurrage terms.",
+    "catalog_spec": "EN 10255 Medium/Heavy commercial tubes.",
+    "source_url": "https://www.europipingtrading.nl/products.html"
+  },
+  {
+    "id": "V-GLB-07",
+    "vendor_name": "Hebei Seamless & Welded Pipe Co (Cangzhou)",
+    "tier": "GLOBAL",
+    "vendor_type": "PRIMARY_MANUFACTURER",
+    "location": "Cangzhou, Hebei Province, China",
+    "country": "China",
+    "address": "Yanshan Industrial Zone, Cangzhou, Hebei 061300, China",
+    "website": "https://www.hebeipipemanufacture.com",
+    "contact_email": "export@hebeipipemanufacture.com",
+    "contact_phone": "+86-317-688-2199",
+    "certifications": [
+      "ISO 9001:2015",
+      "API 5L License"
+    ],
+    "supported_products": "Large diameter LSAW and heavy wall spiral pipes",
+    "supported_dn_range": [
+      200,
+      1200
+    ],
+    "supported_standards": [
+      "API 5L",
+      "ASTM A53"
+    ],
+    "supported_classes": [
+      "Schedule 40",
+      "Schedule 80"
+    ],
+    "max_wall_thickness_mm": 20.0,
+    "stock_or_capacity_evidence": "Heavy pipe plant with 400,000 MT annual production.",
+    "delivery_evidence": "Tianjin port maritime loading to Indian west coast ports (22-26 days).",
+    "catalog_spec": "Heavy gauge line pipes for oil, gas, and major water transmission.",
+    "source_url": "https://www.hebeipipemanufacture.com/large-diameter-pipes.html"
+  },
+  {
+    "id": "V-GLB-08",
+    "vendor_name": "Singapore Asian Metal Logistics Pte Ltd",
+    "tier": "GLOBAL",
+    "vendor_type": "EPC_SUPPLIER",
+    "location": "Singapore",
+    "country": "Singapore",
+    "address": "10 Anson Road, International Plaza, Singapore 079903",
+    "website": null,
+    "contact_email": "projects@asianmetallogistics.sg",
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Trading stock of industrial carbon steel ERW pipes",
+    "supported_dn_range": [
+      20,
+      150
+    ],
+    "supported_standards": [
+      "ASTM A53",
+      "BS 1387"
+    ],
+    "supported_classes": [
+      "Class B",
+      "Class C"
+    ],
+    "max_wall_thickness_mm": 5.4,
+    "stock_or_capacity_evidence": "Brokered supplier agreement with regional Malaysian and Indonesian pipe mills.",
+    "delivery_evidence": "Export containerized FOB Singapore or CIF Mundra shipping terms.",
+    "catalog_spec": "Standard commercial grade ERW pipes for regional construction projects.",
+    "source_url": "https://www.sgpbusiness.com/company/Asian-Metal-Logistics-Pte-Ltd"
+  },
+  {
+    "id": "V-GLB-09",
+    "vendor_name": "Al-Manama Industrial Metal Brokers (Manama, Bahrain)",
+    "tier": "GLOBAL",
+    "vendor_type": "STOCKIST_TRADER",
+    "location": "Manama, Bahrain",
+    "country": "Bahrain",
+    "address": "",
+    "website": null,
+    "contact_email": "sales@almanamametal.bh",
+    "contact_phone": null,
+    "certifications": [],
+    "supported_products": "Brokered surplus carbon steel line pipes and casing",
+    "supported_dn_range": [
+      50,
+      300
+    ],
+    "supported_standards": [
+      "ASTM A53"
+    ],
+    "supported_classes": [
+      "Schedule 40"
+    ],
+    "max_wall_thickness_mm": 5.5,
+    "stock_or_capacity_evidence": null,
+    "delivery_evidence": null,
+    "catalog_spec": "Brokered Middle East industrial pipeline surplus lots.",
+    "source_url": "https://www.yellowpages-bahrain.com/c/al-manama-metal-brokers"
   }
 ]

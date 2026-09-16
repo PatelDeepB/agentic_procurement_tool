@@ -77,3 +77,25 @@ def test_should_generate_valid_json_export():
     assert parsed["material_id"] == "M-03"
     assert "specification" in parsed
     assert len(parsed["ahmedabad_vendors"]) > 0
+
+
+def test_should_display_explicit_unit_in_markdown_export_when_specified():
+    """Verify Markdown report displays explicit unit rather than claiming unspecified."""
+    # Arrange
+    orchestrator = ProcurementOrchestrator()
+    exporter = ExportService()
+    req = MaterialInput(
+        id="M-EXPLICIT",
+        material="DN 50 MS ERW pipe 1000 mtrs",
+        quantity=1000.0,
+        location="Ahmedabad, Gujarat, India",
+    )
+    result = orchestrator.run_procurement_workflow(req)
+
+    # Act
+    md_content = exporter.to_markdown(result)
+
+    # Assert
+    assert "- **Specified Quantity**: 1000.0 meters" in md_content
+    assert "*(unit unspecified in input)*" not in md_content
+
