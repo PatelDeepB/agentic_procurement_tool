@@ -31,6 +31,8 @@ def load_env_file(filepath: str = ".env") -> None:
 class BaseLLMClient(ABC):
     """Abstract interface for multi-agent LLM reasoning clients."""
 
+    is_service_available: bool = True
+
     @abstractmethod
     def generate_completion(
         self,
@@ -41,14 +43,9 @@ class BaseLLMClient(ABC):
         """Generate raw text response from the language model."""
         pass
 
-    def generate_structured_json(
-        self,
-        system_prompt: str,
-        user_prompt: str,
-        temperature: float = 0.0,
-    ) -> Dict[str, Any]:
-        """Generate and parse structured JSON response from the language model."""
-        raw_text = self.generate_completion(system_prompt, user_prompt, temperature=temperature)
+    @staticmethod
+    def extract_json(raw_text: str) -> Dict[str, Any]:
+        """Extract and parse structured JSON dictionary from raw model text."""
         cleaned = raw_text.strip()
         if cleaned.startswith("```json"):
             cleaned = cleaned[7:]
@@ -57,3 +54,14 @@ class BaseLLMClient(ABC):
         if cleaned.endswith("```"):
             cleaned = cleaned[:-3]
         return json.loads(cleaned.strip())
+
+    def generate_structured_json(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.0,
+    ) -> Dict[str, Any]:
+        """Generate and parse structured JSON response from the language model."""
+        raw_text = self.generate_completion(system_prompt, user_prompt, temperature=temperature)
+        return self.extract_json(raw_text)
+

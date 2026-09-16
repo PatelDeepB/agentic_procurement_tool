@@ -2,6 +2,25 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.9.0] - 2026-09-16
+
+### Hardened & Refactored
+- **Search Agent Dynamic Ambiguity Resolution (`app/agents/searcher.py`)**:
+  - Eliminated hardcoded "40 mm" in ambiguous NB vs OD queries. Query generator now dynamically formats queries using the actual ambiguous size from the normalized specification (e.g. 25 mm, 40 mm, 50 mm).
+- **Flexible Tier Representation (`app/agents/searcher.py`)**:
+  - Enabled candidate retrieval to gracefully accept both `VendorTier` enum instances and string representations (e.g. "AHMEDABAD", "INDIA_OUTSIDE_AHMEDABAD", "GLOBAL"), preventing runtime `AttributeError` when queried from tools or API layers.
+- **Outside Diameter (OD) to DN Candidate Deductive Auditing (`app/agents/searcher.py`)**:
+  - Added fallback deductive lookup from `spec.parsed_od_mm` to standard DN via `find_is1239_dn_by_od` during candidate retrieval. Ensures suppliers with size constraints are properly audited and disqualified even when requisitions state dimensions in OD without explicit DN prefixes.
+- **Comprehensive Global Heavy-Wall Query Synthesis (`app/agents/searcher.py`)**:
+  - Injected specialized Schedule 80 and heavy-wall international queries into the Global search strategy when `NON_STANDARD_WALL_THICKNESS` ambiguity is present, matching primary exporter capabilities.
+  - Refactored `_synthesize_queries_deterministic` into modular static helpers (`_build_ahmedabad_queries`, `_build_india_queries`, `_build_global_queries`) to strictly enforce the 40-line function length limit.
+- **Base LLM Client Standard JSON Extraction & Service State Tracking (`app/llm/base.py`, `app/llm/mock_client.py`)**:
+  - Added `extract_json` static method and `is_service_available = True` default attribute to `BaseLLMClient`, harmonizing JSON extraction across all LLM subclasses.
+  - Added specialized multi-tier search query simulation (`_mock_search_queries_response`) to `MockLLMClient`.
+- **Search Agent Test Suite Expansion (`tests/test_searcher.py`)**:
+  - Added unit tests for dynamic ambiguity query formatting across varied sizes, global heavy-wall query synthesis, OD-to-DN resolution candidate exclusion, string and enum tier filtering, active LLM query synthesis, and resilient fallback on LLM failure.
+  - Test suite expanded to 51 passing tests in 0.73s with 100% compliance across all rules.
+
 ## [1.8.0] - 2026-09-16
 
 ### Added & Hardened

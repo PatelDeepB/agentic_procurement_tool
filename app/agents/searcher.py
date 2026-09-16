@@ -8,8 +8,9 @@ industrial piping specifications with complete exclusion audit logging.
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
+from app.core.standards import find_is1239_dn_by_od
 from app.domain.models import AmbiguityType, NormalizedSpecification, VendorTier
 from app.llm.base import BaseLLMClient
 
@@ -40,7 +41,7 @@ class SearchAgent:
 
     def generate_search_queries(self, spec: NormalizedSpecification) -> Dict[str, List[str]]:
         """Generate targeted search queries for each geographic tier."""
-        if self.llm and hasattr(self.llm, "is_service_available") and self.llm.is_service_available:
+        if self.llm and getattr(self.llm, "is_service_available", True):
             llm_queries = self._synthesize_queries_with_llm(spec)
             if llm_queries:
                 return llm_queries
@@ -71,7 +72,10 @@ class SearchAgent:
         try:
             raw_response = self.llm.generate_completion(system_prompt, user_prompt, temperature=0.1)
             parsed_data = self.llm.extract_json(raw_response)
-            if all(tier_key in parsed_data for tier_key in ["ahmedabad", "india_wide", "global"]):
+            if isinstance(parsed_data, dict) and all(
+                isinstance(parsed_data.get(tier_key), list) and len(parsed_data[tier_key]) > 0
+                for tier_key in ["ahmedabad", "india_wide", "global"]
+            ):
                 return {
                     tier_key: [str(query).strip() for query in parsed_data[tier_key]]
                     for tier_key in ["ahmedabad", "india_wide", "global"]
@@ -99,6 +103,48 @@ class SearchAgent:
             "standard": std_str,
         }
 
+    @staticmethod
+    def _build_ahmedabad_queries(
+        tokens: Dict[str, str],
+        spec: NormalizedSpecification,
+        has_nb_od_ambiguity: bool,
+    ) -> List[str]:
+        """Synthesize local Ahmedabad stockist search queries."""
+        queries = [
+            f"Ahmedabad {tokens['dn']} {tokens['od']} {tokens['wall']} ERW pipe stockist distributor GIDC Odhav Vatva",
+            f"{tokens['grade']} steel pipe supplier Ahmedabad ready stock {tokens['class_name']} {tokens['standard']}",
+        ]
+        if has_nb_od_ambiguity:
+            ambiguous_size = spec.parsed_dn_mm or 40
+            queries.append(
+                f"{ambiguous_size} mm NB vs {ambiguous_size} mm OD MS ERW pipe distributor Ahmedabad ready stock"
+            )
+        return [" ".join(query_text.split()) for query_text in queries]
+
+    @staticmethod
+    def _build_india_queries(tokens: Dict[str, str], has_non_standard_wall: bool) -> List[str]:
+        """Synthesize domestic primary manufacturer search queries."""
+        queries = [
+            f"India ERW steel pipe manufacturer {tokens['dn']} {tokens['wall']} {tokens['class_name']} IS 1239 BIS certified mill",
+            f"Primary steel pipe mills India bulk dispatch Ahmedabad depot {tokens['grade']}",
+        ]
+        if has_non_standard_wall:
+            queries.append(f"Heavy gauge ERW pipe custom rolling mill India {tokens['dn']} {tokens['wall']} ASTM A53 Schedule 80")
+        return [" ".join(query_text.split()) for query_text in queries]
+
+    @staticmethod
+    def _build_global_queries(tokens: Dict[str, str], has_non_standard_wall: bool) -> List[str]:
+        """Synthesize international export supplier search queries."""
+        queries = [
+            f"Carbon steel ERW line pipe exporter {tokens['dn']} {tokens['od']} ASTM A53 BS 1387 EN 10255",
+            f"Global tubular supplier CIF Mundra Port Gujarat India {tokens['dn']} {tokens['wall']}",
+        ]
+        if has_non_standard_wall:
+            queries.append(
+                f"Heavy wall ERW pipe exporter {tokens['dn']} {tokens['wall']} ASTM A53 Schedule 80 CIF Mundra Port"
+            )
+        return [" ".join(query_text.split()) for query_text in queries]
+
     def _synthesize_queries_deterministic(
         self,
         spec: NormalizedSpecification,
@@ -114,47 +160,32 @@ class SearchAgent:
             for ambiguity in spec.ambiguities
         )
 
-        ahmedabad_queries = [
-            f"Ahmedabad {tokens['dn']} {tokens['od']} {tokens['wall']} ERW pipe stockist distributor GIDC Odhav Vatva",
-            f"{tokens['grade']} steel pipe supplier Ahmedabad ready stock {tokens['class_name']} {tokens['standard']}",
-        ]
-        if has_nb_od_ambiguity:
-            ahmedabad_queries.append("40 mm NB vs 40 mm OD MS ERW pipe distributor Ahmedabad ready stock")
-
-        india_queries = [
-            f"India ERW steel pipe manufacturer {tokens['dn']} {tokens['wall']} {tokens['class_name']} IS 1239 BIS certified mill",
-            f"Primary steel pipe mills India bulk dispatch Ahmedabad depot {tokens['grade']}",
-        ]
-        if has_non_standard_wall:
-            india_queries.append(f"Heavy gauge ERW pipe custom rolling mill India {tokens['dn']} {tokens['wall']} ASTM A53 Schedule 80")
-
-        global_queries = [
-            f"Carbon steel ERW line pipe exporter {tokens['dn']} {tokens['od']} ASTM A53 BS 1387 EN 10255",
-            f"Global tubular supplier CIF Mundra Port Gujarat India {tokens['dn']} {tokens['wall']}",
-        ]
-
         return {
-            "ahmedabad": [" ".join(query_text.split()) for query_text in ahmedabad_queries],
-            "india_wide": [" ".join(query_text.split()) for query_text in india_queries],
-            "global": [" ".join(query_text.split()) for query_text in global_queries],
+            "ahmedabad": self._build_ahmedabad_queries(tokens, spec, has_nb_od_ambiguity),
+            "india_wide": self._build_india_queries(tokens, has_non_standard_wall),
+            "global": self._build_global_queries(tokens, has_non_standard_wall),
         }
 
     def retrieve_candidates_with_audit(
         self,
         spec: NormalizedSpecification,
-        tier: Optional[VendorTier] = None,
+        tier: Optional[Union[VendorTier, str]] = None,
     ) -> Tuple[List[Dict[str, Any]], List[Dict[str, str]]]:
         """Retrieve matching candidate vendors and capture explicit disqualification rationales."""
         qualified_candidates: List[Dict[str, Any]] = []
         exclusion_log: List[Dict[str, str]] = []
+
+        target_tier = tier.value if isinstance(tier, VendorTier) else (tier.upper() if isinstance(tier, str) else None)
         target_dn = spec.parsed_dn_mm
+        if target_dn is None and spec.parsed_od_mm is not None:
+            target_dn = find_is1239_dn_by_od(spec.parsed_od_mm)
 
         for vendor in self._vendors:
             vendor_id = vendor.get("id", "UNKNOWN")
             vendor_name = vendor.get("vendor_name", "Unknown Supplier")
             vendor_tier = vendor.get("tier", "UNKNOWN")
 
-            if tier and vendor_tier != tier.value:
+            if target_tier and vendor_tier != target_tier:
                 continue
 
             if target_dn is not None:
@@ -178,7 +209,7 @@ class SearchAgent:
     def retrieve_candidates(
         self,
         spec: NormalizedSpecification,
-        tier: Optional[VendorTier] = None,
+        tier: Optional[Union[VendorTier, str]] = None,
     ) -> List[Dict[str, Any]]:
         """Retrieve matching candidate vendors filtered by tier and preliminary capability."""
         qualified, _ = self.retrieve_candidates_with_audit(spec, tier)

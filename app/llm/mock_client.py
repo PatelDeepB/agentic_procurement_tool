@@ -36,6 +36,9 @@ class MockLLMClient(BaseLLMClient):
                 "3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances."
             )
 
+        if "search queries" in lower_sys or "industrial procurement specialist" in lower_sys:
+            return self._mock_search_queries_response(user_prompt)
+
         if "normalize" in lower_prompt or "ambiguity" in lower_prompt:
             return self._mock_normalize_response(user_prompt)
 
@@ -96,4 +99,22 @@ class MockLLMClient(BaseLLMClient):
             ],
             "match_category": "EXACT_MATCH" if "IS 1239" in prompt else "NEAR_MATCH",
             "confidence_assessment": "High confidence based on verified BIS ISI mark and warehouse capacity.",
+        }, indent=2)
+
+    @staticmethod
+    def _mock_search_queries_response(prompt: str) -> str:
+        """Simulate LLM response for specialized multi-tier search queries."""
+        return json.dumps({
+            "ahmedabad": [
+                "Ahmedabad GIDC ERW steel pipe distributor stockist ready inventory",
+                "IS 1239 mild steel pipe supplier Odhav Vatva Ahmedabad",
+            ],
+            "india_wide": [
+                "India primary ERW steel pipe manufacturers Jindal Surya Tata BIS mill",
+                "IS 1239 heavy class steel tubes mill direct dispatch Changodar depot",
+            ],
+            "global": [
+                "Carbon steel ERW line pipe exporter ASTM A53 BS 1387 CIF Mundra Port",
+                "Global tubular industrial exporter heavy gauge Schedule 80",
+            ],
         }, indent=2)
