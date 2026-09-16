@@ -4,7 +4,7 @@ This guide provides a step-by-step walkthrough for anyone to set up, run, and te
 
 ---
 
-## 1. 30-Second Quickstart (Zero Configuration)
+## 1. Quickstart
 
 If you have Python 3.10+ installed, you can start the application immediately without configuring any API keys:
 
