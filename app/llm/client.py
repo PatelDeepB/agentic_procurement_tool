@@ -41,7 +41,7 @@ class GeminiLLMClient(BaseLLMClient):
         }
         with httpx.Client(timeout=90.0) as client:
             response = client.post(url, json=payload)
-            if response.status_code in [400, 401, 403, 404]:
+            if response.status_code in [401 , 403]:
                 self.is_service_available = False
             response.raise_for_status()
             data = response.json()
