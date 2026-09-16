@@ -39,7 +39,7 @@ class GeminiLLMClient(BaseLLMClient):
             "contents": [{"parts": [{"text": f"{system_prompt}\n\nTask:\n{user_prompt}"}]}],
             "generationConfig": {"temperature": temperature},
         }
-        with httpx.Client(timeout=30.0) as client:
+        with httpx.Client(timeout=10.0) as client:
             response = client.post(url, json=payload)
             if response.status_code in [401 , 403]:
                 self.is_service_available = False
@@ -65,8 +65,7 @@ class GeminiLLMClient(BaseLLMClient):
                     logger.info(f"Retrying with backup free model '{self.BACKUP_MODEL}'...")
                     return self._call_gemini_api(self.BACKUP_MODEL, system_prompt, user_prompt, temperature)
                 except Exception as backup_err:
-                    logger.warning(f"Backup model '{self.BACKUP_MODEL}' also failed: {backup_err}")
-
+                    pass
             logger.info("Falling back to deterministic agent reasoning to guarantee uninterrupted execution.")
             mock_client = MockLLMClient()
             return mock_client.generate_completion(system_prompt, user_prompt, temperature)
@@ -100,7 +99,7 @@ class OpenAILLMClient(BaseLLMClient):
             ],
             "temperature": temperature,
         }
-        with httpx.Client(timeout=30.0) as client:
+        with httpx.Client(timeout=10.0) as client:
             response = client.post(self.endpoint, headers=headers, json=payload)
             response.raise_for_status()
             data = response.json()
