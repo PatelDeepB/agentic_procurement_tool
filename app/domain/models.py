@@ -174,3 +174,8 @@ class ProcurementResult(BaseModel):
     audit_trail: List[str] = Field(default_factory=list)
     llm_synthesis: Optional[str] = Field(default=None, description="Executive procurement synthesis from LLM")
     model_provider: Optional[str] = Field(default="mock", description="Active LLM provider name")
+
+    @property
+    def all_vendors(self) -> List[EvaluatedVendor]:
+        """Return combined list of shortlisted vendors across all tiers."""
+        return self.ahmedabad_vendors + self.india_vendors + self.global_vendors

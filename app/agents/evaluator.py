@@ -72,7 +72,7 @@ class EvaluatorAgent:
             f"Evaluate vendor '{vendor.get('vendor_name')}' ({vendor.get('location')}) "
             f"for supplying '{spec.raw_input.material}'. "
             f"Vendor products: {vendor.get('supported_products')}. "
-            f"Certifications: {', '.join(vendor.get('certifications', []))}."
+            f"Certifications: {', '.join(vendor.get('certifications') or [])}."
         )
         return self.llm.generate_completion(self.SYSTEM_PROMPT, user_prompt)
 
@@ -82,9 +82,9 @@ class EvaluatorAgent:
         spec: NormalizedSpecification,
     ) -> MatchCategory:
         """Categorize match precision level."""
-        supported_standards = vendor.get("supported_standards", [])
-        supported_classes = vendor.get("supported_classes", [])
-        max_wall = vendor.get("max_wall_thickness_mm", 0.0)
+        supported_standards = vendor.get("supported_standards") or []
+        supported_classes = vendor.get("supported_classes") or []
+        max_wall = float(vendor.get("max_wall_thickness_mm") or 0.0)
         req_wall = spec.parsed_wall_thickness_mm or 0.0
 
         has_is1239 = "IS 1239" in supported_standards
@@ -117,7 +117,7 @@ class EvaluatorAgent:
             f"[SOURCED] Operating location: {vendor.get('location')} ({vendor.get('address')}).",
             f"[SOURCED] Vendor type: {vendor.get('vendor_type')}.",
             f"[SOURCED] Supported product scope: {vendor.get('supported_products')}.",
-            f"[SOURCED] Verified certifications: {', '.join(vendor.get('certifications', []))}.",
+            f"[SOURCED] Verified certifications: {', '.join(vendor.get('certifications') or [])}.",
             f"[SOURCED] Capacity / inventory evidence: {vendor.get('stock_or_capacity_evidence')}.",
             f"[SOURCED] Delivery / logistics: {vendor.get('delivery_evidence')}.",
         ]

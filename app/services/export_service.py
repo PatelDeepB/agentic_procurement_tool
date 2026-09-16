@@ -193,8 +193,7 @@ class ExportService:
         writer = csv.DictWriter(output, fieldnames=fieldnames)
         writer.writeheader()
 
-        all_vendors = result.ahmedabad_vendors + result.india_vendors + result.global_vendors
-        for vendor in all_vendors:
+        for vendor in result.all_vendors:
             writer.writerow(self._build_csv_row_dict(result.material_id, vendor))
 
         return output.getvalue()

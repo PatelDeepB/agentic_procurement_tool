@@ -45,22 +45,18 @@ class ScorerAgent:
         spec: NormalizedSpecification,
     ) -> EvaluatedVendor:
         """Construct EvaluatedVendor instance with calculated composite score."""
-        vendor = item["raw_vendor"]
-        match_cat: MatchCategory = item["match_category"]
+        vendor = item.get("raw_vendor", item)
+        match_cat = item.get("match_category", MatchCategory.EXACT_MATCH)
+        if isinstance(match_cat, str):
+            try:
+                match_cat = MatchCategory(match_cat)
+            except ValueError:
+                match_cat = MatchCategory.CATEGORY_LEVEL_LEAD
+
         score, breakdown = self._calculate_confidence_score(vendor, match_cat, spec)
         tier = self._parse_vendor_tier(vendor.get("tier"))
         vendor_type = self._parse_vendor_type(vendor.get("vendor_type"))
-
-        evidence = item.get("evidence")
-        if evidence is None:
-            evidence = VendorEvidence(
-                catalog_spec=vendor.get("catalog_spec", "Catalog reference"),
-                source_url=vendor.get("source_url", "https://example.com"),
-                address=vendor.get("address", "Registered facility"),
-                contact_email=vendor.get("contact_email"),
-                contact_phone=vendor.get("contact_phone"),
-                certifications=vendor.get("certifications", []),
-            )
+        evidence = item.get("evidence") or self._synthesize_evidence(vendor)
 
         return EvaluatedVendor(
             vendor_name=vendor.get("vendor_name", "Unknown Vendor"),
@@ -76,6 +72,18 @@ class ScorerAgent:
             recommended_next_step=item.get("recommended_next_step", "Issue RFQ"),
             rank=1,
             global_rank=1,
+        )
+
+    @staticmethod
+    def _synthesize_evidence(vendor: Dict[str, Any]) -> VendorEvidence:
+        """Synthesize default evidence model from raw vendor dictionary."""
+        return VendorEvidence(
+            catalog_spec=vendor.get("catalog_spec", "Catalog reference"),
+            source_url=vendor.get("source_url") or vendor.get("website", "https://example.com"),
+            address=vendor.get("address", "Registered facility"),
+            contact_email=vendor.get("contact_email"),
+            contact_phone=vendor.get("contact_phone"),
+            certifications=vendor.get("certifications") or [],
         )
 
     @staticmethod
@@ -125,7 +133,8 @@ class ScorerAgent:
         seen_names = set()
         deduped: List[Dict[str, Any]] = []
         for candidate in candidates:
-            name = candidate["raw_vendor"].get("vendor_name", "").strip().lower()
+            raw_vendor = candidate.get("raw_vendor", candidate)
+            name = raw_vendor.get("vendor_name", "").strip().lower()
             if name not in seen_names:
                 seen_names.add(name)
                 deduped.append(candidate)
@@ -140,11 +149,11 @@ class ScorerAgent:
         """Calculate composite confidence score out of 100 points."""
         breakdown: Dict[str, float] = {
             "technical_fit": self._score_technical_fit(match_cat),
-            "certifications": self._score_certifications(vendor.get("certifications", [])),
+            "certifications": self._score_certifications(vendor.get("certifications")),
             "capacity_feasibility": self._score_capacity(vendor.get("vendor_type"), spec),
             "geographic_logistics": self._score_geography(
                 vendor.get("tier"),
-                vendor.get("delivery_evidence", "").lower(),
+                vendor.get("delivery_evidence"),
             ),
             "traceability": self._score_traceability(vendor),
         }
@@ -162,14 +171,15 @@ class ScorerAgent:
         return 8.0
 
     @staticmethod
-    def _score_certifications(certs: List[str]) -> float:
+    def _score_certifications(certs: Optional[List[str]]) -> float:
         """Score recognized quality and standard certifications (25 points max)."""
-        cert_text = " ".join(certs).upper()
+        cert_list = certs or []
+        cert_text = " ".join(cert_list).upper()
         if "IS 1239" in cert_text and "ISO" in cert_text:
             return 25.0
         if any(std in cert_text for std in ["ISO", "ASTM", "API"]):
             return 20.0
-        if certs:
+        if cert_list:
             return 15.0
         return 5.0
 
@@ -203,7 +213,7 @@ class ScorerAgent:
         return base_score
 
     @staticmethod
-    def _score_geography(tier: Optional[Any], delivery_text: str) -> float:
+    def _score_geography(tier: Optional[Any], delivery_text: Optional[str]) -> float:
         """Score transit distance and warehouse proximity (15 points max)."""
         clean_tier = (
             tier.value if isinstance(tier, VendorTier)
@@ -212,7 +222,8 @@ class ScorerAgent:
         if clean_tier == VendorTier.AHMEDABAD.value:
             return 15.0
         if clean_tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD.value:
-            if any(hub in delivery_text for hub in ["changodar", "sarkhej", "ahmedabad"]):
+            delivery_lower = (delivery_text or "").lower()
+            if any(hub in delivery_lower for hub in ["changodar", "sarkhej", "ahmedabad"]):
                 return 14.0
             return 11.0
         return 8.0
@@ -222,10 +233,10 @@ class ScorerAgent:
         """Score verifiable digital and physical contact footprint (5 points max)."""
         has_email = bool(vendor.get("contact_email"))
         has_phone = bool(vendor.get("contact_phone"))
-        has_url = bool(vendor.get("source_url"))
+        has_url = bool(vendor.get("source_url") or vendor.get("website"))
         has_address = bool(vendor.get("address"))
 
-        score = 2.0 if has_address else 1.0
+        score = 2.0 if has_address else 0.0
         if has_url:
             score += 1.5
 

@@ -2,6 +2,22 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.1.0] - 2026-09-16
+
+### Hardened & Refactored
+- **Strict Zero-Address Traceability Baseline (`app/agents/scorer.py`)**:
+  - Eliminated legacy 1.0 base score for vendors with missing physical addresses. Suppliers without a physical address now receive exactly 0.0 address points.
+  - Added dual lookup for `source_url` and `website` in digital footprint scoring.
+- **Resilient Input & None-Safety Across Agents (`app/agents/scorer.py`, `app/agents/evaluator.py`)**:
+  - Hardened `_build_evaluated_vendor` and `_deduplicate_candidates` in `ScorerAgent` to accept raw vendor dictionaries directly without requiring the `raw_vendor` wrapper.
+  - Extracted `_synthesize_evidence` helper in `ScorerAgent`, keeping function length under 30 lines.
+  - Protected `_score_certifications`, `_score_geography`, and `EvaluatorAgent` against explicit `None` values in JSON payloads for certifications, supported standards, supported classes, and delivery evidence.
+- **Idiomatic Domain Property (`app/domain/models.py`, `app/services/export_service.py`)**:
+  - Added `all_vendors` property to `ProcurementResult` for clean tier aggregation across exporters.
+- **Scorer Resilience Test Suite (`tests/test_scorer_resilience.py`)**:
+  - Added 4 dedicated unit tests verifying zero-address traceability, raw vendor dictionary ingestion, None-value resilience, and website field recognition.
+  - Expanded test suite to 63 passing tests in 0.51s with 100% compliance across all rules.
+
 ## [2.0.0] - 2026-09-16
 
 ### Hardened & Refactored
