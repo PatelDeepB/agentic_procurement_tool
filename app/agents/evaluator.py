@@ -8,6 +8,7 @@ identifies unresolved RFQ items without hallucinating data.
 from typing import Any, Dict, List, Optional, Tuple
 
 from app.domain.models import (
+    AmbiguityType,
     MatchCategory,
     NormalizedSpecification,
     VendorEvidence,
@@ -135,7 +136,12 @@ class EvaluatorAgent:
                 "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
             )
 
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+        has_non_standard_wall = any(
+            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for a in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             assumptions.append(
                 f"[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge ({spec.parsed_wall_thickness_mm} mm) "
                 "or supply ASTM A53 Schedule 80 equivalent."
@@ -154,7 +160,12 @@ class EvaluatorAgent:
             "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
         ]
 
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+        has_non_standard_wall = any(
+            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for a in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             rfq_items.append(
                 f"[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom {spec.parsed_wall_thickness_mm} mm wall rolling."
             )
@@ -173,7 +184,13 @@ class EvaluatorAgent:
         issues: List[str] = []
         if vendor.get("tier") == VendorTier.GLOBAL.value:
             issues.append("International transit time (15-30 days) and currency exchange fluctuations.")
-        if spec.parsed_wall_thickness_mm and spec.parsed_wall_thickness_mm > 4.5:
+
+        has_non_standard_wall = any(
+            a.ambiguity_type == AmbiguityType.NON_STANDARD_WALL_THICKNESS
+            for a in spec.ambiguities
+        )
+
+        if has_non_standard_wall and spec.parsed_wall_thickness_mm:
             issues.append(f"Custom rolling lead time required for non-standard {spec.parsed_wall_thickness_mm} mm wall.")
         if not vendor.get("contact_phone"):
             issues.append("Direct phone contact unverified.")

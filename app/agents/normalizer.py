@@ -10,6 +10,7 @@ import logging
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
+from app.core.standards import find_is1239_dn_by_od
 from app.domain.models import (
     AmbiguityItem,
     AmbiguitySeverity,
@@ -56,7 +57,9 @@ class NormalizerAgent:
         "flag NON_STANDARD_WALL_THICKNESS and suggest custom rolling or ASTM A53 Schedule 80.\n"
         "4. Steel Grade Check: If MS ERW pipe material does not specify tensile grade (e.g. Fe 330 vs Fe 410 per IS 1239), "
         "flag UNSPECIFIED_STEEL_GRADE (severity INFO) and state commercial default (Fe 330 for general distribution).\n"
-        "5. Output valid JSON matching the schema."
+        "5. Pipe Class & Wall Thickness Check: If neither class (Class A/B/C) nor wall thickness is specified, "
+        "note the standard commercial convention (Class B Medium wall) and prompt for buyer confirmation.\n"
+        "6. Output valid JSON matching the schema."
     )
 
     def __init__(self, llm_client: Optional[BaseLLMClient] = None):
@@ -77,12 +80,41 @@ class NormalizerAgent:
         wall = llm_data.parsed_wall_thickness_mm
         pipe_class = llm_data.parsed_class
 
-        effective_od, effective_wall = self._determine_effective_dimensions(dn, od, wall, pipe_class)
+        eff_dn, eff_od, eff_wall, is_class_assumed = self._determine_effective_dimensions(
+            dn, od, wall, pipe_class
+        )
 
-        # Step 4: Grounded ReAct tool call for mass and piece calculations
-        calc_result = tool_calculate_steel_tonnage(effective_od, effective_wall, raw_input.quantity)
+        # Step 4: If class and wall thickness were unspecified and defaulted to Class B, record assumption
+        if is_class_assumed and eff_wall > 0.0:
+            already_has_class_amb = any(
+                "class" in a.description.lower() for a in ambiguities
+            )
+            if not already_has_class_amb:
+                ambiguities.append(
+                    AmbiguityItem(
+                        field="material",
+                        ambiguity_type=AmbiguityType.OTHER,
+                        severity=AmbiguitySeverity.INFO,
+                        description="Pipe class and wall thickness were unspecified in the requisition.",
+                        stated_assumption=(
+                            f"Assumed standard IS 1239 Class B Medium wall thickness ({eff_wall} mm) "
+                            "in accordance with standard commercial supply convention."
+                        ),
+                        clarification_prompt=(
+                            "Please confirm whether Class A (Light), Class B (Medium), or Class C (Heavy) is required."
+                        ),
+                        unit_conversions={},
+                    )
+                )
 
-        # Step 5: Inject physical conversions into quantity ambiguity item if present
+        # Step 5: Bidirectional wall thickness check on resolved effective dimensions
+        if eff_dn and eff_wall:
+            self._verify_wall_thickness_via_tool(eff_dn, eff_wall, ambiguities)
+
+        # Step 6: Grounded ReAct tool call for mass and piece calculations
+        calc_result = tool_calculate_steel_tonnage(eff_od, eff_wall, raw_input.quantity)
+
+        # Step 7: Inject physical conversions into quantity ambiguity item if present
         for amb in ambiguities:
             if amb.ambiguity_type == AmbiguityType.UNSPECIFIED_QUANTITY_UNIT:
                 self._populate_quantity_conversions(amb, raw_input, calc_result)
@@ -91,9 +123,9 @@ class NormalizerAgent:
 
         return NormalizedSpecification(
             raw_input=raw_input,
-            parsed_dn_mm=dn,
-            parsed_od_mm=effective_od if effective_od > 0 else None,
-            parsed_wall_thickness_mm=effective_wall if effective_wall > 0 else None,
+            parsed_dn_mm=eff_dn or dn,
+            parsed_od_mm=eff_od if eff_od > 0 else None,
+            parsed_wall_thickness_mm=eff_wall if eff_wall > 0 else None,
             parsed_standard=llm_data.parsed_standard,
             parsed_class=pipe_class,
             parsed_steel_grade=llm_data.parsed_steel_grade,
@@ -171,10 +203,6 @@ class NormalizerAgent:
                 )
             )
 
-        # Bidirectional tool verification check for non-standard wall thickness
-        if llm_data.parsed_dn_mm and llm_data.parsed_wall_thickness_mm:
-            self._verify_wall_thickness_via_tool(llm_data, ambiguities)
-
         return ambiguities
 
     @staticmethod
@@ -213,12 +241,11 @@ class NormalizerAgent:
 
     def _verify_wall_thickness_via_tool(
         self,
-        llm_data: UnifiedNormalizerLLMResponse,
+        dn: Optional[int],
+        wall: Optional[float],
         ambiguities: List[AmbiguityItem],
     ) -> None:
         """Ground wall thickness check against IS 1239 standard using deterministic tool (bidirectional)."""
-        dn = llm_data.parsed_dn_mm
-        wall = llm_data.parsed_wall_thickness_mm
         if not dn or not wall:
             return
 
@@ -263,24 +290,44 @@ class NormalizerAgent:
         od: Optional[float],
         wall: Optional[float],
         pipe_class: Optional[str],
-    ) -> Tuple[float, float]:
-        """Resolve OD and wall thickness using tool lookup if omitted."""
+    ) -> Tuple[Optional[int], float, float, bool]:
+        """Resolve DN, OD, and wall thickness using tool lookup if omitted.
+
+        Returns:
+            Tuple of (effective_dn, effective_od, effective_wall, is_class_assumed)
+        """
+        effective_dn = dn
         effective_od = od or 0.0
         effective_wall = wall or 0.0
+        is_class_assumed = False
 
-        if dn and effective_od == 0.0:
-            spec_info = tool_lookup_is1239_spec(dn)
+        # If DN is missing but OD is given, reverse lookup DN from standard table
+        if not effective_dn and effective_od > 0.0:
+            effective_dn = find_is1239_dn_by_od(effective_od)
+
+        # Lookup standard specifications if DN is resolved
+        if effective_dn:
+            spec_info = tool_lookup_is1239_spec(effective_dn)
             if spec_info.get("found"):
-                effective_od = spec_info["nominal_od_mm"]
-                if effective_wall == 0.0 and pipe_class:
-                    if "Class A" in pipe_class:
-                        effective_wall = spec_info["class_a_light_wall_mm"]
-                    elif "Class C" in pipe_class:
-                        effective_wall = spec_info["class_c_heavy_wall_mm"]
-                    else:
-                        effective_wall = spec_info["class_b_medium_wall_mm"]
+                # Decoupled OD resolution
+                if effective_od == 0.0:
+                    effective_od = spec_info["nominal_od_mm"]
 
-        return effective_od, effective_wall
+                # Decoupled Wall Thickness resolution
+                if effective_wall == 0.0:
+                    if pipe_class:
+                        if "Class A" in pipe_class:
+                            effective_wall = spec_info["class_a_light_wall_mm"]
+                        elif "Class C" in pipe_class:
+                            effective_wall = spec_info["class_c_heavy_wall_mm"]
+                        else:
+                            effective_wall = spec_info["class_b_medium_wall_mm"]
+                    else:
+                        # Standard Indian supply convention: default to Class B (Medium)
+                        effective_wall = spec_info["class_b_medium_wall_mm"]
+                        is_class_assumed = True
+
+        return effective_dn, effective_od, effective_wall, is_class_assumed
 
     def _populate_quantity_conversions(
         self,
@@ -366,45 +413,49 @@ class NormalizerAgent:
             dn = int(dn_match.group(1))
         elif od:
             # Reverse lookup DN from OD
-            spec_dn = tool_lookup_is1239_spec(int(od))
-            if not spec_dn.get("found"):
-                # Approximate closest DN
+            dn = find_is1239_dn_by_od(od)
+            if not dn:
                 for candidate_dn in [15, 20, 25, 32, 40, 50, 65, 80, 100, 125, 150]:
                     s = tool_lookup_is1239_spec(candidate_dn)
                     if s.get("found") and abs(s["nominal_od_mm"] - od) < 1.5:
                         dn = candidate_dn
                         break
 
-        # Check for standalone "X mm" (e.g. "40 mm MS ERW")
+        # Check for standalone "X mm" (e.g. "40 mm MS ERW" or "60.3 mm MS pipe")
         tech_ambiguities: List[Dict[str, Any]] = []
         if not dn and not od:
-            size_match = re.search(r"\b(\d+)\s*mm\b", text)
+            size_match = re.search(r"\b(\d+(?:\.\d+)?)\s*mm\b", text)
             if size_match:
-                size_val = int(size_match.group(1))
-                spec_cand = tool_lookup_is1239_spec(size_val)
+                size_num = float(size_match.group(1))
+                spec_cand = tool_lookup_is1239_spec(int(size_num)) if size_num.is_integer() else {"found": False}
                 if spec_cand.get("found"):
-                    dn = size_val
+                    dn = int(size_num)
                     # "X mm" used as nominal diameter when IS 1239 OD differs
-                    if spec_cand["nominal_od_mm"] != float(size_val):
+                    if spec_cand["nominal_od_mm"] != size_num:
                         tech_ambiguities.append({
                             "field": "material",
                             "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
                             "severity": "WARNING",
                             "description": (
-                                f"Requirement specifies '{size_val} mm'. In piping terminology, "
-                                f"'{size_val} mm' can refer to Nominal Bore (DN {size_val}, actual OD {spec_cand['nominal_od_mm']} mm) "
-                                f"or strict Outside Diameter ({size_val} mm OD). Standard IS 1239 Part 1 does not "
-                                f"specify an OD of {size_val} mm; DN {size_val} pipes have an OD of {spec_cand['nominal_od_mm']} mm."
+                                f"Requirement specifies '{int(size_num)} mm'. In piping terminology, "
+                                f"'{int(size_num)} mm' can refer to Nominal Bore (DN {int(size_num)}, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or strict Outside Diameter ({int(size_num)} mm OD). Standard IS 1239 Part 1 does not "
+                                f"specify an OD of {int(size_num)} mm; DN {int(size_num)} pipes have an OD of {spec_cand['nominal_od_mm']} mm."
                             ),
                             "stated_assumption": (
-                                f"Assumed DN {size_val} Nominal Bore (OD {spec_cand['nominal_od_mm']} mm, "
+                                f"Assumed DN {int(size_num)} Nominal Bore (OD {spec_cand['nominal_od_mm']} mm, "
                                 f"{pipe_class or 'Class B'} wall thickness) in accordance with standard Indian manufacturing conventions."
                             ),
                             "clarification_prompt": (
-                                f"Please confirm whether '{size_val} mm' denotes Nominal Bore (DN {size_val}, actual OD {spec_cand['nominal_od_mm']} mm) "
-                                f"or a non-standard {size_val} mm outside diameter."
+                                f"Please confirm whether '{int(size_num)} mm' denotes Nominal Bore (DN {int(size_num)}, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or a non-standard {int(size_num)} mm outside diameter."
                             ),
                         })
+                else:
+                    matched_dn = find_is1239_dn_by_od(size_num)
+                    if matched_dn:
+                        od = size_num
+                        dn = matched_dn
 
         # Step E: Verify wall thickness against standard if both DN and wall are present
         if dn and wall:

@@ -5,8 +5,8 @@
 - **Material Description**: 40 mm MS ERW, Class B pipe
 - **Specified Quantity**: 500.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-02-5da345c6`
-- **Evaluation Timestamp**: 2026-09-16T03:34:30.193917+00:00
+- **Run ID**: `RUN-M-02-28046155`
+- **Evaluation Timestamp**: 2026-09-16T04:00:35.674005+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -238,7 +238,7 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-16T03:34:30.193917+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-16T04:00:35.674005+00:00] Stage 1: Received requirement 'M-02' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 2 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.

@@ -2,6 +2,21 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [1.5.0] - 2026-09-16
+
+### Fixed
+- **Decoupled Outside Diameter and Wall Thickness Resolution (`app/agents/normalizer.py`)**:
+  - Resolved outside diameter and wall thickness independently in `_determine_effective_dimensions`. Previously, providing outside diameter skipped wall thickness resolution, causing wall thickness to remain 0.0 mm and resulting in zero calculated tonnage.
+- **Pipe Class Omission Default and Ambiguity Recording (`app/agents/normalizer.py`, `app/llm/client.py`)**:
+  - When both pipe class and wall thickness are omitted from a requisition, defaulted effective wall thickness to standard IS 1239 Class B (Medium wall) per Indian commercial procurement conventions.
+  - Automatically recorded an ambiguity item stating the Class B assumption and generating a buyer clarification prompt.
+- **Reverse Outside Diameter Lookup (`app/agents/normalizer.py`, `app/llm/client.py`)**:
+  - Integrated `find_is1239_dn_by_od` across deterministic fallback parsing and mock LLM parsing. Inputs specifying outside diameter directly (such as 60.3 mm or 48.3 mm) without a DN prefix now correctly resolve to nominal bores DN 50 or DN 40.
+- **Evaluator Dynamic Wall Thickness Guardrail (`app/agents/evaluator.py`)**:
+  - Replaced the hardcoded `> 4.5 mm` wall check with dynamic inspection of `AmbiguityType.NON_STANDARD_WALL_THICKNESS`. Standard thick-wall schedules such as DN 100 Class C (5.4 mm) are no longer falsely flagged as custom heavy rolling or ASTM A53 Schedule 80.
+- **Comprehensive Regression Tests (`tests/test_normalizer.py`, `tests/test_evaluator_and_scorer.py`)**:
+  - Added 4 new regression tests covering decoupled OD and wall resolution, default Class B ambiguity reporting, reverse OD lookup, and evaluator heavy-wall guardrail. All 37 tests pass.
+
 ## [1.4.0] - 2026-09-16
 
 ### Added

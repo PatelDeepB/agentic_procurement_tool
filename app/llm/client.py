@@ -239,10 +239,9 @@ class MockLLMClient(BaseLLMClient):
         if dn_match:
             dn = int(dn_match.group(1))
         elif od:
-            spec_dn = tool_lookup_is1239_spec(int(od))
-            if spec_dn.get("found"):
-                dn = int(od)
-            else:
+            from app.core.standards import find_is1239_dn_by_od
+            dn = find_is1239_dn_by_od(od)
+            if not dn:
                 for cand in [15, 20, 25, 32, 40, 50, 65, 80, 100, 125, 150]:
                     s = tool_lookup_is1239_spec(cand)
                     if s.get("found") and abs(s["nominal_od_mm"] - od) < 1.5:
@@ -251,32 +250,38 @@ class MockLLMClient(BaseLLMClient):
 
         technical_ambiguities = []
         if not dn and not od:
-            size_match = re.search(r"\b(\d+)\s*mm\b", lower_prompt)
+            size_match = re.search(r"\b(\d+(?:\.\d+)?)\s*mm\b", lower_prompt)
             if size_match:
-                size_val = int(size_match.group(1))
-                spec_cand = tool_lookup_is1239_spec(size_val)
+                size_num = float(size_match.group(1))
+                spec_cand = tool_lookup_is1239_spec(int(size_num)) if size_num.is_integer() else {"found": False}
                 if spec_cand.get("found"):
-                    dn = size_val
-                    if spec_cand["nominal_od_mm"] != float(size_val):
+                    dn = int(size_num)
+                    if spec_cand["nominal_od_mm"] != size_num:
                         technical_ambiguities.append({
                             "field": "material",
                             "ambiguity_type": "NOMINAL_BORE_VS_OUTSIDE_DIAMETER",
                             "severity": "WARNING",
                             "description": (
-                                f"Requirement specifies '{size_val} mm MS ERW, {pipe_class or 'Class B'} pipe'. In piping terminology, "
-                                f"'{size_val} mm' can refer to Nominal Bore (DN {size_val} / 1.5 inch NB, actual OD {spec_cand['nominal_od_mm']} mm) "
-                                f"or strict Outside Diameter ({size_val} mm OD). Standard IS 1239 Part 1 does not "
-                                f"specify an OD of {size_val} mm; DN {size_val} pipes have an OD of {spec_cand['nominal_od_mm']} mm."
+                                f"Requirement specifies '{int(size_num)} mm MS ERW, {pipe_class or 'Class B'} pipe'. In piping terminology, "
+                                f"'{int(size_num)} mm' can refer to Nominal Bore (DN {int(size_num)} / 1.5 inch NB, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or strict Outside Diameter ({int(size_num)} mm OD). Standard IS 1239 Part 1 does not "
+                                f"specify an OD of {int(size_num)} mm; DN {int(size_num)} pipes have an OD of {spec_cand['nominal_od_mm']} mm."
                             ),
                             "stated_assumption": (
-                                f"Assumed DN {size_val} Nominal Bore (OD {spec_cand['nominal_od_mm']} mm, "
+                                f"Assumed DN {int(size_num)} Nominal Bore (OD {spec_cand['nominal_od_mm']} mm, "
                                 f"{pipe_class or 'Class B'} wall thickness 3.25 mm) in accordance with standard Indian manufacturing conventions."
                             ),
                             "clarification_prompt": (
-                                f"Please confirm whether '{size_val} mm' denotes Nominal Bore (DN {size_val}, actual OD {spec_cand['nominal_od_mm']} mm) "
-                                f"or a non-standard {size_val} mm outside diameter."
+                                f"Please confirm whether '{int(size_num)} mm' denotes Nominal Bore (DN {int(size_num)}, actual OD {spec_cand['nominal_od_mm']} mm) "
+                                f"or a non-standard {int(size_num)} mm outside diameter."
                             ),
                         })
+                else:
+                    from app.core.standards import find_is1239_dn_by_od
+                    matched_dn = find_is1239_dn_by_od(size_num)
+                    if matched_dn:
+                        od = size_num
+                        dn = matched_dn
 
         if dn and wall:
             comp = tool_evaluate_wall_thickness(dn, wall)

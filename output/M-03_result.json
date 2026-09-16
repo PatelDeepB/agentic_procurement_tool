@@ -1,7 +1,7 @@
 {
   "material_id": "M-03",
-  "run_id": "RUN-M-03-810436d5",
-  "timestamp": "2026-09-16T03:34:47.774142+00:00",
+  "run_id": "RUN-M-03-be97effb",
+  "timestamp": "2026-09-16T04:00:45.845749+00:00",
   "location": "Ahmedabad, Gujarat, India",
   "specification": {
     "raw_input": {
@@ -71,13 +71,11 @@
           "[SOURCED] Delivery / logistics: Local same-day and next-day fleet delivery across Ahmedabad municipal and Sanand/Vatva industrial zones.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "Commercial ERW mild steel pipes, standard lengths 6.0m, bevelled and plain ends.",
         "source_url": "https://www.gujaratinfrapipes.com/products/is1239-ms-erw-pipes.html",
@@ -90,9 +88,7 @@
           "IS 1239 Endorsement"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.",
       "rank": 5
     },
@@ -121,13 +117,11 @@
           "[SOURCED] Delivery / logistics: Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "IS 1239 Class B/C and heavy gauge ERW pipes up to 6.5mm wall thickness.",
         "source_url": "https://www.westernsteelgujarat.com/catalog/erw-pipes-ahmedabad.pdf",
@@ -139,9 +133,7 @@
           "Authorized Stockist for Jindal & Surya"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.",
       "rank": 6
     },
@@ -170,13 +162,11 @@
           "[SOURCED] Delivery / logistics: Local transport fleet stationed at Vatva GIDC; covers Ahmedabad district within 12 hours.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Vendor can supply standard order quantities from local warehouse."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "ERW carbon steel pipes, nominal sizes 15mm to 100mm, Class A and Class B plain ends.",
         "source_url": "https://www.ashapurasteeltubes.in/mild-steel-erw-pipes.html",
@@ -187,9 +177,7 @@
           "ISO 9001:2015"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.",
       "rank": 10
     }
@@ -220,13 +208,11 @@
           "[SOURCED] Delivery / logistics: Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "Jindal Star IS 1239 Part 1 ERW pipes, Class A (Light/Yellow), Class B (Medium/Blue), Class C (Heavy/Red), custom heavy wall on mill rolling schedules.",
         "source_url": "https://www.jindal.com/jpl/product-specifications-is1239.html",
@@ -240,9 +226,7 @@
           "ISO 14001"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.",
       "rank": 1
     },
@@ -271,13 +255,11 @@
           "[SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "Tata Pipes commercial ERW steel tubes with high tensile strength and uniform zinc coating where galvanized.",
         "source_url": "https://www.tatasteeltubes.com/tata-pipes-commercial-is1239.html",
@@ -291,9 +273,7 @@
           "GreenPro Certified"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.",
       "rank": 2
     },
@@ -322,13 +302,11 @@
           "[SOURCED] Delivery / logistics: Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "Surya Prakash IS 1239 ERW Black & GI pipes, Class A, B, C; custom non-standard wall thickness available on rolling batches.",
         "source_url": "https://www.suryaroshniltd.com/steel-division/is-1239-erw-pipes.html",
@@ -342,9 +320,7 @@
           "ISO 9001:2015"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.",
       "rank": 3
     },
@@ -373,13 +349,11 @@
           "[SOURCED] Delivery / logistics: Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
-          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling."
+          "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1."
         ],
         "catalog_spec": "APL Apollo IS 1239 Part 1 ERW pipes with precision direct forming technology.",
         "source_url": "https://www.aplapollo.com/products/ms-black-pipes-is1239.html",
@@ -393,9 +367,7 @@
           "UL Listed"
         ]
       },
-      "unresolved_issues": [
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
-      ],
+      "unresolved_issues": [],
       "recommended_next_step": "Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.",
       "rank": 4
     }
@@ -426,13 +398,11 @@
           "[SOURCED] Delivery / logistics: Breakbulk and containerized ocean shipping from Shanghai Port directly to Mundra Port / Kandla Port, Gujarat (18-24 days ocean transit + customs clearance).."
         ],
         "assumptions": [
-          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
           "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.",
           "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
         ],
         "catalog_spec": "HFW/ERW carbon steel pipes manufactured to ASTM A53 Grade B (compatible with IS 1239 Part 1 Heavy applications). Custom wall thicknesses available at 25 MT MOQ.",
@@ -449,8 +419,7 @@
         ]
       },
       "unresolved_issues": [
-        "International transit time (15-30 days) and currency exchange fluctuations.",
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
+        "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.",
       "rank": 7
@@ -480,13 +449,11 @@
           "[SOURCED] Delivery / logistics: Jebel Ali Port ocean container shipping to Nhava Sheva or Mundra Port (7-10 days transit) followed by bonded road transport to Ahmedabad.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
           "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.",
           "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
         ],
         "catalog_spec": "Tenaris ERW standard industrial pipes per ASTM A53 / EN 10255 Series M & H with mill test certificate EN 10204 Type 3.1.",
@@ -503,8 +470,7 @@
         ]
       },
       "unresolved_issues": [
-        "International transit time (15-30 days) and currency exchange fluctuations.",
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
+        "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.",
       "rank": 8
@@ -534,13 +500,11 @@
           "[SOURCED] Delivery / logistics: Export customs ready; sea freight to Mundra Port in 6-8 days; inland trucking to Ahmedabad in 1-2 days post clearance.."
         ],
         "assumptions": [
-          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.",
-          "[ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent."
+          "[ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks."
         ],
         "needs_confirmation_rfq": [
           "[NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.",
           "[NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.",
-          "[NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.",
           "[NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty."
         ],
         "catalog_spec": "BS 1387 / ASTM A53 Class Heavy ERW pipes, black plain ends, mill test certs provided.",
@@ -554,8 +518,7 @@
         ]
       },
       "unresolved_issues": [
-        "International transit time (15-30 days) and currency exchange fluctuations.",
-        "Custom rolling lead time required for non-standard 4.8 mm wall."
+        "International transit time (15-30 days) and currency exchange fluctuations."
       ],
       "recommended_next_step": "Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.",
       "rank": 9
@@ -563,7 +526,7 @@
   ],
   "exclusion_log": [],
   "audit_trail": [
-    "[2026-09-16T03:34:47.774142+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
+    "[2026-09-16T04:00:45.845749+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.",
     "Stage 1 Complete: Normalized specs via LLM + Tools. Detected 1 technical/quantity ambiguities.",
     "Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.",
     "Stage 3 Complete: Retrieved 10 candidate supplier profiles.",

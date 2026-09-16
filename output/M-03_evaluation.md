@@ -5,8 +5,8 @@
 - **Material Description**: ERW pipe, DN 80, 89.5 x 4.8 mm, IS 1239
 - **Specified Quantity**: 1200.0 *(unit unspecified in input)*
 - **Procurement Location**: Ahmedabad, Gujarat, India
-- **Run ID**: `RUN-M-03-810436d5`
-- **Evaluation Timestamp**: 2026-09-16T03:34:47.774142+00:00
+- **Run ID**: `RUN-M-03-be97effb`
+- **Evaluation Timestamp**: 2026-09-16T04:00:45.845749+00:00
 
 ## 2. Technical Ambiguities and Stated Assumptions
 ### [WARNING] UNSPECIFIED_QUANTITY_UNIT
@@ -33,11 +33,9 @@
   - [SOURCED] Delivery / logistics: Local same-day and next-day fleet delivery across Ahmedabad municipal and Sanand/Vatva industrial zones..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Vendor can supply standard order quantities from local warehouse.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Issue RFQ to Gujarat Infra Pipes Pvt Ltd for immediate local stock check and same-day depot pickup quote.
 
 #### Rank 6: Western Steel Agency Ahmedabad (89.0% Confidence)
@@ -55,11 +53,9 @@
   - [SOURCED] Delivery / logistics: Direct trailer dispatch from Naroda yard to any GIDC estate in Ahmedabad within 24 hours..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Vendor can supply standard order quantities from local warehouse.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Issue RFQ to Western Steel Agency Ahmedabad for immediate local stock check and same-day depot pickup quote.
 
 #### Rank 10: Ashapura Steel Tube Corporation (72.0% Confidence)
@@ -77,11 +73,9 @@
   - [SOURCED] Delivery / logistics: Local transport fleet stationed at Vatva GIDC; covers Ahmedabad district within 12 hours..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Vendor can supply standard order quantities from local warehouse.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Issue RFQ to Ashapura Steel Tube Corporation for immediate local stock check and same-day depot pickup quote.
 
 
@@ -101,11 +95,9 @@
   - [SOURCED] Delivery / logistics: Dedicated consignment stocking yard in Changodar, Ahmedabad with road freight transit of 2-3 days from primary mill..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to Jindal Pipes Limited commercial sales for factory dispatch schedule and MTC review.
 
 #### Rank 2: Tata Steel Limited (Tubes Division) (99.0% Confidence)
@@ -123,11 +115,9 @@
   - [SOURCED] Delivery / logistics: Direct rake and dedicated truckload supply to Sarkhej-Bavla regional hub, Ahmedabad..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to Tata Steel Limited (Tubes Division) commercial sales for factory dispatch schedule and MTC review.
 
 #### Rank 3: Surya Roshni Limited (Steel Division) (99.0% Confidence)
@@ -145,11 +135,9 @@
   - [SOURCED] Delivery / logistics: Regular freight corridor to Gujarat (NH 48); delivery to Ahmedabad within 3 business days..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to Surya Roshni Limited (Steel Division) commercial sales for factory dispatch schedule and MTC review.
 
 #### Rank 4: APL Apollo Tubes Limited (99.0% Confidence)
@@ -167,11 +155,9 @@
   - [SOURCED] Delivery / logistics: Local regional distribution hub in Changodar, Ahmedabad carrying high buffer inventory..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Supply will be routed via Ahmedabad branch depot or direct freight trailer.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
 - **Recommended Next Step**: Submit formal inquiry to APL Apollo Tubes Limited commercial sales for factory dispatch schedule and MTC review.
 
 
@@ -191,11 +177,9 @@
   - [SOURCED] Delivery / logistics: Breakbulk and containerized ocean shipping from Shanghai Port directly to Mundra Port / Kandla Port, Gujarat (18-24 days ocean transit + customs clearance)..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Baoshan Iron & Steel Co., Ltd. (Baosteel) including CIF Mundra freight, customs HS code, and export lead time.
 
@@ -214,11 +198,9 @@
   - [SOURCED] Delivery / logistics: Jebel Ali Port ocean container shipping to Nhava Sheva or Mundra Port (7-10 days transit) followed by bonded road transport to Ahmedabad..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Tenaris S.A. (Middle East & Asia Distribution) including CIF Mundra freight, customs HS code, and export lead time.
 
@@ -237,11 +219,9 @@
   - [SOURCED] Delivery / logistics: Export customs ready; sea freight to Mundra Port in 6-8 days; inland trucking to Ahmedabad in 1-2 days post clearance..
 - **Engineering Assumptions**:
   - [ASSUMPTION] Requires import customs clearance at Mundra/Kandla port with lead time of 2 to 4 weeks.
-  - [ASSUMPTION] Vendor is evaluated on capability to roll heavy gauge (4.8 mm) or supply ASTM A53 Schedule 80 equivalent.
 - **RFQ Confirmation Items**:
   - [NEEDS_CONFIRMATION_RFQ] Obtain binding price quote and commercial payment terms.
   - [NEEDS_CONFIRMATION_RFQ] Request Mill Test Certificate (MTC) per EN 10204 Type 3.1.
-  - [NEEDS_CONFIRMATION_RFQ] Confirm minimum order quantity (MOQ) for custom 4.8 mm wall rolling.
   - [NEEDS_CONFIRMATION_RFQ] Confirm CIF Mundra / FOB shipping terms, port handling, and import duty.
 - **Recommended Next Step**: Request international quotation from Hamriyah Steel & Tube Trading FZE including CIF Mundra freight, customs HS code, and export lead time.
 
@@ -253,7 +233,7 @@ Executive Procurement Recommendation:
 3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances.
 
 ## 5. Audit Trail and Agentic State Transitions
-- [2026-09-16T03:34:47.774142+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.
+- [2026-09-16T04:00:45.845749+00:00] Stage 1: Received requirement 'M-03' for location 'Ahmedabad, Gujarat, India'.
 - Stage 1 Complete: Normalized specs via LLM + Tools. Detected 1 technical/quantity ambiguities.
 - Stage 2 Complete: Synthesized search queries across Ahmedabad, India, and Global scopes.
 - Stage 3 Complete: Retrieved 10 candidate supplier profiles.

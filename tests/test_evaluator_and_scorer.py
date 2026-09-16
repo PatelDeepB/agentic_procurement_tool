@@ -145,3 +145,42 @@ def test_should_deduplicate_identical_vendors():
 
     # Assert
     assert len(ranked) == 1
+
+
+def test_should_not_flag_custom_heavy_wall_assumption_for_standard_pipe_even_if_above_4_5mm():
+    """Verify evaluator does not flag heavy gauge assumption for standard pipe above 4.5mm (fixes Flaw 4)."""
+    # Arrange
+    normalizer = NormalizerAgent()
+    evaluator = EvaluatorAgent()
+    # DN 100 Class C has 5.4 mm wall thickness, which is standard for DN 100 despite being > 4.5 mm
+    spec_dn100 = normalizer.normalize(
+        MaterialInput(
+            id="T-DN100-STD",
+            material="ERW pipe, DN 100, Class C, IS 1239",
+            quantity=500.0,
+            location="Ahmedabad, Gujarat, India",
+        )
+    )
+    raw_vendor = {
+        "vendor_name": "Jindal Pipes Limited",
+        "tier": "INDIA_OUTSIDE_AHMEDABAD",
+        "vendor_type": "PRIMARY_MANUFACTURER",
+        "supported_standards": ["IS 1239"],
+        "supported_classes": ["Class A", "Class B", "Class C"],
+        "max_wall_thickness_mm": 6.0,
+        "certifications": ["IS 1239", "ISO 9001"],
+        "location": "Ghaziabad",
+        "address": "Factory Road",
+        "stock_or_capacity_evidence": "100k MT",
+        "delivery_evidence": "Ahmedabad depot",
+        "catalog_spec": "IS 1239 Class C",
+        "source_url": "https://jindal.com",
+    }
+
+    # Act
+    _, evidence, _, _ = evaluator.evaluate_vendor(raw_vendor, spec_dn100)
+
+    # Assert: Should NOT assume custom rolling because 5.4 mm is standard for DN 100
+    heavy_assumptions = [a for a in evidence.assumptions if "heavy gauge" in a.lower() or "schedule 80" in a.lower()]
+    assert len(heavy_assumptions) == 0, "Standard DN 100 Class C pipe (5.4 mm) must not be flagged as custom heavy gauge"
+
