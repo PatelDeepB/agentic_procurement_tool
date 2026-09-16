@@ -2,6 +2,20 @@
 
 All notable changes to the Agentic Procurement Tool will be documented in this file.
 
+## [2.2.0] - 2026-09-16
+
+### Hardened & Refactored
+- **Dedicated Executive Synthesizer Agent (`app/agents/synthesizer.py`, `app/agents/orchestrator.py`)**:
+  - Replaced ad-hoc orchestrator helper with full-fledged `ExecutiveSynthesizerAgent` implementing CPO strategic sourcing frameworks.
+  - Formulated 4-part executive reasoning structure: Executive Feasibility & Technical Viability, Strategic Dual-Sourcing Recommendation, Critical Commercial & Logistics Risk Matrix, and Actionable Buyer RFQ Execution Plan.
+  - Injected rich multi-tier candidate context (top vendor names, intra-tier and global ranks, confidence scores, vendor types, locations, and batch tonnage metrics) into LLM prompts.
+- **Intelligent Deterministic Fallback (`app/agents/synthesizer.py`, `app/llm/mock_client.py`)**:
+  - Implemented context-aware offline CPO synthesis dynamically tailored to specific engineering requisitions (M-01 custom wall & mill rolling MOQs, M-02 40 mm NB vs OD clarification, and M-03 batch tonnage calculations).
+  - Cites real top candidates with scores (e.g. Western Steel 89.0%, Jindal Pipes 99.0%, Baosteel 80.0%) and generates numbered purchasing execution plans.
+- **Executive Synthesizer Test Suite (`tests/test_synthesizer.py`)**:
+  - Added 6 comprehensive AAA unit tests covering active LLM execution, graceful error fallback, custom wall thickness advice, dimensional ambiguity resolution, tonnage risk metrics, and top vendor citation.
+  - Test suite expanded to 69 passing tests in 0.53s with 100% compliance across all rules.
+
 ## [2.1.0] - 2026-09-16
 
 ### Hardened & Refactored

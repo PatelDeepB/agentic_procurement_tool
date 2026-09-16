@@ -19,6 +19,7 @@ from app.agents.evaluator import EvaluatorAgent
 from app.agents.normalizer import NormalizerAgent
 from app.agents.scorer import ScorerAgent
 from app.agents.searcher import SearchAgent
+from app.agents.synthesizer import ExecutiveSynthesizerAgent
 from app.domain.models import (
     EvaluatedVendor,
     MaterialInput,
@@ -41,6 +42,7 @@ class ProcurementOrchestrator:
         self.searcher = SearchAgent(llm_client=self.llm)
         self.evaluator = EvaluatorAgent(llm_client=self.llm)
         self.scorer = ScorerAgent()
+        self.synthesizer = ExecutiveSynthesizerAgent(llm_client=self.llm)
 
     def run_procurement_workflow(self, raw_input: MaterialInput) -> ProcurementResult:
         """Execute end-to-end multi-tier procurement evaluation for given material input."""
@@ -60,9 +62,9 @@ class ProcurementOrchestrator:
             exclusion_log,
         ) = self._retrieve_and_score_vendors(spec, audit_trail)
 
-        synthesis = self._generate_executive_synthesis(spec, ahmedabad_vendors, india_vendors, global_vendors)
+        synthesis = self.synthesizer.synthesize(spec, ahmedabad_vendors, india_vendors, global_vendors)
         audit_trail.append(
-            f"Stage 6 Complete: Scored and ranked vendors. Shortlisted: "
+            f"Stage 7 Complete: Synthesized CPO executive procurement strategy. Shortlisted: "
             f"{len(ahmedabad_vendors)} Ahmedabad, {len(india_vendors)} India-wide, {len(global_vendors)} Global."
         )
 
@@ -145,21 +147,3 @@ class ProcurementOrchestrator:
         india = [vendor for vendor in all_scored if vendor.tier == VendorTier.INDIA_OUTSIDE_AHMEDABAD]
         global_vendors = [vendor for vendor in all_scored if vendor.tier == VendorTier.GLOBAL]
         return ahmedabad, india, global_vendors
-
-    def _generate_executive_synthesis(
-        self,
-        spec: NormalizedSpecification,
-        ahmedabad: list,
-        india: list,
-        global_vendors: list,
-    ) -> str:
-        """Call LLM to generate high-level executive procurement reasoning."""
-        prompt = (
-            f"Provide executive procurement reasoning for {spec.raw_input.material}. "
-            f"Candidate counts: Ahmedabad local={len(ahmedabad)}, India-wide={len(india)}, Global={len(global_vendors)}. "
-            f"Identified ambiguities: {[ambiguity.description for ambiguity in spec.ambiguities]}."
-        )
-        return self.llm.generate_completion(
-            system_prompt="You are a Chief Procurement Officer summarizing vendor options, logistics risks, and RFQ next steps.",
-            user_prompt=prompt,
-        )

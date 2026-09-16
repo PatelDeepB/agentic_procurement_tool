@@ -29,12 +29,7 @@ class MockLLMClient(BaseLLMClient):
         lower_sys = system_prompt.lower()
 
         if "executive" in lower_prompt or "synthesis" in lower_prompt or "chief procurement" in lower_sys:
-            return (
-                "Executive Procurement Recommendation:\n"
-                "1. Procure immediate standard quantities from verified Ahmedabad stockists to prevent project delays.\n"
-                "2. Issue formal RFQ to primary domestic mills (Jindal/Surya) for factory dispatch and MTC EN 10204 Type 3.1.\n"
-                "3. Obtain commercial clarification on unspecified quantity units and non-standard wall tolerances."
-            )
+            return self._mock_executive_response(user_prompt)
 
         if "search queries" in lower_sys or "industrial procurement specialist" in lower_sys:
             return self._mock_search_queries_response(user_prompt)
@@ -118,3 +113,38 @@ class MockLLMClient(BaseLLMClient):
                 "Global tubular industrial exporter heavy gauge Schedule 80",
             ],
         }, indent=2)
+
+    @staticmethod
+    def _mock_executive_response(prompt: str) -> str:
+        """Simulate rich CPO executive procurement synthesis tailored to the prompt."""
+        lower_prompt = prompt.lower()
+        lines = [
+            "Executive Procurement Recommendation:",
+            "",
+            "### 1. Executive Feasibility & Technical Viability",
+        ]
+        if "5.5 mm" in lower_prompt or "non_standard" in lower_prompt:
+            lines.append("- Critical Finding: Specified 5.5 mm wall exceeds standard IS 1239 Class C (4.5 mm max). Requires custom mill rolling run from primary producers or ASTM A53 Schedule 80 equivalent.")
+        elif "40 mm" in lower_prompt:
+            lines.append("- Dimensional Clarification: Requirement denotes 40 mm NB (DN 40, actual OD 48.3 mm). Evaluated against standard Class B Medium schedule.")
+        else:
+            lines.append("- Material Compliance: Standard dimensions fully conform to IS 1239 Part 1 specifications.")
+
+        lines.extend([
+            "",
+            "### 2. Strategic Dual-Sourcing Recommendation",
+            "- Immediate / Emergency Buffer: Source initial requirement from qualified local Ahmedabad stockists for same-day/24h delivery.",
+            "- Primary Volume Production: Contract primary domestic mills (Jindal Pipes / Surya Roshni) for factory dispatch with MTC EN 10204 Type 3.1.",
+            "- International Hedge: Maintain global suppliers (Baosteel / Tenaris) for bulk marine freight via Mundra Port.",
+            "",
+            "### 3. Critical Commercial & Logistics Risk Matrix",
+            "- Volume Exposure: Verify assumed quantity unit (linear meters vs metric tons vs pieces) to avoid commercial billing discrepancies.",
+            "- Transit Corridors: Ahmedabad GIDC hubs (Changodar/Naroda) ensure local availability; inter-state transit requires 3 business days.",
+            "",
+            "### 4. Actionable Buyer RFQ Execution Plan",
+            "1. Buyer Clarification: Issue formal acknowledgment confirming quantity unit and pipe schedule.",
+            "2. Local Inquiry: Issue RFQ to top-ranked Ahmedabad stockist for urgent warehouse availability.",
+            "3. Mill Negotiation: Request binding commercial quotation and production rolling slot from primary domestic mill.",
+            "4. Quality Control: Mandate BIS ISI embossed marking verification prior to factory dispatch.",
+        ])
+        return "\n".join(lines)
